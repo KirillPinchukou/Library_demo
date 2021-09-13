@@ -1,9 +1,9 @@
 class Book{
   private _title :string;
   private _pageNum:number;
-  private _publshingHouse:object;
+  private _publshingHouse:string;
   private _author:string;
-  constructor(title:string,pageNum:number,publshingHouse:object,author:string) {
+  constructor(title:string,pageNum:number,publshingHouse:string,author:string) {
     this._title = title;
     this._pageNum = pageNum;
     this._publshingHouse = publshingHouse;
@@ -26,11 +26,11 @@ class Book{
     this._pageNum = value;
   }
 
-  get publshingHouse(): object {
+  get publshingHouse():string {
     return this._publshingHouse;
   }
 
-  set publshingHouse(value: object) {
+  set publshingHouse(value: string) {
     this._publshingHouse = value;
   }
 
