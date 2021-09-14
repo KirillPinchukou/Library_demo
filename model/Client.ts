@@ -1,13 +1,23 @@
-class Client{
+export class Client{
+  private _clientId:number;
   private _name :string;
   private _mail:string;
   private _adress:string;
   private _phoneNumber:string;
-  constructor(adress:string,phoneNumber:string,mail:string,name:string) {
+  constructor(clientId:number,adress:string,phoneNumber:string,mail:string,name:string) {
+    this._clientId = clientId;
     this._name = name;
     this._mail = mail;
     this._adress = adress
     this._phoneNumber = phoneNumber;
+  }
+
+  get clientId():number {
+    return this._clientId;
+  }
+
+  set clientId(value:number) {
+    this._clientId = value;
   }
 
   get name(): string {

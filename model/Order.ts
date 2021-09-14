@@ -1,13 +1,23 @@
-class Order{
+export class Order{
+  private _orderId:number;
   private _clientId :number;
   private _date:string;
   private _books:[];
   private _price:number;
-  constructor(clientId:number,books:[],price:number,date:string) {
+  constructor(orderId:number,clientId:number,books:[],price:number,date:string) {
+    this._orderId = orderId;
     this._clientId = clientId;
     this._date = date;
     this._books = books;
     this._price = price;
+  }
+
+  get orderId(): number {
+    return this._orderId;
+  }
+
+  set odredId(value:number) {
+    this._orderId = value;
   }
 
   get clientId(): number {

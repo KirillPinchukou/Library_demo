@@ -1,15 +1,24 @@
-class Author{
+export class Author{
+  private  _authorId:number;
   private _name:string;
   private _bDay:string;
   private _nationality:string;
   private _biography:string;
 
-  constructor(name:string,bDay:string,nationality:string,biography:string) {
+  constructor(authorId:number, name:string,bDay:string,nationality:string,biography:string) {
+    this._authorId = authorId;
     this._name = name;
     this._bDay = bDay;
     this._nationality = nationality;
     this._biography = biography;
   }
+  get authorId(): number{
+    return this._authorId;
+  }
+  set authorId(value: number){
+    this._authorId = value;
+  }
+
   get name(): string {
     return this._name;
   }
