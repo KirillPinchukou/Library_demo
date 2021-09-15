@@ -2,11 +2,11 @@ export class Feedback {
   private _feedbackId: number;
   private _clientId: number;
   private _bookId: number;
-  private _date: string;
+  private _date: Date;
   private _text: string;
   private _rate: number;
 
-  constructor(feedbackId: number, clientId: number, bookId: number, date: string, text: string, rate: number) {
+  constructor(feedbackId: number, clientId: number, bookId: number, date: Date, text: string, rate: number) {
     this._feedbackId = feedbackId;
     this._clientId = clientId;
     this._bookId = bookId;
@@ -39,11 +39,11 @@ export class Feedback {
     this._bookId = value;
   }
 
-  getDate(): string {
+  getDate(): Date {
     return this._date;
   }
 
-  setDate(value: string) {
+  setDate(value: Date) {
     this._date = value;
   }
 

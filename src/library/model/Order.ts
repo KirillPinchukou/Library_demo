@@ -1,11 +1,13 @@
+import {Book} from "./Book";
+
 export class Order {
   private _orderId: number;
   private _clientId: number;
   private _date: Date;
-  private _books: [];
+  private _books: Array<Book>;
   private _price: number;
 
-  constructor(orderId: number, clientId: number, books: [], price: number, date: Date) {
+  constructor(orderId: number, clientId: number, books:Array<Book>, price: number, date: Date) {
     this._orderId = orderId;
     this._clientId = clientId;
     this._date = date;
@@ -37,11 +39,11 @@ export class Order {
     this._date = value;
   }
 
-  getBooks(): [] {
+  getBooks(): Array<Book> {
     return this._books;
   }
 
-  setBooks(value: []) {
+  setBooks(value: Array<Book>) {
     this._books = value;
   }
 
