@@ -1,16 +1,18 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
 import {LibraryComponent} from "./library.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import {DataProviderService} from "./data-provider.service";
 import {Book} from "./model/Book";
+import {BookComponent} from "./book/book.component";
 
 
 @NgModule({
   declarations: [
-    LibraryComponent
+    LibraryComponent,
+    BookComponent
   ],
   imports: [
     BrowserModule,
@@ -22,8 +24,6 @@ import {Book} from "./model/Book";
   bootstrap: [LibraryComponent]
 })
 export class LibraryModule {
-  books:Array<Book>=[];
-
   constructor() {
   }
 }
