@@ -17,7 +17,8 @@ export class DataProviderService {
 
   public getBooks(searchText: string): Array<Book> {
     if (searchText) {
-      return this.books.filter(value => value.getTitle());
+      return this.books.filter(book => book.getTitle().includes(searchText));
+
     } else {
       return this.books;
     }
