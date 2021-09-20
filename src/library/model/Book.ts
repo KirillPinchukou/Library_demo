@@ -1,7 +1,7 @@
-enum Genre {
-  "Fantasy",
-  "Horror",
-  "Sadness"
+export enum Genre {
+  Fantasy ='fantasy',
+  Sadness = 'sadness',
+  History = 'history'
 }
 
 export class Book {
@@ -11,11 +11,13 @@ export class Book {
   private _publshingHouse: string;
   private _author: string;
   private _genre: Genre;
+  private _bookcover:string;
 
-  constructor(bookId: number, title: string, pageNum: number, publshingHouse: string, author: string, genre: Genre) {
+  constructor(bookId: number, title: string, pageNum: number, publshingHouse: string, author: string, genre: Genre,bookCover:string) {
     this.bookId = bookId;
     this._title = title;
     this._pageNum = pageNum;
+    this._bookcover = bookCover;
     this._publshingHouse = publshingHouse;
     this._author = author;
     this._genre = genre;
@@ -39,6 +41,12 @@ export class Book {
 
   getPageNum(): number {
     return this._pageNum;
+  }
+  getBookCover():string {
+    return this._bookcover;
+  }
+  setBookCover(value:string){
+    this._bookcover = value;
   }
 
   setPageNum(value: number) {

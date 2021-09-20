@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Book} from "./model/Book";
+import {DataProviderService} from "./data-provider.service";
 
 @Component({
   selector: 'library-root',
@@ -7,5 +9,17 @@ import { Component } from '@angular/core';
 })
 export class LibraryComponent {
   title = 'LibraryDemo';
+  searchText: string = '';
 
+
+  constructor(private dataProviderService: DataProviderService) {
+  }
+
+  public setSearchText(text: string): void {
+    this.searchText = text;
+  }
+
+  public getBooks(): Array<Book> {
+    return this.dataProviderService.getBooks(this.searchText);
+  }
 }
