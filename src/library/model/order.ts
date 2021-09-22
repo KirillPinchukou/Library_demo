@@ -1,4 +1,4 @@
-import {Book} from "./Book";
+import {Book} from "./book";
 
 export class Order {
   private _orderId: number;
