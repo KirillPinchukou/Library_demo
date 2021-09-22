@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
-import {Injectable} from "@angular/core";
-import {DataProviderService} from './data-provider.service';
+
+import {LocalStorageDataProvider} from './local-storage-data-provider.service';
 
 describe('DataProviderService', () => {
-  let service: DataProviderService;
+  let service: LocalStorageDataProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DataProviderService);
+    service = TestBed.inject(LocalStorageDataProvider);
   });
 
   it('should be created', () => {
@@ -17,3 +17,4 @@ describe('DataProviderService', () => {
     expect(service.getBooks('') !== null);
   });
 });
+

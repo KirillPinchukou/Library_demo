@@ -1,12 +1,13 @@
 .infoList {
   list-style-type: none;
-  width: 100px;
+  width: 200px;
 }
 
 .bookWrapper {
   background-color: darkkhaki;
   width: 400px;
   border-width: thick;
-  margin: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
   border-radius: 10px;
 }
