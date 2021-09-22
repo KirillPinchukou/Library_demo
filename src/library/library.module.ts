@@ -4,23 +4,26 @@ import {CommonModule} from '@angular/common';
 import {LibraryComponent} from "./library.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
-import {DataProviderService} from "./data-provider.service";
-import {Book} from "./model/Book";
+import {LocalStorageDataProvider} from "./services/local-storage-data-provider.service";
 import {BookComponent} from "./book/book.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DataProvider} from "./services/data-provider.service";
 
 
 @NgModule({
   declarations: [
     LibraryComponent,
-    BookComponent
+    BookComponent,
   ],
   imports: [
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [DataProviderService],
+  providers: [{ provide: DataProvider, useValue: new LocalStorageDataProvider() }],
   bootstrap: [LibraryComponent]
 })
 export class LibraryModule {

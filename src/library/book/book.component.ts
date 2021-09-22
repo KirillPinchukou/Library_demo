@@ -1,6 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {Book, Genre} from "../model/Book";
-
+import {Book} from "../model/book";
 
 @Component({
   selector: 'book',
