@@ -1,0 +1,53 @@
+<form
+  (ngSubmit)="submit()" [formGroup]="form"
+>
+  <input
+    type="text"
+    [(ngModel)]="book.title"
+
+    name="title"
+    id="book-title"
+    placeholder="Title"
+    formControlName="title"
+  >
+  <input
+    type="text"
+    [(ngModel)]="book.genre"
+    name="genre"
+    id="book-genre"
+    placeholder="Genre"
+    formControlName="genre"
+  >
+  <input
+    type="text"
+    [(ngModel)]="book.author"
+    name="author"
+    id="book-author"
+    placeholder="Author"
+    formControlName="author"
+  >
+  <input
+    type="text"
+    [(ngModel)]="book.pageNum"
+    name="pageNum"
+    id="book-pages"
+    placeholder="Pages"
+    formControlName="pageNum"
+  >
+  <input
+    type="text"
+    [(ngModel)]="book.publishingHouse"
+    name="publishingHouse"
+    id="book-publishing-house"
+    placeholder="Publishing House"
+    formControlName="publishingHouse"
+  >
+  <button
+    type="submit"
+    class="btn-add"
+  >Add
+  </button>
+
+</form>
+
+

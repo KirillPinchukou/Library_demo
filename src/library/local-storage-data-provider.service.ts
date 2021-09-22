@@ -53,11 +53,11 @@ export class LocalStorageDataProvider extends DataProvider {
   }
 
   private getDataFromLocalStorage(): string {
-    return localStorage.getItem('library');
+    return localStorage.getItem('jsonData');
   }
 
   private putDataToLocalStorage(data: string): void {
-    localStorage.setItem('library', data);
+    localStorage.setItem('jsonData', data);
   }
 }
 

@@ -1,79 +1,78 @@
 export enum Genre {
-  Fantasy ='fantasy',
+  Fantasy = 'fantasy',
   Sadness = 'sadness',
   History = 'history'
 }
 
 export class Book {
-  private bookId: number;
-  private _title: string;
-  private _pageNum: number;
-  private _publshingHouse: string;
-  private _author: string;
-  private _genre: Genre;
-  private _bookcover:string;
+  public id: number;
+  public title: string;
+  public pageNum: number;
+  public publishingHouse: string;
+  public author: string;
+  public genre: Genre;
+  public bookCover: string;
 
-  constructor(bookId: number, title: string, pageNum: number, publshingHouse: string, author: string, genre: Genre,bookCover:string) {
-    this.bookId = bookId;
-    this._title = title;
-    this._pageNum = pageNum;
-    this._bookcover = bookCover;
-    this._publshingHouse = publshingHouse;
-    this._author = author;
-    this._genre = genre;
+
+  getId(): number {
+    return this.id;
   }
 
-  getBookId(): number {
-    return this.bookId;
-  }
-
-  setBookId(value: number) {
-    this.bookId = value;
+  setId(value: number) {
+    this.id = value;
   }
 
   getTitle(): string {
-    return this._title;
+    return this.title;
   }
 
   setTitle(value: string) {
-    this._title = value;
+    this.title = value;
   }
 
   getPageNum(): number {
-    return this._pageNum;
+    return this.pageNum;
   }
-  getBookCover():string {
-    return this._bookcover;
+
+  getBookCover(): string {
+    return this.bookCover;
   }
-  setBookCover(value:string){
-    this._bookcover = value;
+
+  setBookCover(value: string) {
+    this.bookCover = value;
   }
 
   setPageNum(value: number) {
-    this._pageNum = value;
+    this.pageNum = value;
   }
 
   getPublshingHouse(): string {
-    return this._publshingHouse;
+    return this.publishingHouse;
   }
 
   setPublshingHouse(value: string) {
-    this._publshingHouse = value;
+    this.publishingHouse = value;
   }
 
   getAuthor(): string {
-    return this._author;
+    return this.author;
   }
 
   setAuthor(value: string) {
-    this._author = value;
+    this.author = value;
   }
 
   getGenre(): Genre {
-    return this._genre;
+    return this.genre;
   }
 
   setGenre(value: Genre) {
-    this._genre = value;
+    this.genre = value;
   }
 }
+
+export interface AddBook {
+  books: Array<Book>
+
+}
+

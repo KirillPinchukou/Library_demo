@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Book} from "./model/Book";
-import {DataProviderService} from "./data-provider.service";
+import {DataProvider, LocalStorageDataProvider} from "./local-storage-data-provider.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'library-root',
@@ -11,8 +12,7 @@ export class LibraryComponent {
   title = 'LibraryDemo';
   searchText: string = '';
 
-
-  constructor(private dataProviderService: DataProviderService) {
+  constructor(private dataProviderService: DataProvider) {
   }
 
   public setSearchText(text: string): void {
@@ -22,4 +22,8 @@ export class LibraryComponent {
   public getBooks(): Array<Book> {
     return this.dataProviderService.getBooks(this.searchText);
   }
+
+  // public addBooks(addBook: Book): Book {
+  //   return this.dataProviderService.addBooks(addBook);
+  // }
 }
