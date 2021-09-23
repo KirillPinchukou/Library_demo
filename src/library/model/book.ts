@@ -1,3 +1,5 @@
+export const STORAGE_NAME = 'library';
+
 export enum Genre {
   Fantasy = 'fantasy',
   Sadness = 'sadness',
@@ -12,7 +14,6 @@ export class Book {
   public author: string;
   public genre: Genre;
   public bookCover: string;
-
 
   getId(): number {
     return this.id;
@@ -46,11 +47,11 @@ export class Book {
     this.pageNum = value;
   }
 
-  getPublshingHouse(): string {
+  getPublishingHouse(): string {
     return this.publishingHouse;
   }
 
-  setPublshingHouse(value: string) {
+  setPublishingHouse(value: string) {
     this.publishingHouse = value;
   }
 
@@ -70,9 +71,3 @@ export class Book {
     this.genre = value;
   }
 }
-
-export interface AddBook {
-  books: Array<Book>
-
-}
-

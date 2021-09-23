@@ -1,5 +1,3 @@
-import {Book, Genre} from "./model/Book";
-
 const data = [
   {
     id: 1,

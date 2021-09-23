@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Book} from "./model/Book";
-import {DataProvider, LocalStorageDataProvider} from "./local-storage-data-provider.service";
-import {FormGroup} from "@angular/forms";
+import {Component} from '@angular/core';
+import {Book} from "./model/book";
+import {DataProvider} from "./services/data-provider.service";
+
 
 @Component({
   selector: 'library-root',
@@ -22,8 +22,4 @@ export class LibraryComponent {
   public getBooks(): Array<Book> {
     return this.dataProviderService.getBooks(this.searchText);
   }
-
-  // public addBooks(addBook: Book): Book {
-  //   return this.dataProviderService.addBooks(addBook);
-  // }
 }

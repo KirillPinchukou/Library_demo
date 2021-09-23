@@ -4,19 +4,16 @@ import {CommonModule} from '@angular/common';
 import {LibraryComponent} from "./library.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
-import {LocalStorageDataProvider} from "./local-storage-data-provider.service";
-import {DataProvider} from "./local-storage-data-provider.service";
-import {Book} from "./model/Book";
+import {LocalStorageDataProvider} from "./services/local-storage-data-provider.service";
 import {BookComponent} from "./book/book.component";
-import {BookFormComponent} from "./book-form/book-form.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DataProvider} from "./services/data-provider.service";
 
 
 @NgModule({
   declarations: [
     LibraryComponent,
     BookComponent,
-    BookFormComponent
   ],
   imports: [
     BrowserModule,

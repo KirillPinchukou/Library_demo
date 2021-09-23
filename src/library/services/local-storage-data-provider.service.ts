@@ -1,27 +1,15 @@
 import {Injectable} from '@angular/core';
-import {Book} from "./model/Book";
-
-export abstract class DataProvider {
-  abstract getBooks(searchText: string): Array<Book>;
-  abstract addBook(book: Book): void;
-  abstract removeBook(book: Book): void;
-  abstract updateBook(book: Book): void;
-}
+import {Book, STORAGE_NAME} from "../model/book";
+import {DataProvider} from "./data-provider.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageDataProvider extends DataProvider {
-  books: Array<Book>;
-
-  constructor() {
-    super();
-    let tmpBooks: Array<any> = JSON.parse(this.getDataFromLocalStorage());
-    this.books = tmpBooks.map((obj: any) => this.mapBook(obj));
-
-  }
+  private books: Array<Book>;
 
   public getBooks(searchText: string): Array<Book> {
+    this.books = this.loadBooks();
     if (searchText) {
       return this.books.filter(book => book.getTitle().includes(searchText));
     }
@@ -33,11 +21,11 @@ export class LocalStorageDataProvider extends DataProvider {
     this.putDataToLocalStorage(JSON.stringify(this.books));
   }
 
-  removeBook(book: Book): void {
+  public removeBook(book: Book): void {
     throw new Error('Method not implemented.');
   }
 
-  updateBook(book: Book): void {
+  public updateBook(book: Book): void {
     throw new Error('Method not implemented.');
   }
 
@@ -53,11 +41,15 @@ export class LocalStorageDataProvider extends DataProvider {
   }
 
   private getDataFromLocalStorage(): string {
-    return localStorage.getItem('jsonData');
+    return localStorage.getItem(STORAGE_NAME);
   }
 
   private putDataToLocalStorage(data: string): void {
-    localStorage.setItem('jsonData', data);
+    localStorage.setItem(STORAGE_NAME, data);
+  }
+
+  private loadBooks(): Array<Book> {
+    let tmpBooks: Array<any> = JSON.parse(this.getDataFromLocalStorage());
+    return tmpBooks.map((obj: any) => this.mapBook(obj));
   }
 }
-
