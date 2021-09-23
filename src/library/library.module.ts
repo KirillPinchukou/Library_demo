@@ -8,12 +8,14 @@ import {LocalStorageDataProvider} from "./services/local-storage-data-provider.s
 import {BookComponent} from "./book/book.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DataProvider} from "./services/data-provider.service";
+import {BookFormComponent} from "./book-form/book-form.component";
 
 
 @NgModule({
   declarations: [
     LibraryComponent,
     BookComponent,
+    BookFormComponent,
   ],
   imports: [
     BrowserModule,

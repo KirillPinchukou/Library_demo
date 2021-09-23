@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {Book, Genre} from "../model/Book";
-import {DataProvider} from "../local-storage-data-provider.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {DataProvider} from "../services/data-provider.service";
+import {Book} from "../model/book";
 
 @Component({
   selector: 'book-form',
@@ -11,7 +11,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class BookFormComponent implements OnInit {
   form: FormGroup;
   book: Book = new Book();
-
 
   constructor(private dataProviderService: DataProvider) {
   }
@@ -33,6 +32,3 @@ export class BookFormComponent implements OnInit {
     this.dataProviderService.addBook(this.book);
   }
 }
-
-
-

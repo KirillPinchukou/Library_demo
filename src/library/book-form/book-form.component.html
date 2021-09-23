@@ -1,10 +1,7 @@
-<form
-  (ngSubmit)="submit()" [formGroup]="form"
->
+<form (ngSubmit)="submit()" [formGroup]="form">
   <input
     type="text"
     [(ngModel)]="book.title"
-
     name="title"
     id="book-title"
     placeholder="Title"
@@ -42,11 +39,7 @@
     placeholder="Publishing House"
     formControlName="publishingHouse"
   >
-  <button
-    type="submit"
-    class="btn-add"
-  >Add
-  </button>
+  <button type="submit" class="btn-add">Add</button>
 
 </form>
 
