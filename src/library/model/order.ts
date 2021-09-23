@@ -1,57 +1,57 @@
 import {Book} from "./book";
 
 export class Order {
-  private _orderId: number;
-  private _clientId: number;
-  private _date: Date;
-  private _books: Array<Book>;
-  private _price: number;
+  private id: number;
+  private clientId: number;
+  private date: Date;
+  private books: Array<Book>;
+  private price: number;
 
   constructor(orderId: number, clientId: number, books:Array<Book>, price: number, date: Date) {
-    this._orderId = orderId;
-    this._clientId = clientId;
-    this._date = date;
-    this._books = books;
-    this._price = price;
+    this.id = orderId;
+    this.clientId = clientId;
+    this.date = date;
+    this.books = books;
+    this.price = price;
   }
 
   getOrderId(): number {
-    return this._orderId;
+    return this.id;
   }
 
-  setOdredId(value: number) {
-    this._orderId = value;
+  setOrderId(value: number) {
+    this.id = value;
   }
 
   getClientId(): number {
-    return this._clientId;
+    return this.clientId;
   }
 
   setClientId(value: number) {
-    this._clientId = value;
+    this.clientId = value;
   }
 
   getDate(): Date {
-    return this._date;
+    return this.date;
   }
 
   setDate(value: Date) {
-    this._date = value;
+    this.date = value;
   }
 
   getBooks(): Array<Book> {
-    return this._books;
+    return this.books;
   }
 
   setBooks(value: Array<Book>) {
-    this._books = value;
+    this.books = value;
   }
 
   getPrice(): number {
-    return this._price;
+    return this.price;
   }
 
   setPrice(value: number) {
-    this._price = value;
+    this.price = value;
   }
 }
