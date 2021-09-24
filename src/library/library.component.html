@@ -1,4 +1,5 @@
-<book-form></book-form>
+<button routerLink="/addBook" (click)="onOpenDialogClick()">Add book</button>
+
 <ul class="bookList">
   <book
     *ngFor="let book of getBooks()" [book]="book"></book>

@@ -2,33 +2,38 @@ import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DataProvider} from "../services/data-provider.service";
 import {Book} from "../model/book";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'book-form',
   templateUrl: 'book-form.component.html',
-  styleUrls: ['book-form.component.css']
+  styleUrls: ['book-form.component.less']
 })
 export class BookFormComponent implements OnInit {
   form: FormGroup;
   book: Book = new Book();
+  bookCoverImage: File;
 
-  constructor(private dataProviderService: DataProvider) {
+  constructor(private dataProviderService: DataProvider, addBookDialog: MatDialog) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = new FormGroup({
-      title: new FormControl('', Validators.required),
-      genre: new FormControl('', Validators.required),
-      author: new FormControl('', Validators.required),
-      publishingHouse: new FormControl('', Validators.required),
-      pageNum: new FormControl('', Validators.required),
-      bookCover: new FormControl('', Validators.required)
+      title: new FormControl(this.book.title, [Validators.required, Validators.minLength(4)]),
+      genre: new FormControl('', Validators.minLength(4)),
+      author: new FormControl('', Validators.minLength(4)),
+      publishingHouse: new FormControl('', Validators.minLength(4)),
+      pageNum: new FormControl('', Validators.minLength(4)),
+      bookCover: new FormControl('', Validators.minLength(4))
     })
   }
 
   submit() {
-    console.log(this.book)
-    console.log(localStorage.getItem('jsonData'))
     this.dataProviderService.addBook(this.book);
   }
+
+
 }
+
+
+

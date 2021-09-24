@@ -4,7 +4,7 @@ const data = [
     title: "Idiot",
     author: "Dosotoevsky",
     genre: "history",
-    pageNum: 234,
+    pageNum: 338,
     publishingHouse: "OZ",
     bookCover: "./assets/idiot.jpg"
   },
@@ -20,4 +20,4 @@ const data = [
 
 ]
 
-export const jsonData = JSON.stringify(data);
+export const BOOK_STOARGE = JSON.stringify(data);

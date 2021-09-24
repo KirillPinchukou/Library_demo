@@ -4,7 +4,7 @@ import {Book} from "../model/book";
 @Component({
   selector: 'book',
   templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  styleUrls: ['./book.component.less']
 })
 export class BookComponent {
   title = '';

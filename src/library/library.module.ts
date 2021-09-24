@@ -9,23 +9,31 @@ import {BookComponent} from "./book/book.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DataProvider} from "./services/data-provider.service";
 import {BookFormComponent} from "./book-form/book-form.component";
+import {RouterModule, Routes} from "@angular/router";
+import {MatDialogModule} from "@angular/material/dialog";
 
+const libraryRoutes: Routes = [
+  {path: 'addBook', component: BookFormComponent}
+]
 
 @NgModule({
   declarations: [
     LibraryComponent,
     BookComponent,
-    BookFormComponent,
+    BookFormComponent
   ],
+  entryComponents: [],
   imports: [
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
     MatTableModule,
+    MatDialogModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(libraryRoutes)
   ],
-  providers: [{ provide: DataProvider, useValue: new LocalStorageDataProvider() }],
+  providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]
 })
 export class LibraryModule {

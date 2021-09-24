@@ -1,5 +1,7 @@
-<form (ngSubmit)="submit()" [formGroup]="form">
+<form (ngSubmit)="submit()" [formGroup]="form" name="AddBook" id="add-book">
+  <label for="book-title">Title</label>
   <input
+    label="Title"
     type="text"
     [(ngModel)]="book.title"
     name="title"
@@ -7,7 +9,9 @@
     placeholder="Title"
     formControlName="title"
   >
+  <label for="book-genre">Genre</label>
   <input
+    label="Genre"
     type="text"
     [(ngModel)]="book.genre"
     name="genre"
@@ -15,7 +19,9 @@
     placeholder="Genre"
     formControlName="genre"
   >
+  <label for="book-author">Author</label>
   <input
+    label="Author"
     type="text"
     [(ngModel)]="book.author"
     name="author"
@@ -23,7 +29,9 @@
     placeholder="Author"
     formControlName="author"
   >
+  <label for="book-pages">Pages</label>
   <input
+    label="pages num"
     type="text"
     [(ngModel)]="book.pageNum"
     name="pageNum"
@@ -31,7 +39,9 @@
     placeholder="Pages"
     formControlName="pageNum"
   >
+  <label for="book-publishing-house">Publishing house</label>
   <input
+    label="Publishing house"
     type="text"
     [(ngModel)]="book.publishingHouse"
     name="publishingHouse"
@@ -39,8 +49,9 @@
     placeholder="Publishing House"
     formControlName="publishingHouse"
   >
-  <button type="submit" class="btn-add">Add</button>
 
+  <button mat-button mat-dialog-close="" type="submit" class="btn-add">Add book</button>
 </form>
+
 
 
