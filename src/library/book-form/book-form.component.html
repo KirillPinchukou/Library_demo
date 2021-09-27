@@ -7,18 +7,24 @@
     name="title"
     id="book-title"
     placeholder="Title"
+    matTooltip="More than 4 symbols"
     formControlName="title"
   >
   <label for="book-genre">Genre</label>
-  <input
+  <select
     label="Genre"
     type="text"
     [(ngModel)]="book.genre"
     name="genre"
     id="book-genre"
     placeholder="Genre"
+    matTooltip="More than 4 symbols"
     formControlName="genre"
   >
+    <option value="history">History</option>
+    <option value="sadness">Sadness</option>
+    <option value="fantasy">Fantasy</option>
+  </select>
   <label for="book-author">Author</label>
   <input
     label="Author"
@@ -27,6 +33,7 @@
     name="author"
     id="book-author"
     placeholder="Author"
+    matTooltip="More than 4 symbols"
     formControlName="author"
   >
   <label for="book-pages">Pages</label>
@@ -37,6 +44,7 @@
     name="pageNum"
     id="book-pages"
     placeholder="Pages"
+    matTooltip="Only numbers"
     formControlName="pageNum"
   >
   <label for="book-publishing-house">Publishing house</label>
@@ -47,10 +55,21 @@
     name="publishingHouse"
     id="book-publishing-house"
     placeholder="Publishing House"
+    matTooltip="More than 4 symbols"
     formControlName="publishingHouse"
   >
+  <label for="book-publication-date">Publication date</label>
+  <input
+    label="Publication date"
+    type="date"
+    [(ngModel)]="book.publicationDate"
+    name="publishingHouse"
+    id="book-publication-date"
+    placeholder="Publication date"
+    formControlName="publicationDate"
+  >
 
-  <button mat-button mat-dialog-close="" type="submit" class="btn-add">Add book</button>
+  <button mat-button mat-dialog-close="" type="submit" class="btn-add" [disabled]="!form.valid">Add book</button>
 </form>
 
 

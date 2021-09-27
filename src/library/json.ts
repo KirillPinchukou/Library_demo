@@ -6,7 +6,8 @@ const data = [
     genre: "history",
     pageNum: 338,
     publishingHouse: "OZ",
-    bookCover: "./assets/idiot.jpg"
+    bookCover: "./assets/idiot.jpg",
+    publicationDate: "10/10/1967"
   },
   {
     id: 2,
@@ -15,9 +16,9 @@ const data = [
     genre: "history",
     pageNum: 234,
     publishingHouse: "OZ",
-    bookCover: "./assets/bayazet.jfif"
+    bookCover: "./assets/bayazet.jfif",
+    publicationDate: "10/10/1967"
   },
-
 ]
 
 export const BOOK_STOARGE = JSON.stringify(data);

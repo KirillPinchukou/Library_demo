@@ -6,8 +6,8 @@ import {Book} from "../model/book";
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.less']
 })
+
 export class BookComponent {
   title = '';
   @Input() book?: Book
-
 }

@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DataProvider} from "../services/data-provider.service";
 import {Book} from "../model/book";
-import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'book-form',
@@ -12,27 +11,27 @@ import {MatDialog} from "@angular/material/dialog";
 export class BookFormComponent implements OnInit {
   form: FormGroup;
   book: Book = new Book();
-  bookCoverImage: File;
 
-  constructor(private dataProviderService: DataProvider, addBookDialog: MatDialog) {
+  constructor(private dataProviderService: DataProvider) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(this.book.title, [Validators.required, Validators.minLength(4)]),
-      genre: new FormControl('', Validators.minLength(4)),
-      author: new FormControl('', Validators.minLength(4)),
-      publishingHouse: new FormControl('', Validators.minLength(4)),
-      pageNum: new FormControl('', Validators.minLength(4)),
-      bookCover: new FormControl('', Validators.minLength(4))
+      title: new FormControl('', [Validators.minLength(2)]),
+      genre: new FormControl('', [Validators.minLength(3)]),
+      author: new FormControl('', [Validators.minLength(4)]),
+      publishingHouse: new FormControl('', [Validators.minLength(2)]),
+      pageNum: new FormControl('', Validators.pattern("^[0-9]*$")),
+      publicationDate: new FormControl('', Validators.required)
+    });
+    this.form.statusChanges.subscribe((status) => {
+      console.log(status)
     })
   }
 
   submit() {
     this.dataProviderService.addBook(this.book);
   }
-
-
 }
 
 

@@ -4,17 +4,15 @@ import {DataProvider} from "./services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BookFormComponent} from "./book-form/book-form.component";
 
-
 @Component({
   selector: 'library-root',
   templateUrl: './library.component.html',
   styleUrls: ['./library.component.less']
 })
 export class LibraryComponent {
-  title = 'LibraryDemo';
   searchText: string = '';
 
-  constructor(private dataProviderService: DataProvider,private addBookDialog: MatDialog) {
+  constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog) {
   }
 
   public setSearchText(text: string): void {
@@ -24,7 +22,8 @@ export class LibraryComponent {
   public getBooks(): Array<Book> {
     return this.dataProviderService.getBooks(this.searchText);
   }
-  onOpenDialogClick(){
+
+  onOpenDialogClick() {
     this.addBookDialog.open(BookFormComponent);
   }
 }

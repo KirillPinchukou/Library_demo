@@ -12,6 +12,7 @@ export class Book {
   public pageNum: number;
   public publishingHouse: string;
   public author: string;
+  public publicationDate: Date;
   public genre: Genre;
   public bookCover: string;
 
@@ -70,4 +71,11 @@ export class Book {
   setGenre(value: Genre) {
     this.genre = value;
   }
+  getPublicationDate(): Date{
+    return this.publicationDate;
+  }
+  setPublicationDate(value: Date) {
+    this.publicationDate = value;
+  }
 }
+

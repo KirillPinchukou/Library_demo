@@ -11,6 +11,7 @@ import {DataProvider} from "./services/data-provider.service";
 import {BookFormComponent} from "./book-form/book-form.component";
 import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -31,12 +32,15 @@ const libraryRoutes: Routes = [
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(libraryRoutes)
+    RouterModule.forRoot(libraryRoutes),
+    MatInputModule
   ],
   providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]
 })
+
 export class LibraryModule {
+
   constructor() {
   }
 }
