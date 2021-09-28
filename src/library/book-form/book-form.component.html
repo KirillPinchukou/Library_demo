@@ -20,7 +20,7 @@
     formControlName="genre"
   >
     <ng-container *ngFor="let genre of genres">
-      <option [value]="genre.name"></option>
+      <option [value]="genre.name" [label]="genre.name"></option>
     </ng-container>
   </select>
   <label for="book-author">Author</label>
