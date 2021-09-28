@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DataProvider} from "../services/data-provider.service";
 import {Book} from "../model/book";
@@ -10,7 +10,8 @@ import {Book} from "../model/book";
 })
 export class BookFormComponent implements OnInit {
   form: FormGroup;
-  book: Book = new Book();
+  @Input() book?: Book = new Book();
+  genres = [{name: 'history', id: 1}, {name: 'fantasy', id: 2}, {name: 'three', id: 3}]
 
   constructor(private dataProviderService: DataProvider) {
   }
@@ -25,7 +26,8 @@ export class BookFormComponent implements OnInit {
       publicationDate: new FormControl('', Validators.required)
     });
     this.form.statusChanges.subscribe((status) => {
-      console.log(status)
+      console.log(status);
+
     })
   }
 

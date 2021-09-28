@@ -12,6 +12,7 @@ import {BookFormComponent} from "./book-form/book-form.component";
 import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -33,7 +34,8 @@ const libraryRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(libraryRoutes),
-    MatInputModule
+    MatInputModule,
+    MatTooltipModule
   ],
   providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]

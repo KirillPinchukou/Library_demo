@@ -1,5 +1,5 @@
 export const STORAGE_NAME = 'library';
-
+export const TEST_STORAGE_NAME ='test';
 export enum Genre {
   Fantasy = 'fantasy',
   Sadness = 'sadness',
