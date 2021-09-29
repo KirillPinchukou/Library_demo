@@ -54,6 +54,7 @@ export class Book {
 
   setPublishingHouse(value: string) {
     this.publishingHouse = value;
+
   }
 
   getAuthor(): string {

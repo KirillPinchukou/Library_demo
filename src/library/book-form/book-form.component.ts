@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DataProvider} from "../services/data-provider.service";
-import {Book} from "../model/book";
+import {Book, Genre} from "../model/book";
 
 @Component({
   selector: 'book-form',
@@ -10,10 +10,13 @@ import {Book} from "../model/book";
 })
 export class BookFormComponent implements OnInit {
   form: FormGroup;
+  geners:Array<any>;
+
   @Input() book?: Book = new Book();
-  genres = [{name: 'history', id: 1}, {name: 'fantasy', id: 2}, {name: 'three', id: 3}]
+  @Output() addedBook = new EventEmitter<Book>();
 
   constructor(private dataProviderService: DataProvider) {
+    this.geners = Object.keys(Genre)
   }
 
   ngOnInit() {
@@ -25,14 +28,10 @@ export class BookFormComponent implements OnInit {
       pageNum: new FormControl('', Validators.pattern("^[0-9]*$")),
       publicationDate: new FormControl('', Validators.required)
     });
-    this.form.statusChanges.subscribe((status) => {
-      console.log(status);
-
-    })
   }
 
   submit() {
-    this.dataProviderService.addBook(this.book);
+    this.addedBook.emit(this.book);
   }
 }
 

@@ -24,6 +24,9 @@ export class LibraryComponent {
   }
 
   onOpenDialogClick() {
-    this.addBookDialog.open(BookFormComponent);
+    let dialogRef = this.addBookDialog.open(BookFormComponent);
+    dialogRef.componentInstance.addedBook.subscribe((addedBook: Book) => {
+      this.dataProviderService.addBook(addedBook);
+    });
   }
 }
