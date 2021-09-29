@@ -35,8 +35,10 @@ export class LocalStorageDataProvider extends DataProvider {
     book.setTitle(obj['title']);
     book.setAuthor(obj['author']);
     book.setGenre(obj['genre']);
+    book.setPublishingHouse(obj['publishingHouse']);
     book.setPageNum(parseInt(obj['pageNum']));
     book.setBookCover(obj['bookCover']);
+    book.setPublicationDate(obj['publicationDate'])
     return book;
   }
 
