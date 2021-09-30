@@ -17,7 +17,6 @@ export class LocalStorageDataProvider extends DataProvider {
   }
 
   public addBook(book: Book): void {
-
     this.books.push(book);
     this.putDataToLocalStorage(JSON.stringify(this.books));
   }
