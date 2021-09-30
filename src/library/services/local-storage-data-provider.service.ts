@@ -11,7 +11,7 @@ export class LocalStorageDataProvider extends DataProvider {
   public getBooks(searchText: string): Array<Book> {
     this.books = this.loadBooks();
     if (searchText) {
-      return this.books.filter(book => book.getTitle().includes(searchText));
+      this.books = this.books.filter(book => book.getTitle().includes(searchText));
     }
     return this.books;
   }
@@ -30,7 +30,7 @@ export class LocalStorageDataProvider extends DataProvider {
     throw new Error('Method not implemented.');
   }
 
-  private mapBook(obj: any): Book {
+  public mapBook(obj: any): Book {
     let book = new Book();
     book.setId(parseInt(obj['id']));
     book.setTitle(obj['title']);

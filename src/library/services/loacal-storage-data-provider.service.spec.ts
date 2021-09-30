@@ -8,6 +8,8 @@ import {compareBooks} from "./compare-books";
 describe('DataProviderService', () => {
   let service: LocalStorageDataProvider;
   let book: Book;
+  let bookList:Array<Book>;
+  let searchText:string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +28,17 @@ describe('DataProviderService', () => {
   it('should return books', () => {
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
-    expect(service.getBooks('')).toBeDefined();
+    bookList = JSON.parse(localStorage.getItem(STORAGE_NAME)).map((obj: any) => service.mapBook(obj));
+    searchText = '';
+    for(let i = 0;i < bookList.length;i++){
+      expect(compareBooks(service.getBooks(searchText)[i],bookList[i])).toBeTruthy()
+    }
+    searchText = 'Idiot';
+    for(let i = 0;i < bookList.length;i++){
+      if(bookList[i].title === searchText || bookList[i].author === searchText){
+        expect(compareBooks(service.getBooks(searchText)[i],bookList[i])).toBeTruthy()
+      }
+    }
   });
   it(`"should add book`, () => {
     book = new Book();
