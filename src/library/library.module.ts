@@ -13,6 +13,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FilterPipe} from "./book/pipes/filter.pipe";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -22,7 +23,8 @@ const libraryRoutes: Routes = [
   declarations: [
     LibraryComponent,
     BookComponent,
-    BookFormComponent
+    BookFormComponent,
+    FilterPipe
   ],
   entryComponents: [],
   imports: [
@@ -35,7 +37,7 @@ const libraryRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]

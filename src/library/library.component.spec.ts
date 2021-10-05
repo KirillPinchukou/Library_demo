@@ -37,6 +37,6 @@ describe('LibraryComponent', () => {
   it(`"should gets books"`, () =>{
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
-    expect(component.getBooks()).toBeDefined();
+    expect(component.searchBooks()).toBeDefined();
   });
 });

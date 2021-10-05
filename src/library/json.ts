@@ -3,7 +3,7 @@ export const data = [
     id: 1,
     title: "Idiot",
     author: "Dosotoevsky",
-    genre: "history",
+    genre: "History",
     pageNum: 338,
     publishingHouse: "OZ",
     bookCover: "./assets/idiot.jpg",
@@ -13,11 +13,11 @@ export const data = [
     id: 2,
     title: "Bayazet",
     author: "Pikul",
-    genre: "history",
+    genre: "History",
     pageNum: 234,
     publishingHouse: "OZ",
     bookCover: "./assets/bayazet.jfif",
-    publicationDate: "10/10/1967"
+    publicationDate: "10/11/1967"
   },
 ]
 

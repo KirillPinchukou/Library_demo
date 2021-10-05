@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Book, STORAGE_NAME} from "../model/book";
+import {Book, Genre, STORAGE_NAME} from "../model/book";
 import {DataProvider} from "./data-provider.service";
+import * as R from 'ramda'
+
+type BookPredicate = (book: Book) => boolean;
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +11,42 @@ import {DataProvider} from "./data-provider.service";
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public getBooks(searchText: string): Array<Book> {
+  public getBooks(searchText: string, searchGenre: Genre, searchYearFrom: number, searchYearTo: number): Array<Book> {
     this.books = this.loadBooks();
-    if (searchText) {
-      this.books = this.books.filter(book => book.getTitle().includes(searchText));
+    const predicates = this.composeFilter(searchText, searchGenre, searchYearTo, searchYearFrom);
+
+    return R.filter(book => {
+      for (const predicate of predicates) {
+        if (!predicate.call(this, book)) {
+          return false;
+        }
+      }
+      return true;
+    }, this.books);
+  }
+
+  private composeFilter(searchText: string, searchGenre: Genre, searchYearTo: number, searchYearFrom: number) {
+    let predicates: Array<BookPredicate> = [];
+
+    if (searchText && searchGenre) {
+      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchText) && book.getGenre().toLocaleLowerCase() === searchGenre.toLocaleLowerCase());
     }
-    return this.books;
+    if (searchText) {
+      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchText.toLocaleLowerCase()));
+    }
+    if (searchGenre) {
+      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchGenre.toLocaleLowerCase());
+    }
+    if (searchYearFrom) {
+      predicates.push(book => book.getPublicationDate().getFullYear() >= searchYearFrom);
+    }
+    if (searchYearTo) {
+      predicates.push(book => book.getPublicationDate().getFullYear() <= searchYearTo);
+    }
+    return predicates;
   }
 
   public addBook(book: Book): void {
-
     this.books.push(book);
     this.putDataToLocalStorage(JSON.stringify(this.books));
   }
@@ -39,7 +68,8 @@ export class LocalStorageDataProvider extends DataProvider {
     book.setPublishingHouse(obj['publishingHouse']);
     book.setPageNum(parseInt(obj['pageNum']));
     book.setBookCover(obj['bookCover']);
-    book.setPublicationDate(obj['publicationDate'])
+    let date = new Date(Date.parse(obj['publicationDate']));
+    book.setPublicationDate(date);
     return book;
   }
 
@@ -56,3 +86,4 @@ export class LocalStorageDataProvider extends DataProvider {
     return tmpBooks.map((obj: any) => this.mapBook(obj));
   }
 }
+
