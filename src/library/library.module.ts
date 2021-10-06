@@ -13,7 +13,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {FilterPipe} from "./book/pipes/filter.pipe";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -24,7 +23,7 @@ const libraryRoutes: Routes = [
     LibraryComponent,
     BookComponent,
     BookFormComponent,
-    FilterPipe
+
   ],
   entryComponents: [],
   imports: [

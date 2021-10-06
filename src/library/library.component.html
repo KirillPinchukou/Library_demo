@@ -14,7 +14,7 @@
   </select>
 
   <label for="search-year-from">Year from</label>
-  <input type="text" class="form-control" id="search-year-from"
+  <input type="text" class="form-control" id="search-year-from" pattern="^[0-9]*$" title="Numbers only, please."
          [(ngModel)]="publishingYearsFrom" placeholder="Enter text to search"
          autofocus>
 
