@@ -1,15 +1,15 @@
 import {TestBed} from '@angular/core/testing';
-import {data, TEST_STOARGE, testData} from "../json";
+import {TEST_STOARGE, testData} from "../json";
 import {Book, Genre, STORAGE_NAME, TEST_STORAGE_NAME} from "../model/book";
-import {LocalStorageDataProvider} from './local-storage-data-provider.service';
+import {LocalStorageDataProvider, SearchCriteria} from './local-storage-data-provider.service';
 import {compareBooks} from "./compare-books";
 
 
 describe('DataProviderService', () => {
   let service: LocalStorageDataProvider;
   let book: Book;
-  let bookList:Array<Book>;
-  let searchText:string;
+  let bookList: Array<Book>;
+  let searchText: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,20 +25,36 @@ describe('DataProviderService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
   it('should return books', () => {
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
-    bookList = JSON.parse(localStorage.getItem(STORAGE_NAME)).map((obj: any) => service.mapBook(obj));
-    searchText = '';
-    for(let i = 0;i < bookList.length;i++){
-      expect(compareBooks(service.getBooks(searchText)[i],bookList[i])).toBeTruthy()
+
+    let searchCriteria = new SearchCriteria('Idiot', Genre.History, 1000, 2000);
+    let result = service.getBooks(searchCriteria);
+
+    for (let i = 0; i < result.length; i++) {
+      let actual = result[i].getTitle();
+      let expected = searchCriteria.searchTitle;
+      expect(actual).toEqual(expected)
     }
-    searchText = 'Idiot';
-    for(let i = 0;i < bookList.length;i++){
-      if(bookList[i].title === searchText || bookList[i].author === searchText){
-        expect(compareBooks(service.getBooks(searchText)[i],bookList[i])).toBeTruthy()
-      }
+
+    searchCriteria = new SearchCriteria('', Genre.History, 1, 20000);
+    result = service.getBooks(searchCriteria);
+    for (let i = 0; i < result.length; i++) {
+      let actual = result[i].getGenre();
+      let expected = searchCriteria.searchGenre;
+      expect(actual).toEqual(expected)
     }
+
+    searchCriteria = new SearchCriteria('', undefined, 2000, 1955);
+    result = service.getBooks(searchCriteria);
+    for (let i = 0; i < result.length; i++) {
+      let actual = result[i].getPublicationDate().getFullYear();
+      let expected = searchCriteria.searchYearTo
+      expect(actual >= expected).toBeTruthy()
+    }
+
   });
   it(`"should add book`, () => {
     book = new Book();
@@ -48,11 +64,14 @@ describe('DataProviderService', () => {
     book.setPublishingHouse('OZ');
     book.setTitle('ABBA');
     book.setAuthor('Rara');
+    let searchCriteria = new SearchCriteria('', undefined, undefined, undefined);
+
     localStorage.clear()
-    localStorage.setItem(STORAGE_NAME, JSON.stringify(data));
-    service.getBooks('');
+    localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
+    service.getBooks(searchCriteria);
     service.addBook(book);
-    expect(compareBooks(service.getBooks('')[service.getBooks('').length -1],book)).toBeTruthy()
+    let expectedBooks = service.getBooks(searchCriteria);
+    expect(compareBooks(expectedBooks[expectedBooks.length -1],book)).toBeTruthy()
   })
 });
 

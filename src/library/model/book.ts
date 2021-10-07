@@ -4,7 +4,7 @@ export const TEST_STORAGE_NAME = 'test';
 export enum Genre {
   Fantasy = 'fantasy',
   Sadness = 'sadness',
-  History = 'history'
+  History = 'history',
 }
 
 export class Book {

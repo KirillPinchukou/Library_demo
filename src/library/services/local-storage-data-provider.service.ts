@@ -11,9 +11,9 @@ type BookPredicate = (book: Book) => boolean;
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public getBooks(searchText: string, searchGenre: Genre, searchYearFrom: number, searchYearTo: number): Array<Book> {
+  public getBooks(searchCriteria: SearchCriteria): Array<Book> {
     this.books = this.loadBooks();
-    const predicates = this.composeFilter(searchText, searchGenre, searchYearTo, searchYearFrom);
+    const predicates = this.composeFilter(searchCriteria);
 
     return R.filter(book => {
       for (const predicate of predicates) {
@@ -25,23 +25,21 @@ export class LocalStorageDataProvider extends DataProvider {
     }, this.books);
   }
 
-  private composeFilter(searchText: string, searchGenre: Genre, searchYearTo: number, searchYearFrom: number) {
+  private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
 
-    if (searchText && searchGenre) {
-      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchText) && book.getGenre().toLocaleLowerCase() === searchGenre.toLocaleLowerCase());
+    if (searchCriteria.searchTitle) {
+      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchCriteria.searchTitle.toLocaleLowerCase()));
     }
-    if (searchText) {
-      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchText.toLocaleLowerCase()));
+    if (searchCriteria.searchGenre) {
+      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchCriteria.searchGenre.toLocaleLowerCase());
     }
-    if (searchGenre) {
-      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchGenre.toLocaleLowerCase());
+    if (searchCriteria.searchYearFrom) {
+      predicates.push(book => book.getPublicationDate().getFullYear() <= searchCriteria.searchYearFrom);
     }
-    if (searchYearFrom) {
-      predicates.push(book => book.getPublicationDate().getFullYear() >= searchYearFrom);
-    }
-    if (searchYearTo) {
-      predicates.push(book => book.getPublicationDate().getFullYear() <= searchYearTo);
+    if (searchCriteria.searchYearTo) {
+      let a = this.books[0].getPublicationDate().getFullYear();
+      predicates.push(book => book.getPublicationDate().getFullYear() >= searchCriteria.searchYearTo);
     }
     return predicates;
   }
@@ -84,6 +82,20 @@ export class LocalStorageDataProvider extends DataProvider {
   private loadBooks(): Array<Book> {
     let tmpBooks: Array<any> = JSON.parse(this.getDataFromLocalStorage());
     return tmpBooks.map((obj: any) => this.mapBook(obj));
+  }
+}
+
+export class SearchCriteria {
+  public searchTitle: string;
+  public searchGenre: Genre;
+  public searchYearTo: number;
+  public searchYearFrom: number;
+
+  constructor(searchTitle: string, searchGenre: Genre, searchYearTo: number, searchYearFrom: number) {
+    this.searchTitle = searchTitle;
+    this.searchGenre = searchGenre;
+    this.searchYearFrom = searchYearFrom;
+    this.searchYearTo = searchYearTo;
   }
 }
 

@@ -1,7 +1,8 @@
-import {Book, Genre} from "../model/book";
+import {Book} from "../model/book";
+import {SearchCriteria} from "./local-storage-data-provider.service";
 
 export abstract class DataProvider {
-  abstract getBooks(searchText: string, searchGenre: Genre, publishingYearsTo: number, publishingYearsFrom: number):Array<Book>;
+  abstract getBooks(searchCriteria:SearchCriteria):Array<Book>;
 
   abstract addBook(book: Book): void;
 
