@@ -1,9 +1,10 @@
 export const STORAGE_NAME = 'library';
-export const TEST_STORAGE_NAME ='test';
+export const TEST_STORAGE_NAME = 'test';
+
 export enum Genre {
   Fantasy = 'fantasy',
   Sadness = 'sadness',
-  History = 'history'
+  History = 'history',
 }
 
 export class Book {
@@ -72,9 +73,11 @@ export class Book {
   setGenre(value: Genre) {
     this.genre = value;
   }
-  getPublicationDate(): Date{
+
+  getPublicationDate(): Date {
     return this.publicationDate;
   }
+
   setPublicationDate(value: Date) {
     this.publicationDate = value;
   }

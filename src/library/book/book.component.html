@@ -1,12 +1,12 @@
 <div class="bookWrapper">
-  <img [src]="book?.getBookCover()">
+  <img  class="book-cover" [src]="book?.getBookCover()">
   <ul class="infoList">
-    <li>Title: {{book?.getTitle()}}</li>
-    <li>Genre: {{book?.getGenre()}}</li>
-    <li>Author: {{book?.getAuthor()}}</li>
-    <li>Pages: {{book?.getPageNum()}}</li>
-    <li>Pub house: {{book?.getPublishingHouse()}}
-    <li>Pub date: {{book?.getPublicationDate()}}
+    <li> Title: {{book?.getTitle()}}</li>
+    <li> Genre: {{book?.getGenre()}}</li>
+    <li> Author: {{book?.getAuthor()}}</li>
+    <li> Pages: {{book?.getPageNum()}}</li>
+    <li> Pub house: {{book?.getPublishingHouse()}}
+    <li> Pub date: {{book?.getPublicationDate() | date}}
   </ul>
 </div>
 

@@ -1,8 +1,35 @@
-<button routerLink="/addBook" (click)="onOpenDialogClick()">Add book</button>
-<ul class="bookList">
-  <book
-    *ngFor="let book of getBooks()" [book]="book"></book>
-</ul>
+<div class="form-group">
+  <button id="add-book-button" (click)="onOpenDialogClick()">Add book</button>
+  <label for="search-text">Search Text</label>
+  <input type="text" class="form-control" id="search-text"
+         [(ngModel)]="searchText" placeholder="Enter text to search"
+         autofocus>
+  <label for="book-genre">Genre</label>
+  <select
+    [(ngModel)]="searchGenre" name="genre" id="book-genre">
+    <option [value]="" label="None"></option>
+    <ng-container *ngFor="let genre of genres">
+      <option [value]="genre" [label]="genre"></option>
+    </ng-container>
+  </select>
+
+  <label for="search-year-from">Year from</label>
+  <input type="text" class="form-control" id="search-year-from" pattern="^[0-9]*$" title="Numbers only, please."
+         [(ngModel)]="publishingYearsFrom" placeholder="Enter text to search"
+         autofocus>
+
+  <label for="search-year-to">Year to</label>
+  <input type="text" class="form-control" id="search-year-to"
+         [(ngModel)]="publishingYearsTo" placeholder="Enter text to search"
+         autofocus>
+  <button (click)="searchBooks()">Search</button>
+</div>
+
+<book
+  *ngFor="let book of bookList " [book]="book"></book>
+
+
+
 
 
 

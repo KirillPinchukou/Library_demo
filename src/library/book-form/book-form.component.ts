@@ -22,7 +22,7 @@ export class BookFormComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.minLength(2)]),
-      genre: new FormControl('', [Validators.minLength(3)]),
+      genre: new FormControl('', [Validators.required]),
       author: new FormControl('', [Validators.minLength(4)]),
       publishingHouse: new FormControl('', [Validators.minLength(2)]),
       pageNum: new FormControl('', Validators.pattern("^[0-9]*$")),

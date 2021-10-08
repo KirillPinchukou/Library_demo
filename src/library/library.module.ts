@@ -22,7 +22,8 @@ const libraryRoutes: Routes = [
   declarations: [
     LibraryComponent,
     BookComponent,
-    BookFormComponent
+    BookFormComponent,
+
   ],
   entryComponents: [],
   imports: [
@@ -35,7 +36,7 @@ const libraryRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]

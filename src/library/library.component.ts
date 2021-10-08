@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {Book} from "./model/book";
-import {DataProvider} from "./services/data-provider.service";
+import {Component, OnInit} from '@angular/core';
+import {Book, Genre} from "./model/book";
+import {DataProvider, SearchCriteria} from "./services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BookFormComponent} from "./book-form/book-form.component";
 
@@ -9,18 +9,29 @@ import {BookFormComponent} from "./book-form/book-form.component";
   templateUrl: './library.component.html',
   styleUrls: ['./library.component.less']
 })
-export class LibraryComponent {
+export class LibraryComponent implements OnInit {
   searchText: string = '';
+  searchGenre:Genre;
+  bookList: Array<Book>;
+  genres:Array<any>;
+  publishingYearsFrom :number;
+  publishingYearsTo :number;
+  searchCriteria:SearchCriteria
 
   constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog) {
+    this.genres = Object.keys(Genre)
+
   }
 
-  public setSearchText(text: string): void {
-    this.searchText = text;
+  ngOnInit() {
+    this.searchCriteria = new SearchCriteria(this.searchText,this.searchGenre,this.publishingYearsFrom,this.publishingYearsTo);
+    this.bookList = this.dataProviderService.getBooks(this.searchCriteria);
   }
 
-  public getBooks(): Array<Book> {
-    return this.dataProviderService.getBooks(this.searchText);
+  public searchBooks(): Array<Book> {
+    this.searchCriteria = new SearchCriteria(this.searchText,this.searchGenre,this.publishingYearsFrom,this.publishingYearsTo);
+    this.bookList =  this.dataProviderService.getBooks(this.searchCriteria);
+    return this.bookList;
   }
 
   onOpenDialogClick() {
