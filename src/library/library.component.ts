@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Book, Genre} from "./model/book";
-import {DataProvider} from "./services/data-provider.service";
+import {DataProvider, SearchCriteria} from "./services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BookFormComponent} from "./book-form/book-form.component";
-import {SearchCriteria} from "./services/local-storage-data-provider.service";
 
 @Component({
   selector: 'library-root',

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Book, Genre, STORAGE_NAME} from "../model/book";
-import {DataProvider} from "./data-provider.service";
+import {Book, STORAGE_NAME} from "../model/book";
+import {DataProvider, SearchCriteria} from "./data-provider.service";
 import * as R from 'ramda'
 
 type BookPredicate = (book: Book) => boolean;
@@ -12,22 +12,26 @@ export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
   public getBooks(searchCriteria: SearchCriteria): Array<Book> {
-    this.books = this.loadBooks();
-    const predicates = this.composeFilter(searchCriteria);
+    if (searchCriteria) {
+      this.books = this.loadBooks();
+      const predicates = this.composeFilter(searchCriteria);
 
-    return R.filter(book => {
-      for (const predicate of predicates) {
-        if (!predicate.call(this, book)) {
-          return false;
+      return R.filter(book => {
+        for (const predicate of predicates) {
+          if (!predicate.call(this, book)) {
+            return false;
+          }
         }
-      }
-      return true;
-    }, this.books);
+        return true;
+      }, this.books);
+
+    } else {
+      return this.books;
+    }
   }
 
   private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
-
     if (searchCriteria.searchTitle) {
       predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchCriteria.searchTitle.toLocaleLowerCase()));
     }
@@ -38,7 +42,6 @@ export class LocalStorageDataProvider extends DataProvider {
       predicates.push(book => book.getPublicationDate().getFullYear() <= searchCriteria.searchYearFrom);
     }
     if (searchCriteria.searchYearTo) {
-      let a = this.books[0].getPublicationDate().getFullYear();
       predicates.push(book => book.getPublicationDate().getFullYear() >= searchCriteria.searchYearTo);
     }
     return predicates;
@@ -85,17 +88,5 @@ export class LocalStorageDataProvider extends DataProvider {
   }
 }
 
-export class SearchCriteria {
-  public searchTitle: string;
-  public searchGenre: Genre;
-  public searchYearTo: number;
-  public searchYearFrom: number;
 
-  constructor(searchTitle: string, searchGenre: Genre, searchYearTo: number, searchYearFrom: number) {
-    this.searchTitle = searchTitle;
-    this.searchGenre = searchGenre;
-    this.searchYearFrom = searchYearFrom;
-    this.searchYearTo = searchYearTo;
-  }
-}
 
