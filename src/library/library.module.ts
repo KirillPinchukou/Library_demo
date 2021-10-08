@@ -13,6 +13,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {RegistrationComponent} from "./registration/registration.component";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -23,6 +24,7 @@ const libraryRoutes: Routes = [
     LibraryComponent,
     BookComponent,
     BookFormComponent,
+    RegistrationComponent
 
   ],
   entryComponents: [],
@@ -37,6 +39,7 @@ const libraryRoutes: Routes = [
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
     MatTooltipModule,
+
   ],
   providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
   bootstrap: [LibraryComponent]

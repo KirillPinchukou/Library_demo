@@ -60,8 +60,10 @@ describe('DataProviderService', () => {
     book.setTitle('ABBA');
     book.setAuthor('Rara');
     let searchCriteria = new SearchCriteria('', undefined, undefined, undefined);
+
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
+
     service.getBooks(searchCriteria);
     service.addBook(book);
     let expectedBooks = service.getBooks(searchCriteria);
