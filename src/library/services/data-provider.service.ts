@@ -1,10 +1,11 @@
-import {Book, Genre} from "../model/book";
+import {Book} from "../model/book";
+import {Observable} from "rxjs";
 
 
 export abstract class DataProvider {
-  abstract getBooks(searchCriteria: SearchCriteria): Array<Book>;
+  abstract findBooks(criteria: SearchCriteria): Observable <Array<Book>>;
 
-  abstract addBook(book: Book): void;
+  abstract addBook(book: Book): Observable <Array<Book>>;
 
   abstract removeBook(book: Book): void;
 
@@ -12,15 +13,15 @@ export abstract class DataProvider {
 }
 
 export class SearchCriteria {
-  public searchTitle: string;
-  public searchGenre: Genre;
-  public searchYearTo: number;
-  public searchYearFrom: number;
+  public title: string;
+  public genre: string;
+  public publishYearTill: number;
+  public publishYearFrom: number;
 
-  constructor(searchTitle: string, searchGenre: Genre, searchYearTo: number, searchYearFrom: number) {
-    this.searchTitle = searchTitle;
-    this.searchGenre = searchGenre;
-    this.searchYearFrom = searchYearFrom;
-    this.searchYearTo = searchYearTo;
+  constructor(title: string, genre: string, publishYearFrom: number, publishYearTill: number) {
+    this.title = title;
+    this.genre = genre;
+    this.publishYearFrom = publishYearFrom;
+    this.publishYearTill = publishYearTill;
   }
 }

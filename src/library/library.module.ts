@@ -4,7 +4,6 @@ import {CommonModule} from '@angular/common';
 import {LibraryComponent} from "./library.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
-import {LocalStorageDataProvider} from "./services/local-storage-data-provider.service";
 import {BookComponent} from "./book/book.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DataProvider} from "./services/data-provider.service";
@@ -13,7 +12,9 @@ import {RouterModule, Routes} from "@angular/router";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {RegistrationComponent} from "./registration/registration.component";
+import {HttpDataProvider} from "./services/httpServices/http-data-provider-service";
+import {HttpClientModule} from "@angular/common/http";
+import {BookPipe, GenrePipe} from "./book/pipes/book.pipe";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -24,8 +25,8 @@ const libraryRoutes: Routes = [
     LibraryComponent,
     BookComponent,
     BookFormComponent,
-    RegistrationComponent
-
+    BookPipe,
+    GenrePipe
   ],
   entryComponents: [],
   imports: [
@@ -39,9 +40,9 @@ const libraryRoutes: Routes = [
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
     MatTooltipModule,
-
+    HttpClientModule
   ],
-  providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
+  providers: [{provide: DataProvider, useClass: HttpDataProvider}],
   bootstrap: [LibraryComponent]
 })
 

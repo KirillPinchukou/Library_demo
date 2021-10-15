@@ -3,7 +3,7 @@ import {LibraryComponent} from "./library.component";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {STORAGE_NAME} from "./model/book";
 import {testData} from "./json";
-import {LocalStorageDataProvider} from "./services/local-storage-data-provider.service";
+import {LocalStorageDataProvider} from "./services/loacal-storage-services/local-storage-data-provider.service";
 import {DataProvider} from "./services/data-provider.service";
 import {MatDialogModule} from "@angular/material/dialog";
 

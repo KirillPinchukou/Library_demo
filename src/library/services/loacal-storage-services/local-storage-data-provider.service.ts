@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Book, STORAGE_NAME} from "../model/book";
-import {DataProvider, SearchCriteria} from "./data-provider.service";
-import * as R from 'ramda'
+import {Book, STORAGE_NAME} from "../../model/book";
+import {DataProvider, SearchCriteria} from "../data-provider.service";
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -11,38 +10,38 @@ type BookPredicate = (book: Book) => boolean;
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public getBooks(searchCriteria: SearchCriteria): Array<Book> {
+  public findBooks(searchCriteria: SearchCriteria):  Array<Book> {
     if (searchCriteria) {
       this.books = this.loadBooks();
       const predicates = this.composeFilter(searchCriteria);
 
-      return R.filter(book => {
-        for (const predicate of predicates) {
-          if (!predicate.call(this, book)) {
-            return false;
-          }
-        }
-        return true;
-      }, this.books);
+    //  return R.filter(book => {
+      //  for (const predicate of predicates) {
+     //     if (!predicate.call(this, book)) {
+     //       return false;
+     //     }
+     //   }
+     //   return true;
+     // }, this.books);
 
-    } else {
+  //  } else {
       return this.books;
     }
   }
 
   private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
-    if (searchCriteria.searchTitle) {
-      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchCriteria.searchTitle.toLocaleLowerCase()));
+    if (searchCriteria.title) {
+      predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchCriteria.title.toLocaleLowerCase()));
     }
-    if (searchCriteria.searchGenre) {
-      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchCriteria.searchGenre.toLocaleLowerCase());
+    if (searchCriteria.genre) {
+      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchCriteria.genre.toLocaleLowerCase());
     }
-    if (searchCriteria.searchYearFrom) {
-      predicates.push(book => book.getPublicationDate().getFullYear() <= searchCriteria.searchYearFrom);
+    if (searchCriteria.publishYearFrom) {
+      predicates.push(book => book.getPublicationDate().getFullYear() <= searchCriteria.publishYearFrom);
     }
-    if (searchCriteria.searchYearTo) {
-      predicates.push(book => book.getPublicationDate().getFullYear() >= searchCriteria.searchYearTo);
+    if (searchCriteria.publishYearTill) {
+      predicates.push(book => book.getPublicationDate().getFullYear() >= searchCriteria.publishYearTill);
     }
     return predicates;
   }
@@ -83,10 +82,10 @@ export class LocalStorageDataProvider extends DataProvider {
   }
 
   private loadBooks(): Array<Book> {
-    let tmpBooks: Array<any> = JSON.parse(this.getDataFromLocalStorage());
-    return tmpBooks.map((obj: any) => this.mapBook(obj));
+    let tmpClients: Array<any> = JSON.parse(this.getDataFromLocalStorage());
+    return tmpClients.map((obj: any) => this.mapBook(obj));
   }
-}
+  }
 
 
 

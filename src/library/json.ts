@@ -21,6 +21,23 @@ export const data = [
   },
 ]
 
+export const usersData = [
+  {
+    id: 1,
+    name: "Boris",
+    mail: "boris@gmail.com",
+    address: "Minsk",
+    phoneNumber: 3756789098
+  },
+  {
+    id: 1,
+    name: "Ivan",
+    mail: "ivan@gmail.com",
+    address: "Minsk",
+    phoneNumber: 3756789098
+  }
+]
+
 export const testData = [
   {
     id: 4,
@@ -44,4 +61,5 @@ export const testData = [
   },
 ]
 export const BOOK_STOARGE = JSON.stringify(data);
+export const USER_STORAGE = JSON.stringify(usersData);
 export const TEST_STOARGE = JSON.stringify(data);

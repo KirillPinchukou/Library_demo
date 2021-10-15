@@ -1,9 +1,9 @@
 import {TestBed} from '@angular/core/testing';
-import {TEST_STOARGE, testData} from "../json";
-import {Book, Genre, STORAGE_NAME, TEST_STORAGE_NAME} from "../model/book";
+import {TEST_STOARGE, testData} from "../../json";
+import {Book, Genre, STORAGE_NAME, TEST_STORAGE_NAME} from "../../model/book";
 import {LocalStorageDataProvider} from './local-storage-data-provider.service';
-import {compareBooks} from "./compare-books";
-import {SearchCriteria} from "./data-provider.service";
+import {compareBooks} from "../compare-books";
+import {SearchCriteria} from "../data-provider.service";
 
 describe('DataProviderService', () => {
   let service: LocalStorageDataProvider;
@@ -30,21 +30,21 @@ describe('DataProviderService', () => {
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
     let searchCriteria = new SearchCriteria('Idiot', Genre.History, 1000, 2000);
-    let result = service.getBooks(searchCriteria);
+    let result = service.findBooks(searchCriteria);
     for (let i = 0; i < result.length; i++) {
       let actual = result[i].getTitle();
       let expected = searchCriteria.searchTitle;
       expect(actual).toEqual(expected)
     }
     searchCriteria = new SearchCriteria('', Genre.History, 1, 20000);
-    result = service.getBooks(searchCriteria);
+    result = service.findBooks(searchCriteria);
     for (let i = 0; i < result.length; i++) {
       let actual = result[i].getGenre();
       let expected = searchCriteria.searchGenre;
       expect(actual).toEqual(expected)
     }
     searchCriteria = new SearchCriteria('', undefined, 2000, 1955);
-    result = service.getBooks(searchCriteria);
+    result = service.findBooks(searchCriteria);
     for (let i = 0; i < result.length; i++) {
       let actual = result[i].getPublicationDate().getFullYear();
       let expected = searchCriteria.searchYearTo
@@ -64,9 +64,9 @@ describe('DataProviderService', () => {
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
 
-    service.getBooks(searchCriteria);
+    service.findBooks(searchCriteria);
     service.addBook(book);
-    let expectedBooks = service.getBooks(searchCriteria);
+    let expectedBooks = service.findBooks(searchCriteria);
     expect(compareBooks(expectedBooks[expectedBooks.length - 1], book)).toBeTruthy()
   })
 });
