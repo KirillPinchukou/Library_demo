@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Book, Genre} from "./model/book";
-import {DataProvider, SearchCriteria} from "./services/data-provider.service";
-import {MatDialog} from "@angular/material/dialog";
-import {BookFormComponent} from "./book-form/book-form.component";
-import {EditBookComponent} from "./edit-book/edit-book.component";
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BookFormComponent } from './book-form/book-form.component';
+import { EditBookComponent } from './edit-book/edit-book.component';
+import { Book, Genre } from './model/book';
+import { DataProvider, SearchCriteria, SearchCriteriaBuilder } from './services/data-provider.service';
 
 
 @Component({
@@ -20,23 +20,42 @@ export class LibraryComponent implements OnInit {
   publishingYearsTo: number;
   searchCriteria: SearchCriteria;
 
-  constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog,) {
+  constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog) {
     this.genres = Object.keys(Genre)
-
   }
 
   ngOnInit() {
-    this.searchCriteria = new SearchCriteria(this.searchText, this.searchGenre, this.publishingYearsFrom, this.publishingYearsTo);
-    this.dataProviderService.findBooks(this.searchCriteria).subscribe(value => this.bookList = value, error => console.error(error));
+    this.searchCriteria = new SearchCriteriaBuilder()
+    .withTitle(this.searchText)
+    .withGenre(this.searchGenre)
+    .withYearFrom(this.publishingYearsFrom)
+    .withYearTill(this.publishingYearsTo)
+    .build();
+
+    this.dataProviderService.findBooks(this.searchCriteria).subscribe(
+      value => {
+        this.bookList = value;
+      },
+      error => console.error(error));
   }
 
   public searchBooks(): Array<Book> {
-    this.searchCriteria = new SearchCriteria(this.searchText, this.searchGenre, this.publishingYearsFrom, this.publishingYearsTo);
-    this.dataProviderService.findBooks(this.searchCriteria).subscribe(value => this.bookList = value, error => console.error(error));
+    this.searchCriteria = new SearchCriteriaBuilder()
+    .withTitle(this.searchText)
+    .withGenre(this.searchGenre)
+    .withYearFrom(this.publishingYearsFrom)
+    .withYearTill(this.publishingYearsTo)
+    .build();
+
+    this.dataProviderService.findBooks(this.searchCriteria).subscribe(
+      value => {
+        this.bookList = value;
+      },
+      error => console.error(error));
     return this.bookList;
   }
 
-  onOpenDialogClick() {
+  public onOpenDialogClick(): void {
     let dialogRef = this.addBookDialog.open(BookFormComponent);
     dialogRef.componentInstance.addedBook.subscribe((addedBook: Book) => {
       this.dataProviderService.addBook(addedBook).subscribe(() => {
@@ -45,15 +64,17 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  removeBook(book: Book): void {
+  public removeBook(book: Book): void {
     this.dataProviderService.removeBook(book).subscribe(() => {
       this.dataProviderService.findBooks(this.searchCriteria).subscribe(
-        (books) => this.bookList = books)
+        books => {
+          this.bookList = books;
+        })
     });
   }
 
-  editBook(book: Book) {
-    let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
+  public editBook(book: Book): void {
+    let dialogRef = this.updateBook.open(EditBookComponent, { data: book });
     dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
       this.dataProviderService.updateBook(editedBook).subscribe(() => {
         this.bookList.push(editedBook)

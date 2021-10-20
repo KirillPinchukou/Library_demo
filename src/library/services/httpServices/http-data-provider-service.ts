@@ -1,18 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Book} from "../../model/book";
-import {DataProvider, SearchCriteria} from "../data-provider.service";
-import {HttpClient} from "@angular/common/http";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-
-type BookPredicate = (book: Book) => boolean;
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { Book } from '../../model/book';
+import { DataProvider, SearchCriteria } from '../data-provider.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpDataProvider extends DataProvider {
-  private books: Array<Book>;
 
   constructor(private httpClient: HttpClient) {
     super();
@@ -22,34 +19,31 @@ export class HttpDataProvider extends DataProvider {
     let body = searchCriteria || {};
     if (searchCriteria) {
       return this.httpClient.post<Array<Object>>(`${environment.URL}/books/search`, body)
-        .pipe(
-          map(httpResponse => {
-            console.log(httpResponse)
-            return httpResponse.map(obj => this.mapBook(obj));
-          })
-        )
+      .pipe(
+        map(httpResponse => httpResponse.map(obj => this.mapBook(obj)))
+      )
     } else {
       return this.httpClient.get<Array<Object>>(`${environment.URL}/books`)
-        .pipe(
-          map(httpResponse => httpResponse.map(obj => this.mapBook(obj)))
-        )
+      .pipe(
+        map(httpResponse => httpResponse.map(obj => this.mapBook(obj)))
+      )
     }
   }
 
-  public addBook(book: Book): Observable<Book>  {
+  public addBook(book: Book): Observable<Book> {
     return this.httpClient.post<Book>(`${environment.URL}/books`, book);
   }
 
   public removeBook(book: Book): Observable<any> {
-    return  this.httpClient.delete(`${environment.URL}/books/${book.getId()}`)
+    return this.httpClient.delete(`${environment.URL}/books/${book.getId()}`)
   }
 
   public updateBook(book: Book): Observable<any> {
-    return  this.httpClient.put(`${environment.URL}/books/${book.getId()}`,book)
+    return this.httpClient.put(`${environment.URL}/books/${book.getId()}`, book)
   }
 
-  public mapBook(obj: any): Book {
-    let book = new Book();
+  private mapBook(obj: any): Book {
+    const book = new Book();
     book.setId(parseInt(obj['id']));
     book.setTitle(obj['title']);
     book.setAuthor(obj['author']);
