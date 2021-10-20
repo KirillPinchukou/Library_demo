@@ -36,16 +36,16 @@ export class HttpDataProvider extends DataProvider {
     }
   }
 
-  public addBook(book: Book): Observable<Array<Book>>  {
-    return this.httpClient.post<Array<Book>>(`${environment.URL}/books`, book);
+  public addBook(book: Book): Observable<Book>  {
+    return this.httpClient.post<Book>(`${environment.URL}/books`, book);
   }
 
-  public removeBook(book: Book): void {
-    throw new Error('Method not implemented.');
+  public removeBook(book: Book): Observable<any> {
+    return  this.httpClient.delete(`${environment.URL}/books/${book.getId()}`)
   }
 
-  public updateBook(book: Book): void {
-    throw new Error('Method not implemented.');
+  public updateBook(book: Book): Observable<any> {
+    return  this.httpClient.put(`${environment.URL}/books/${book.getId()}`,book)
   }
 
   public mapBook(obj: any): Book {

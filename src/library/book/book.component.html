@@ -1,12 +1,15 @@
+<link rel="stylesheet" href="book.component.less">
 <div class="bookWrapper">
-  <img  class="book-cover" [src]="book?.getBookCover()">
+  <img class="book-cover" [src]="book?.getBookCover()">
   <ul class="infoList">
     <li> Title: {{book?.getTitle()}}</li>
-    <li> Genre: {{book?.getGenre() | genre}}</li>
-    <li> Author: {{book?.getAuthor()}}</li>
-    <li> Pages: {{book?.getPageNum() | custom}}</li>
-    <li> Pub house: {{book?.getPublishingHouse() }}
+    <li> Genre: {{book?.getGenre() }}</li>
+    <li> Author: {{book?.getAuthor() | genre}}</li>
+    <li> Pages: {{book?.getPageNum() | pageNum}}</li>
+    <li> Pub house: {{book?.getPublishingHouse()}}
     <li> Pub date: {{book?.getPublicationDate() | date}}
   </ul>
+  <button (click)="removeBook()">Delete</button>
+  <button (click)="editBook()">Edit</button>
 </div>
 

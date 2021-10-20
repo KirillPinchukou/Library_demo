@@ -9,12 +9,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DataProvider} from "./services/data-provider.service";
 import {BookFormComponent} from "./book-form/book-form.component";
 import {RouterModule, Routes} from "@angular/router";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {HttpDataProvider} from "./services/httpServices/http-data-provider-service";
 import {HttpClientModule} from "@angular/common/http";
-import {BookPipe, GenrePipe} from "./book/pipes/book.pipe";
+import {GenrePipe, PageNumPipe} from "./book/pipes/book.pipe";
+import {EditBookComponent} from "./edit-book/edit-book.component";
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent}
@@ -25,8 +26,9 @@ const libraryRoutes: Routes = [
     LibraryComponent,
     BookComponent,
     BookFormComponent,
-    BookPipe,
-    GenrePipe
+    PageNumPipe,
+    GenrePipe,
+    EditBookComponent
   ],
   entryComponents: [],
   imports: [
@@ -42,7 +44,7 @@ const libraryRoutes: Routes = [
     MatTooltipModule,
     HttpClientModule
   ],
-  providers: [{provide: DataProvider, useClass: HttpDataProvider}],
+  providers: [{provide: DataProvider, useClass: HttpDataProvider},{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [LibraryComponent]
 })
 

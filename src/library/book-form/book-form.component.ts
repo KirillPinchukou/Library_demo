@@ -33,6 +33,7 @@ export class BookFormComponent implements OnInit {
   submit() {
     this.addedBook.emit(this.book);
   }
+
 }
 
 

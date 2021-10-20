@@ -6,6 +6,7 @@ import {testData} from "./json";
 import {LocalStorageDataProvider} from "./services/loacal-storage-services/local-storage-data-provider.service";
 import {DataProvider} from "./services/data-provider.service";
 import {MatDialogModule} from "@angular/material/dialog";
+import {GenrePipe, PageNumPipe} from "./book/pipes/book.pipe";
 
 describe('LibraryComponent', () => {
   let component: LibraryComponent;
@@ -14,7 +15,7 @@ describe('LibraryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatDialogModule],
-      declarations: [LibraryComponent,],
+      declarations: [LibraryComponent,GenrePipe,PageNumPipe],
       providers: [{provide: DataProvider, useValue: new LocalStorageDataProvider()}],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

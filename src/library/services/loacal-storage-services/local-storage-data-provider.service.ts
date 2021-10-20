@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Book, STORAGE_NAME} from "../../model/book";
 import {DataProvider, SearchCriteria} from "../data-provider.service";
+import {Observable} from "rxjs";
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -10,13 +11,19 @@ type BookPredicate = (book: Book) => boolean;
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public findBooks(searchCriteria: SearchCriteria):  Array<Book> {
+  public findBooks(searchCriteria: SearchCriteria):  Observable <Array<Book>> {
     if (searchCriteria) {
       this.books = this.loadBooks();
       const predicates = this.composeFilter(searchCriteria);
+      return new Observable<Array<Book>>(subscriber => {
+        subscriber.next(this.books);
+      });
+    }
+    return undefined;
 
-    //  return R.filter(book => {
-      //  for (const predicate of predicates) {
+
+     // return R.filter(book => {
+     //   for (const predicate of predicates) {
      //     if (!predicate.call(this, book)) {
      //       return false;
      //     }
@@ -24,10 +31,8 @@ export class LocalStorageDataProvider extends DataProvider {
      //   return true;
      // }, this.books);
 
-  //  } else {
-      return this.books;
-    }
-  }
+   }
+
 
   private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
@@ -46,9 +51,12 @@ export class LocalStorageDataProvider extends DataProvider {
     return predicates;
   }
 
-  public addBook(book: Book): void {
-    this.books.push(book);
-    this.putDataToLocalStorage(JSON.stringify(this.books));
+  public addBook(book: Book): Observable<Book> {
+    return new Observable<Book>((subscriber) => {
+      this.books.push(book);
+      this.putDataToLocalStorage(JSON.stringify(this.books));
+      subscriber.next(book)
+    });
   }
 
   public removeBook(book: Book): void {

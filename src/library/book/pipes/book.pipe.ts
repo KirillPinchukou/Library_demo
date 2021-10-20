@@ -1,9 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'custom'
+  name: 'pageNum'
 })
-export class BookPipe implements PipeTransform {
+export class PageNumPipe implements PipeTransform {
   transform(pages:number): any {
     if(pages) {
       return pages;
