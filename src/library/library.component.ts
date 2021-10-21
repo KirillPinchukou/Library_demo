@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { BookFormComponent } from './book-form/book-form.component';
-import { EditBookComponent } from './edit-book/edit-book.component';
-import { Book, Genre } from './model/book';
-import { DataProvider, SearchCriteria, SearchCriteriaBuilder } from './services/data-provider.service';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {BookFormComponent} from './book-form/book-form.component';
+import {EditBookComponent} from './edit-book/edit-book.component';
+import {Book, Genre} from './model/book';
+import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from './services/data-provider.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { DataProvider, SearchCriteria, SearchCriteriaBuilder } from './services/
 })
 export class LibraryComponent implements OnInit {
   searchText: string = '';
-  searchGenre: Array<string>;
+  searchGenre: string;
   bookList: Array<Book>;
   genres: Array<string>;
   publishingYearsFrom: number;

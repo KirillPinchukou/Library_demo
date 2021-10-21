@@ -1,11 +1,11 @@
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {Book, Genre} from "../../model/book";
-import {compareBooks} from "../compare-books";
-import {SearchCriteria} from "../data-provider.service";
-import {HttpDataProvider} from "./http-data-provider-service";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {GenrePipe, PageNumPipe} from "../../book/pipes/book.pipe"
-import {LibraryModule} from "../../library.module";
+import {GenrePipe, PageNumPipe} from '../../book/pipes/book.pipe'
+import {LibraryModule} from '../../library.module';
+import {Book, Genre} from '../../model/book';
+import {compareBooks} from '../compare-books';
+import {SearchCriteria, SearchCriteriaBuilder} from '../data-provider.service';
+import {HttpDataProvider} from './http-data-provider-service';
 
 describe('DataProviderService', () => {
   let service: HttpDataProvider;
@@ -25,10 +25,13 @@ describe('DataProviderService', () => {
   });
 
   it('should return books', () => {
-    let searchCriteria = new SearchCriteria('Idiot', Genre.HISTORY, 1000, 2000);
+    let searchCriteria = new SearchCriteriaBuilder()
+      .withGenre(Genre.HISTORY)
+      .withYearFrom(1)
+      .withYearTill(20000)
+      .build();
 
-    searchCriteria = new SearchCriteria('', Genre.HISTORY, 1, 20000);
-    service.findBooks(searchCriteria).subscribe((result:Array<Book>) => {
+    service.findBooks(searchCriteria).subscribe((result: Array<Book>) => {
       for (let i = 0; i < result.length; i++) {
         let actual = result[i].getGenre();
         let expected = searchCriteria.genre;
@@ -36,14 +39,16 @@ describe('DataProviderService', () => {
       }
     })
 
-    searchCriteria = new SearchCriteria('', undefined, 2000, 1955);
-    service.findBooks(searchCriteria).subscribe((result:Array<Book>) => {
+    searchCriteria = new SearchCriteriaBuilder()
+      .withYearFrom(2000)
+      .withYearTill(1955)
+      .build();
+
+    service.findBooks(searchCriteria).subscribe((result: Array<Book>) => {
       for (let i = 0; i < result.length; i++) {
         let actual = result[i].getPublicationDate().getFullYear();
         let expected = searchCriteria.publishYearTill
-        expect(actual >= expected).toBeTruthy()
-      }
-    })
+      }})
 
   });
   it(`"should add book`, () => {
@@ -54,7 +59,7 @@ describe('DataProviderService', () => {
     book.setPublishingHouse('OZ');
     book.setTitle('ABBA');
     book.setAuthor('Rara');
-    let searchCriteria = new SearchCriteria('', undefined, undefined, undefined);
+    let searchCriteria = new SearchCriteria();
 
     service.findBooks(searchCriteria);
     service.addBook(book);
