@@ -26,8 +26,7 @@
   <button routerLink="/signUP" (click)="signUp()">Sign up</button>
 </div>
 
-<book
-  *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"></book>
+<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"></book>
 
 
 
