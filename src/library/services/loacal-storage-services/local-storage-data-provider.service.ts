@@ -33,6 +33,13 @@ export class LocalStorageDataProvider extends DataProvider {
 
    }
 
+   getBooks(): Observable<Array<Book>> {
+     return undefined;
+   }
+
+  getBooksById(id: number): Observable<Book> {
+     return undefined;
+   }
 
   private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
@@ -40,7 +47,8 @@ export class LocalStorageDataProvider extends DataProvider {
       predicates.push(book => book.getTitle().toLocaleLowerCase().includes(searchCriteria.title.toLocaleLowerCase()));
     }
     if (searchCriteria.genre) {
-      predicates.push(book => book.getGenre().toLocaleLowerCase() === searchCriteria.genre.toLocaleLowerCase());
+      predicates.push(book => searchCriteria.genre.includes(book.getGenre().toLocaleLowerCase()));
+
     }
     if (searchCriteria.publishYearFrom) {
       predicates.push(book => book.getPublicationDate().getFullYear() <= searchCriteria.publishYearFrom);
@@ -59,11 +67,11 @@ export class LocalStorageDataProvider extends DataProvider {
     });
   }
 
-  public removeBook(book: Book): void {
+  public removeBook(book: Book): Observable<Array<Book>> {
     throw new Error('Method not implemented.');
   }
 
-  public updateBook(book: Book): void {
+  public updateBook(book: Book): Observable<Array<Book>> {
     throw new Error('Method not implemented.');
   }
 

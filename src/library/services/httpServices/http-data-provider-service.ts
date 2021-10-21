@@ -12,16 +12,28 @@ type BookPredicate = (book: Book) => boolean;
   providedIn: 'root'
 })
 export class HttpDataProvider extends DataProvider {
-  private books: Array<Book>;
 
   constructor(private httpClient: HttpClient) {
     super();
   }
 
+  getBooks(): Observable<Array<Book>> {
+    return this.httpClient.get<Array<Book>>(`${environment.URL}/books`);
+  }
+
+  getBooksById(id: number): Observable<Book> {
+    return this.httpClient.get<Book>(`${environment.URL}/books/${id}`);
+  }
+
   public findBooks(searchCriteria: SearchCriteria): Observable<Array<Book>> {
     let body = searchCriteria || {};
+    const options = {
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    }
     if (searchCriteria) {
-      return this.httpClient.post<Array<Object>>(`${environment.URL}/books/search`, body)
+      return this.httpClient.post<Array<Object>>(`${environment.URL}/books/search`, body, options)
         .pipe(
           map(httpResponse => {
             console.log(httpResponse)
@@ -29,7 +41,7 @@ export class HttpDataProvider extends DataProvider {
           })
         )
     } else {
-      return this.httpClient.get<Array<Object>>(`${environment.URL}/books`)
+      return this.httpClient.get<Array<Book>>(`${environment.URL}/books`)
         .pipe(
           map(httpResponse => httpResponse.map(obj => this.mapBook(obj)))
         )

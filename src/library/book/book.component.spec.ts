@@ -8,7 +8,7 @@ describe('LibraryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BookComponent,PageNumPipe,GenrePipe],
+      declarations: [BookComponent, PageNumPipe, GenrePipe],
     }).compileComponents();
   });
 

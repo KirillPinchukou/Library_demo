@@ -13,7 +13,7 @@ import {EditBookComponent} from "./edit-book/edit-book.component";
 })
 export class LibraryComponent implements OnInit {
   searchText: string = '';
-  searchGenre: string;
+  searchGenre: Array<string>;
   bookList: Array<Book>;
   genres: Array<string>;
   publishingYearsFrom: number;
@@ -56,7 +56,6 @@ export class LibraryComponent implements OnInit {
     let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
     dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
       this.dataProviderService.updateBook(editedBook).subscribe(() => {
-        this.bookList.push(editedBook)
       });
     });
   }

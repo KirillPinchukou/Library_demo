@@ -27,7 +27,7 @@ describe('DataProviderService', () => {
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
 
-    let searchCriteria = new SearchCriteria('Idiot', Genre.HISTORY, 1000, 2000);
+    let searchCriteria = new SearchCriteria('Idiot', ['HISTORY'], 1000, 2000);
     service.findBooks(searchCriteria).subscribe((result) => {
       for (let i = 0; i < result.length; i++) {
         let actual = result[i].getTitle();
@@ -35,12 +35,12 @@ describe('DataProviderService', () => {
         expect(actual).toEqual(expected)
     }});
 
-    searchCriteria = new SearchCriteria('', Genre.HISTORY, 1, 20000);
+    searchCriteria = new SearchCriteria('',  ['HISTORY', 'HUMOR'], 1, 20000);
     service.findBooks(searchCriteria).subscribe((result) =>{
       for (let i = 0; i < result.length; i++) {
         let actual = result[i].getGenre();
-        let expected = searchCriteria.genre;
-        expect(actual).toEqual(expected)
+        let expected = searchCriteria.genre.includes(actual);
+        expect(expected).toBeTruthy()
       }
     });
 
