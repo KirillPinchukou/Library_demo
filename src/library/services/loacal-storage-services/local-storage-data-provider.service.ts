@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Book, STORAGE_NAME} from "../../model/book";
-import {DataProvider, SearchCriteria} from "../data-provider.service";
-import {Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import * as R from 'ramda';
+import { Observable } from "rxjs";
+import { Book, STORAGE_NAME } from "../../model/book";
+import { DataProvider, SearchCriteria } from "../data-provider.service";
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -11,35 +12,33 @@ type BookPredicate = (book: Book) => boolean;
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public findBooks(searchCriteria: SearchCriteria):  Observable <Array<Book>> {
-    if (searchCriteria) {
-      this.books = this.loadBooks();
-      const predicates = this.composeFilter(searchCriteria);
-      return new Observable<Array<Book>>(subscriber => {
-        subscriber.next(this.books);
-      });
-    }
-    return undefined;
+  public findBooks(searchCriteria: SearchCriteria): Observable<Array<Book>> {
+    return new Observable<Array<Book>>(subscriber => {
+      let books = this.loadBooks();
+      if (searchCriteria) {
+        const predicates = this.composeFilter(searchCriteria);
+        const filtered = R.filter(book => {
+          for (const predicate of predicates) {
+            if (!predicate.call(this, book)) {
+              return false;
+            }
+          }
+          return true;
+        }, books);
+        subscriber.next(filtered);
+      } else {
+        subscriber.next(books);
+      }
+    });
+  }
 
-
-     // return R.filter(book => {
-     //   for (const predicate of predicates) {
-     //     if (!predicate.call(this, book)) {
-     //       return false;
-     //     }
-     //   }
-     //   return true;
-     // }, this.books);
-
-   }
-
-   getBooks(): Observable<Array<Book>> {
-     return undefined;
-   }
+  getBooks(): Observable<Array<Book>> {
+    return new Observable(subscriber => subscriber.next([]));
+  }
 
   getBooksById(id: number): Observable<Book> {
-     return undefined;
-   }
+    return new Observable(subscriber => subscriber.next(null));
+  }
 
   private composeFilter(searchCriteria: SearchCriteria) {
     let predicates: Array<BookPredicate> = [];
@@ -101,7 +100,7 @@ export class LocalStorageDataProvider extends DataProvider {
     let tmpClients: Array<any> = JSON.parse(this.getDataFromLocalStorage());
     return tmpClients.map((obj: any) => this.mapBook(obj));
   }
-  }
+}
 
 
 
