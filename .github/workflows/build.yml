@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - imlementing_pagination_and_sorting
 
 jobs:
   build:
