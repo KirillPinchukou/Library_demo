@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {DataProvider} from "../services/data-provider.service";
-import {Book, Genre} from "../model/book";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Book, Genre } from '../model/book';
 
 @Component({
   selector: 'book-form',
@@ -10,30 +9,27 @@ import {Book, Genre} from "../model/book";
 })
 export class BookFormComponent implements OnInit {
   form: FormGroup;
-  geners:Array<any>;
+  genres: Array<any>;
 
   @Input() book?: Book = new Book();
   @Output() addedBook = new EventEmitter<Book>();
 
-  constructor(private dataProviderService: DataProvider) {
-    this.geners = Object.keys(Genre)
+  constructor() {
+    this.genres = Object.keys(Genre)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.minLength(2)]),
       genre: new FormControl('', [Validators.required]),
       author: new FormControl('', [Validators.minLength(4)]),
       publishingHouse: new FormControl('', [Validators.minLength(2)]),
-      pageNum: new FormControl('', Validators.pattern("^[0-9]*$")),
+      pageNum: new FormControl('', Validators.pattern('^[0-9]*$')),
       publicationDate: new FormControl('', Validators.required)
     });
   }
 
-  submit() {
+  public submit(): void {
     this.addedBook.emit(this.book);
   }
 }
-
-
-

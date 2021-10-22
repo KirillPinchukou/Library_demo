@@ -1,23 +1,17 @@
+export const USER_STORAGE_NAME = 'users';
+
 export class Client {
-  private id: number;
-  private name: string;
-  private mail: string;
-  private address: string;
-  private phoneNumber: string;
+  public id: number;
+  public name: string;
+  public mail: string;
+  public address: string;
+  public phoneNumber: string;
 
-  constructor(clientId: number, address: string, phoneNumber: string, mail: string, name: string) {
-    this.id = clientId;
-    this.name = name;
-    this.mail = mail;
-    this.address = address
-    this.phoneNumber = phoneNumber;
-  }
-
-  getClientId(): number {
+  getId(): number {
     return this.id;
   }
 
-  setClientId(value: number) {
+  setId(value: number) {
     this.id = value;
   }
 

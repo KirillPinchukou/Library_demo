@@ -1,5 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {BookComponent} from "./book.component";
+import {GenrePipe, PageNumPipe} from "./pipes/book.pipe";
 
 describe('LibraryComponent', () => {
   let component: BookComponent;
@@ -7,7 +8,7 @@ describe('LibraryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BookComponent],
+      declarations: [BookComponent, PageNumPipe, GenrePipe],
     }).compileComponents();
   });
 

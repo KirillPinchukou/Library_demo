@@ -7,7 +7,7 @@ import {STORAGE_NAME} from "./library/model/book";
 
 if( localStorage.getItem(STORAGE_NAME) == null){
   localStorage.setItem(STORAGE_NAME,BOOK_STOARGE)
- }
+}
 
 if (environment.production) {
   enableProdMode();

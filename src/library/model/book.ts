@@ -2,9 +2,29 @@ export const STORAGE_NAME = 'library';
 export const TEST_STORAGE_NAME = 'test';
 
 export enum Genre {
-  Fantasy = 'fantasy',
-  Sadness = 'sadness',
-  History = 'history',
+  ACTION ='ACTION',
+  AUTOBIOGRAPHY = 'AUTOBIOGRAPHY',
+  BIOGRAPHY = 'BIOGRAPHY',
+  CLASSICS = 'CLASSICS',
+  COMICS = 'COMICS',
+  COOKBOOK = 'COOKBOOK',
+  CRIME = 'CRIME',
+  DETECTIVE = 'DETECTIVE',
+  DIARY = 'DIARY',
+  DICTIONARY = 'DICTIONARY',
+  DRAMA = 'DRAMA',
+  ECONOMICS = 'ECONOMICS',
+  FANTASY = 'FANTASY',
+  HISTORY = 'HISTORY',
+  HORROR = 'HORROR',
+  HUMOR = 'HUMOR',
+  MYSTERY = 'MYSTERY',
+  PHILOSOPHY = 'PHILOSOPHY',
+  ROMANCE = 'ROMANCE',
+  SCIENCE = 'SCIENCE',
+  SCIFI = 'SCIFI',
+  THRILLER = 'THRILLER',
+  WESTERN = 'WESTERN',
 }
 
 export class Book {

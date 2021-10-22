@@ -23,10 +23,10 @@
          [(ngModel)]="publishingYearsTo" placeholder="Enter text to search"
          autofocus>
   <button (click)="searchBooks()">Search</button>
+  <button routerLink="/signUP" (click)="signUp()">Sign up</button>
 </div>
 
-<book
-  *ngFor="let book of bookList " [book]="book"></book>
+<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"></book>
 
 
 
