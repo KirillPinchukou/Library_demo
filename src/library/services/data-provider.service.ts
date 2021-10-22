@@ -1,9 +1,13 @@
-import {Observable} from "rxjs";
-import {Book} from "../model/book";
+import { Observable } from "rxjs";
+import { Book } from "../model/book";
 
 
 export abstract class DataProvider {
-  abstract findBooks(criteria: SearchCriteria): Observable <Array<Book>>;
+  abstract getBooks(): Observable<Array<Book>>;
+
+  abstract getBooksById(id: number): Observable<Book>;
+
+  abstract findBooks(criteria: SearchCriteria): Observable<Array<Book>>;
 
   abstract addBook(book: Book): Observable<Book>;
 
@@ -25,7 +29,7 @@ export class SearchCriteria {
 export class SearchCriteriaBuilder {
   private title: string;
   private author: string;
-  public genre: Array<string>;
+  private genre: Array<string>;
   private note: string;
   private publisher: string;
   private publishYearTill: number;
@@ -43,7 +47,7 @@ export class SearchCriteriaBuilder {
 
   public withGenre(genre: string): SearchCriteriaBuilder {
     if (genre) {
-      if (!!genre){
+      if (!!this.genre) {
         this.genre = [];
       }
       this.genre.push(genre);
@@ -79,10 +83,8 @@ export class SearchCriteriaBuilder {
     if (this.author) {
       criteria.author = this.author;
     }
-    if (this.genre){
-      if (this.genre.length > 0) {
-        criteria.genre = this.genre;
-      }
+    if (this.genre && this.genre.length > 0) {
+      criteria.genre = this.genre;
     }
     if (this.note) {
       criteria.note = this.note;
