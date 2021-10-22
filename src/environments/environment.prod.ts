@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
-};
+  production: false,
+   URL : `http://scw000112219:8082/api/library`,
+}
