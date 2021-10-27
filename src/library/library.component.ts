@@ -19,6 +19,11 @@ export class LibraryComponent implements OnInit {
   publishingYearsFrom: number;
   publishingYearsTo: number;
   searchCriteria: SearchCriteria;
+  booksPerPage: number = 20;
+  currentPage: number = 0;
+  totalBookAmount: number;
+  currentFilter: string = 'id';
+  filterOrder: string = 'ASC';
 
   constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog) {
     this.genres = Object.keys(Genre)
@@ -26,33 +31,42 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit() {
     this.searchCriteria = new SearchCriteriaBuilder()
-    .withTitle(this.searchText)
-    .withGenre(this.searchGenre)
-    .withYearFrom(this.publishingYearsFrom)
-    .withYearTill(this.publishingYearsTo)
-    .build();
+      .withTitle(this.searchText)
+      .withGenre(this.searchGenre)
+      .withYearFrom(this.publishingYearsFrom)
+      .withYearTill(this.publishingYearsTo)
+      .withPagination(this.currentPage, this.booksPerPage)
+      .build();
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value;
+        this.bookList = value.result.map(obj => this.mapBook(obj));
+        this.totalBookAmount = value.total
       },
       error => console.error(error));
   }
 
-  public searchBooks(): Array<Book> {
+  public searchBooks (currentPage: number): void {
+    this.currentPage = 0;
+    this.doSearch(this.currentPage);
+    this.doSearch(this.currentPage);
+  }
+
+  public doSearch(currentPage: number): void {
     this.searchCriteria = new SearchCriteriaBuilder()
-    .withTitle(this.searchText)
-    .withGenre(this.searchGenre)
-    .withYearFrom(this.publishingYearsFrom)
-    .withYearTill(this.publishingYearsTo)
-    .build();
+      .withTitle(this.searchText)
+      .withGenre(this.searchGenre)
+      .withYearFrom(this.publishingYearsFrom)
+      .withYearTill(this.publishingYearsTo)
+      .withPagination(currentPage, this.booksPerPage)
+      .withSort(this.currentFilter,this.filterOrder)
+      .build();
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value;
+        this.bookList = value.result.map(obj => this.mapBook(obj));
       },
       error => console.error(error));
-    return this.bookList;
   }
 
   public onOpenDialogClick(): void {
@@ -68,17 +82,58 @@ export class LibraryComponent implements OnInit {
     this.dataProviderService.removeBook(book).subscribe(() => {
       this.dataProviderService.findBooks(this.searchCriteria).subscribe(
         books => {
-          this.bookList = books;
+          this.bookList = books.result;
         })
     });
   }
 
   public editBook(book: Book): void {
-    let dialogRef = this.updateBook.open(EditBookComponent, { data: book });
+    let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
     dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
       this.dataProviderService.updateBook(editedBook).subscribe(() => {
       });
     });
+  }
+
+  public nextPage(): void {
+    if (this.totalBookAmount > (this.currentPage + 1) * this.booksPerPage && this.bookList.length >= (this.currentPage + 1) * this.booksPerPage) {
+      this.currentPage++;
+      this.doSearch(this.currentPage);
+    }
+  }
+
+  public previosPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.doSearch(this.currentPage);
+    }
+  }
+
+  public changeOrder(): void {
+   if (this.filterOrder === 'ASC') {
+     this.filterOrder = 'DESC'
+   } else {
+     this.filterOrder = 'ASC'
+   }
+    this.doSearch(this.currentPage);
+  }
+
+  public setFilter(filterName: string): void {
+
+  }
+
+  private mapBook(obj: any): Book {
+    let book = new Book();
+    book.setId(parseInt(obj['id']));
+    book.setTitle(obj['title']);
+    book.setAuthor(obj['author']);
+    book.setGenre(obj['genre']);
+    book.setPublishingHouse(obj['publishingHouse']);
+    book.setPageNum(parseInt(obj['pageNum']));
+    book.setBookCover(obj['bookCover']);
+    let date = new Date(Date.parse(obj['publicationDate']));
+    book.setPublicationDate(date);
+    return book;
   }
 
   public signUp() {

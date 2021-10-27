@@ -1,19 +1,35 @@
-import { Observable } from "rxjs";
-import { Book } from "../model/book";
+import {Observable} from 'rxjs';
+import {Book} from '../model/book';
 
+export interface PageResult {
+  result: Array<Book>;
+  page: number;
+  size: number;
+  total: number;
+}
 
 export abstract class DataProvider {
   abstract getBooks(): Observable<Array<Book>>;
 
   abstract getBooksById(id: number): Observable<Book>;
 
-  abstract findBooks(criteria: SearchCriteria): Observable<Array<Book>>;
+  abstract findBooks(criteria: SearchCriteria): Observable<PageResult>;
 
   abstract addBook(book: Book): Observable<Book>;
 
   abstract removeBook(book: Book): Observable<any>;
 
   abstract updateBook(book: Book): Observable<any>;
+}
+
+export class Pagination {
+  public size: number;
+  public index: number;
+}
+
+export class Sort {
+  public name: string;
+  public order: string;
 }
 
 export class SearchCriteria {
@@ -24,6 +40,8 @@ export class SearchCriteria {
   public publisher: string;
   public publishYearTill: number;
   public publishYearFrom: number;
+  public page: Pagination;
+  public sort: Sort;
 }
 
 export class SearchCriteriaBuilder {
@@ -34,6 +52,8 @@ export class SearchCriteriaBuilder {
   private publisher: string;
   private publishYearTill: number;
   private publishYearFrom: number;
+  private sort: Sort;
+  private page: Pagination;
 
   public withTitle(title: string): SearchCriteriaBuilder {
     this.title = title;
@@ -47,7 +67,7 @@ export class SearchCriteriaBuilder {
 
   public withGenre(genre: string): SearchCriteriaBuilder {
     if (genre) {
-      if (!!this.genre) {
+      if (!this.genre) {
         this.genre = [];
       }
       this.genre.push(genre);
@@ -75,6 +95,24 @@ export class SearchCriteriaBuilder {
     return this;
   }
 
+  public withPagination(index: number, size: number): SearchCriteriaBuilder {
+    if (!this.page) {
+      this.page = new Pagination()
+    }
+    this.page.size = size;
+    this.page.index = index;
+    return this;
+  }
+
+  public withSort(name: string, order: string): SearchCriteriaBuilder {
+    if (!this.sort) {
+      this.sort = new Sort();
+    }
+    this.sort.order = order;
+    this.sort.name = name;
+    return this;
+  }
+
   public build(): SearchCriteria {
     const criteria = new SearchCriteria();
     if (this.title) {
@@ -97,6 +135,12 @@ export class SearchCriteriaBuilder {
     }
     if (this.publishYearTill) {
       criteria.publishYearTill = this.publishYearTill;
+    }
+    if (this.sort) {
+      criteria.sort = this.sort;
+    }
+    if (this.page) {
+      criteria.page = this.page;
     }
     return criteria;
   }

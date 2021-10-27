@@ -7,8 +7,49 @@
   border-radius: 5px;
 }
 
+.filter {
+  width: 8%;
+  display: flex;
+  flex-direction: column;
+}
+
+.switch-toggle input:checked + label {
+  background: green;
+  border-radius: 25px;
+}
+
+.switch-toggle {
+  margin-top: 10px;
+  width: 95px;
+  float: left;
+  background: darkgray;
+  margin-right: 10px;
+  border-radius: 15px;
+}
+
+.switch-toggle input {
+  margin-top: 10px;
+  position: absolute;
+  float: left;
+  opacity: 0;
+}
+
+.switch-toggle input + label {
+  padding: 8px;
+  float: left;
+  color: #fff;
+  cursor: pointer;
+}
+
+.filter {
+  padding: 70px;
+  margin-bottom: 1%;
+}
+
 .form-group {
   display: flex;
+  position: fixed;
+  width: 100%;
   align-items: center;
   justify-content: right;
   margin-bottom: 2em;

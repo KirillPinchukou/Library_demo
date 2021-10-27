@@ -22,11 +22,40 @@
   <input type="text" class="form-control" id="search-year-to"
          [(ngModel)]="publishingYearsTo" placeholder="Enter text to search"
          autofocus>
-  <button (click)="searchBooks()">Search</button>
+  <button (click)="searchBooks(currentPage)">Search</button>
   <button routerLink="/signUP" (click)="signUp()">Sign up</button>
+
+  <label for="book-per-page">Book per page</label>
+  <select [(ngModel)]="booksPerPage" name="book-per-page" id="book-per-page">
+    <option [value]="20" label="20"></option>
+    <option [value]="30" label="30"></option>
+    <option [value]="40" label="40"></option>
+  </select>
+  <div> Current page: {{currentPage + 1}}</div>
+  <button (click)="previosPage()">Previos page</button>
+  <button (click)="nextPage()">Next page</button>
+
+</div>
+<div class="filter">
+  <label for="filter">Sort by</label>
+  <select [(ngModel)]="currentFilter" (click)=searchBooks(currentPage) name="filter" id="filter">
+    <option [value]="" label="title">title</option>
+    <option [value]="" label="genre">genre</option>
+    <option [value]="" label="publication Date">publicationDate</option>
+    <option [value]="" label="publishing House">publishingHouse</option>
+  </select>
+
+  <div class="switch-toggle switch-3 switch-candy">
+    <input id="on" (click)="changeOrder()" name="state-d" type="radio" checked=""/>
+    <label for="on">Asc</label>
+
+    <input id="off" (click)="changeOrder()" name="state-d" type="radio"/>
+    <label for="off">Desc</label>
+  </div>
 </div>
 
-<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"></book>
+<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)"
+      (editedBook)="editBook($event)"></book>
 
 
 
