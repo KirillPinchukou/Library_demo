@@ -49,13 +49,17 @@ export class HttpDataProvider extends DataProvider {
       return this.httpClient.post<PageResult>(`${environment.URL}/books/search`, body, optionsPost)
       .pipe(
         map(httpResponse => {
-          return httpResponse;
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+           return httpResponse;
         })
       )
     } else {
       return this.httpClient.get<PageResult>(`${environment.URL}/books`)
       .pipe(
-        map(httpResponse => httpResponse))
+        map(httpResponse => {
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+          return httpResponse;
+        }))
     }
   }
 
@@ -71,7 +75,19 @@ export class HttpDataProvider extends DataProvider {
     return this.httpClient.put(`${environment.URL}/books/${book.getId()}`, book, this.optionsPost)
   }
 
-
+  private mapBook(obj: any): Book {
+    let book = new Book();
+    book.setId(parseInt(obj['id']));
+    book.setTitle(obj['title']);
+    book.setAuthor(obj['author']);
+    book.setGenre(obj['genre']);
+    book.setPublishingHouse(obj['publishingHouse']);
+    book.setPageNum(parseInt(obj['pageNum']));
+    book.setBookCover(obj['bookCover']);
+    let date = new Date(Date.parse(obj['publicationDate']));
+    book.setPublicationDate(date);
+    return book;
+  }
 }
 
 interface PageResult {

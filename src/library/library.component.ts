@@ -40,7 +40,7 @@ export class LibraryComponent implements OnInit {
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value.result.map(obj => this.mapBook(obj));
+        this.bookList = value.result;
         this.totalBookAmount = value.total
       },
       error => console.error(error));
@@ -48,7 +48,6 @@ export class LibraryComponent implements OnInit {
 
   public searchBooks(currentPage: number): void {
     this.currentPage = 0;
-    this.doSearch(this.currentPage);
     this.doSearch(this.currentPage);
   }
 
@@ -64,7 +63,8 @@ export class LibraryComponent implements OnInit {
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value.result.map(obj => this.mapBook(obj));
+        this.bookList = value.result;
+        this.totalBookAmount = value.total
       },
       error => console.error(error));
   }
@@ -73,7 +73,8 @@ export class LibraryComponent implements OnInit {
     let dialogRef = this.addBookDialog.open(BookFormComponent);
     dialogRef.componentInstance.addedBook.subscribe((addedBook: Book) => {
       this.dataProviderService.addBook(addedBook).subscribe(() => {
-        this.bookList.push(addedBook)
+        this.bookList.push(addedBook);
+        this.doSearch(this.currentPage);
       });
     });
   }
@@ -81,8 +82,8 @@ export class LibraryComponent implements OnInit {
   public removeBook(book: Book): void {
     this.dataProviderService.removeBook(book).subscribe(() => {
       this.dataProviderService.findBooks(this.searchCriteria).subscribe(
-        books => {
-          this.bookList = books.result;
+        value => {
+          this.bookList = value.result;
         })
     });
   }
@@ -91,6 +92,7 @@ export class LibraryComponent implements OnInit {
     let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
     dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
       this.dataProviderService.updateBook(editedBook).subscribe(() => {
+        this.doSearch(this.currentPage);
       });
     });
   }
@@ -119,24 +121,6 @@ export class LibraryComponent implements OnInit {
       this.doSearch(this.currentPage);
     }
 
-  }
-
-  public setFilter(filterName: string): void {
-
-  }
-
-  private mapBook(obj: any): Book {
-    let book = new Book();
-    book.setId(parseInt(obj['id']));
-    book.setTitle(obj['title']);
-    book.setAuthor(obj['author']);
-    book.setGenre(obj['genre']);
-    book.setPublishingHouse(obj['publishingHouse']);
-    book.setPageNum(parseInt(obj['pageNum']));
-    book.setBookCover(obj['bookCover']);
-    let date = new Date(Date.parse(obj['publicationDate']));
-    book.setPublicationDate(date);
-    return book;
   }
 
   public signUp() {
