@@ -46,7 +46,7 @@ export class LibraryComponent implements OnInit {
       error => console.error(error));
   }
 
-  public searchBooks (currentPage: number): void {
+  public searchBooks(currentPage: number): void {
     this.currentPage = 0;
     this.doSearch(this.currentPage);
     this.doSearch(this.currentPage);
@@ -59,7 +59,7 @@ export class LibraryComponent implements OnInit {
       .withYearFrom(this.publishingYearsFrom)
       .withYearTill(this.publishingYearsTo)
       .withPagination(currentPage, this.booksPerPage)
-      .withSort(this.currentFilter,this.filterOrder)
+      .withSort(this.currentFilter, this.filterOrder)
       .build();
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
@@ -110,12 +110,15 @@ export class LibraryComponent implements OnInit {
   }
 
   public changeOrder(): void {
-   if (this.filterOrder === 'ASC') {
-     this.filterOrder = 'DESC'
-   } else {
-     this.filterOrder = 'ASC'
-   }
-    this.doSearch(this.currentPage);
+    if (!(this.currentFilter === 'id')){
+      if (this.filterOrder === 'ASC') {
+        this.filterOrder = 'DESC'
+      } else {
+        this.filterOrder = 'ASC'
+      }
+      this.doSearch(this.currentPage);
+    }
+
   }
 
   public setFilter(filterName: string): void {
