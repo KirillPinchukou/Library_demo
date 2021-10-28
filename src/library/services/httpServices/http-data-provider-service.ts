@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { Book } from '../../model/book';
-import { DataProvider, SearchCriteria } from '../data-provider.service';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {Book} from '../../model/book';
+import {DataProvider, SearchCriteria} from '../data-provider.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class HttpDataProvider extends DataProvider {
     return this.httpClient.get<Book>(`${environment.URL}/books/${id}`, this.optionsGet);
   }
 
-  public findBooks(searchCriteria: SearchCriteria): Observable<Array<Book>> {
+  public findBooks(searchCriteria: SearchCriteria): Observable<PageResult> {
     const optionsPost = {
       headers: {
         'Content-Type': 'application/json',
@@ -45,18 +46,20 @@ export class HttpDataProvider extends DataProvider {
 
     let body = searchCriteria || {};
     if (searchCriteria) {
-      return this.httpClient.post<Array<Object>>(`${environment.URL}/books/search`, body, optionsPost)
+      return this.httpClient.post<PageResult>(`${environment.URL}/books/search`, body, optionsPost)
       .pipe(
         map(httpResponse => {
-          console.log(httpResponse)
-          return httpResponse.map(obj => this.mapBook(obj));
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+           return httpResponse;
         })
       )
     } else {
-      return this.httpClient.get<Array<Book>>(`${environment.URL}/books`)
+      return this.httpClient.get<PageResult>(`${environment.URL}/books`)
       .pipe(
-        map(httpResponse => httpResponse.map(obj => this.mapBook(obj)))
-      )
+        map(httpResponse => {
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+          return httpResponse;
+        }))
     }
   }
 
@@ -87,7 +90,12 @@ export class HttpDataProvider extends DataProvider {
   }
 }
 
-
+interface PageResult {
+  result: Array<Book>;
+  page: number;
+  size: number;
+  total: number;
+}
 
 
 

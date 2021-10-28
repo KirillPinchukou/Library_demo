@@ -19,6 +19,11 @@ export class LibraryComponent implements OnInit {
   publishingYearsFrom: number;
   publishingYearsTo: number;
   searchCriteria: SearchCriteria;
+  booksPerPage: number = 20;
+  currentPage: number = 0;
+  totalBookAmount: number;
+  currentFilter: string = 'id';
+  filterOrder: string = 'ASC';
 
   constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog) {
     this.genres = Object.keys(Genre)
@@ -26,40 +31,50 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit() {
     this.searchCriteria = new SearchCriteriaBuilder()
-    .withTitle(this.searchText)
-    .withGenre(this.searchGenre)
-    .withYearFrom(this.publishingYearsFrom)
-    .withYearTill(this.publishingYearsTo)
-    .build();
+      .withTitle(this.searchText)
+      .withGenre(this.searchGenre)
+      .withYearFrom(this.publishingYearsFrom)
+      .withYearTill(this.publishingYearsTo)
+      .withPagination(this.currentPage, this.booksPerPage)
+      .build();
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value;
+        this.bookList = value.result;
+        this.totalBookAmount = value.total
       },
       error => console.error(error));
   }
 
-  public searchBooks(): Array<Book> {
+  public searchBooks(currentPage: number): void {
+    this.currentPage = 0;
+    this.doSearch(this.currentPage);
+  }
+
+  public doSearch(currentPage: number): void {
     this.searchCriteria = new SearchCriteriaBuilder()
-    .withTitle(this.searchText)
-    .withGenre(this.searchGenre)
-    .withYearFrom(this.publishingYearsFrom)
-    .withYearTill(this.publishingYearsTo)
-    .build();
+      .withTitle(this.searchText)
+      .withGenre(this.searchGenre)
+      .withYearFrom(this.publishingYearsFrom)
+      .withYearTill(this.publishingYearsTo)
+      .withPagination(currentPage, this.booksPerPage)
+      .withSort(this.currentFilter, this.filterOrder)
+      .build();
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
-        this.bookList = value;
+        this.bookList = value.result;
+        this.totalBookAmount = value.total
       },
       error => console.error(error));
-    return this.bookList;
   }
 
   public onOpenDialogClick(): void {
     let dialogRef = this.addBookDialog.open(BookFormComponent);
     dialogRef.componentInstance.addedBook.subscribe((addedBook: Book) => {
       this.dataProviderService.addBook(addedBook).subscribe(() => {
-        this.bookList.push(addedBook)
+        this.bookList.push(addedBook);
+        this.doSearch(this.currentPage);
       });
     });
   }
@@ -67,18 +82,45 @@ export class LibraryComponent implements OnInit {
   public removeBook(book: Book): void {
     this.dataProviderService.removeBook(book).subscribe(() => {
       this.dataProviderService.findBooks(this.searchCriteria).subscribe(
-        books => {
-          this.bookList = books;
+        value => {
+          this.bookList = value.result;
         })
     });
   }
 
   public editBook(book: Book): void {
-    let dialogRef = this.updateBook.open(EditBookComponent, { data: book });
+    let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
     dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
       this.dataProviderService.updateBook(editedBook).subscribe(() => {
+        this.doSearch(this.currentPage);
       });
     });
+  }
+
+  public nextPage(): void {
+    if (this.totalBookAmount > (this.currentPage + 1) * this.booksPerPage && this.bookList.length >= (this.currentPage + 1) * this.booksPerPage) {
+      this.currentPage++;
+      this.doSearch(this.currentPage);
+    }
+  }
+
+  public previosPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.doSearch(this.currentPage);
+    }
+  }
+
+  public changeOrder(): void {
+    if (!(this.currentFilter === 'id')){
+      if (this.filterOrder === 'ASC') {
+        this.filterOrder = 'DESC'
+      } else {
+        this.filterOrder = 'ASC'
+      }
+      this.doSearch(this.currentPage);
+    }
+
   }
 
   public signUp() {
