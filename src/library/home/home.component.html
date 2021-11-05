@@ -1,5 +1,5 @@
 <div class="form-group">
-  <button id="add-book-button" (click)="onOpenDialogClick()">Add book</button>
+
   <label for="search-text">Search Text</label>
   <input type="text" class="form-control" id="search-text"
          [(ngModel)]="searchText" placeholder="Enter text to search"
@@ -54,8 +54,9 @@
   </div>
 </div>
 
-<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)"
-      (editedBook)="editBook($event)"></book>
+<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"
+     ></book>
+
 
 
 

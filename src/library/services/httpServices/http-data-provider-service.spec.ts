@@ -1,7 +1,7 @@
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {GenrePipe, PageNumPipe} from '../../book/pipes/book.pipe'
-import {LibraryModule} from '../../library.module';
+import {LibraryModule} from '../../../library.module';
 import {Book, Genre} from '../../model/book';
 import {compareBooks} from '../compare-books';
 import {SearchCriteria, SearchCriteriaBuilder} from '../data-provider.service';
@@ -58,7 +58,7 @@ describe('DataProviderService', () => {
     book.setPublicationDate(new Date());
     book.setPublishingHouse('OZ');
     book.setTitle('ABBA');
-    book.setAuthor('Rara');
+    book.setAuthorId('Rara');
     let searchCriteria = new SearchCriteria();
 
     service.findBooks(searchCriteria);

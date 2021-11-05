@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as R from 'ramda';
-import { Observable } from "rxjs";
-import { Book, STORAGE_NAME } from "../../model/book";
-import { DataProvider, SearchCriteria } from "../data-provider.service";
+import {Observable} from 'rxjs';
+import {Book, STORAGE_NAME} from '../../model/book';
+import {DataProvider, SearchCriteria} from '../data-provider.service';
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -78,7 +78,7 @@ export class LocalStorageDataProvider extends DataProvider {
     let book = new Book();
     book.setId(parseInt(obj['id']));
     book.setTitle(obj['title']);
-    book.setAuthor(obj['author']);
+    book.setAuthorId(obj['author']);
     book.setGenre(obj['genre']);
     book.setPublishingHouse(obj['publishingHouse']);
     book.setPageNum(parseInt(obj['pageNum']));

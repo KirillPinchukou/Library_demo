@@ -1,8 +1,15 @@
 import {Observable} from 'rxjs';
 import {Book} from '../model/book';
+import {Author} from '../model/author';
 
-export interface PageResult {
+export interface BookResult {
   result: Array<Book>;
+  page: number;
+  size: number;
+  total: number;
+}
+export interface AuthorResult {
+  result: Array<Author>;
   page: number;
   size: number;
   total: number;
@@ -13,13 +20,21 @@ export abstract class DataProvider {
 
   abstract getBooksById(id: number): Observable<Book>;
 
-  abstract findBooks(criteria: SearchCriteria): Observable<PageResult>;
+  abstract getAuthors() :Observable<Array<Author>>;
+
+  abstract findBooks(criteria: SearchCriteria): Observable<BookResult>;
 
   abstract addBook(book: Book): Observable<Book>;
 
   abstract removeBook(book: Book): Observable<any>;
 
   abstract updateBook(book: Book): Observable<any>;
+
+  abstract findAuthors(searchText: string): Observable<Array<Author>>;
+
+  abstract addAuthor(author: Author): Observable<Author>;
+
+  abstract getAuthorById(id: number): Observable<Author>;
 }
 
 export class Pagination {

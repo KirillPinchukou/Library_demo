@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Book, Genre } from '../model/book';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Book, Genre} from '../model/book';
+import {DataProvider} from '../services/data-provider.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'edit-book',
@@ -13,9 +15,8 @@ export class EditBookComponent implements OnInit {
   genres: Array<any>;
 
   @Input() book?: Book;
-  @Output() editedBook = new EventEmitter<Book>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Book) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Book,private dataProviderService: DataProvider, private router: Router) {
     this.book = this.data;
     this.genres = Object.keys(Genre)
   }
@@ -32,7 +33,10 @@ export class EditBookComponent implements OnInit {
   }
 
   public submit(): void {
-    this.editedBook.emit(this.data);
+    this.dataProviderService.updateBook(this.book).subscribe(() => {
+      this.router.navigate(['/home']);
+    });
+
   }
 }
 

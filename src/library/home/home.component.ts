@@ -1,17 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {BookFormComponent} from './book-form/book-form.component';
-import {EditBookComponent} from './edit-book/edit-book.component';
-import {Book, Genre} from './model/book';
-import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from './services/data-provider.service';
-
+import {Book, Genre} from '../model/book';
+import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from '../services/data-provider.service';
+import {Author} from '../model/author';
 
 @Component({
   selector: 'library-root',
-  templateUrl: './library.component.html',
-  styleUrls: ['./library.component.less']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.less']
 })
-export class LibraryComponent implements OnInit {
+export class HomeComponent implements OnInit {
   searchText: string = '';
   searchGenre: string;
   bookList: Array<Book>;
@@ -24,12 +22,17 @@ export class LibraryComponent implements OnInit {
   totalBookAmount: number;
   currentFilter: string = 'id';
   filterOrder: string = 'ASC';
+  authorList: Array<Author>;
 
   constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog) {
     this.genres = Object.keys(Genre)
   }
 
   ngOnInit() {
+    this.dataProviderService.getAuthors().subscribe((result) => {
+      this.authorList = result;
+      console.log('reciveA', result);
+    })
     this.searchCriteria = new SearchCriteriaBuilder()
       .withTitle(this.searchText)
       .withGenre(this.searchGenre)
@@ -41,7 +44,7 @@ export class LibraryComponent implements OnInit {
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(
       value => {
         this.bookList = value.result;
-        this.totalBookAmount = value.total
+        this.totalBookAmount = value.total;
       },
       error => console.error(error));
   }
@@ -69,16 +72,6 @@ export class LibraryComponent implements OnInit {
       error => console.error(error));
   }
 
-  public onOpenDialogClick(): void {
-    let dialogRef = this.addBookDialog.open(BookFormComponent);
-    dialogRef.componentInstance.addedBook.subscribe((addedBook: Book) => {
-      this.dataProviderService.addBook(addedBook).subscribe(() => {
-        this.bookList.push(addedBook);
-        this.doSearch(this.currentPage);
-      });
-    });
-  }
-
   public removeBook(book: Book): void {
     this.dataProviderService.removeBook(book).subscribe(() => {
       this.dataProviderService.findBooks(this.searchCriteria).subscribe(
@@ -89,12 +82,9 @@ export class LibraryComponent implements OnInit {
   }
 
   public editBook(book: Book): void {
-    let dialogRef = this.updateBook.open(EditBookComponent, {data: book});
-    dialogRef.componentInstance.editedBook.subscribe((editedBook) => {
-      this.dataProviderService.updateBook(editedBook).subscribe(() => {
+      this.dataProviderService.updateBook(book).subscribe(() => {
         this.doSearch(this.currentPage);
       });
-    });
   }
 
   public nextPage(): void {
@@ -120,7 +110,6 @@ export class LibraryComponent implements OnInit {
       }
       this.doSearch(this.currentPage);
     }
-
   }
 
   public signUp() {

@@ -32,7 +32,7 @@ export class Book {
   public title: string;
   public pageNum: number;
   public publishingHouse: string;
-  public author: string;
+  public authorId: number;
   public publicationDate: Date;
   public genre: Genre;
   public bookCover: string;
@@ -78,12 +78,12 @@ export class Book {
 
   }
 
-  getAuthor(): string {
-    return this.author;
+  getAuthorId(): number {
+    return this.authorId;
   }
 
-  setAuthor(value: string) {
-    this.author = value;
+  setAuthorId(id: number) {
+    this.authorId = id;
   }
 
   getGenre(): Genre {

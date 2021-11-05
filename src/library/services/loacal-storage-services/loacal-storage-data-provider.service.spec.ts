@@ -64,7 +64,7 @@ describe('DataProviderService', () => {
     book.setPublicationDate(new Date());
     book.setPublishingHouse('OZ');
     book.setTitle('Bayazet');
-    book.setAuthor('Pikul');
+    book.setAuthorId('Pikul');
     let searchCriteria = new SearchCriteriaBuilder()
     .build();
 
