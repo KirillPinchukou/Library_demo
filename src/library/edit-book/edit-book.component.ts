@@ -16,9 +16,9 @@ export class EditBookComponent implements OnInit {
 
   @Input() book?: Book;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Book,private dataProviderService: DataProvider, private router: Router) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Book, private dataProviderService: DataProvider, private router: Router) {
     this.book = this.data;
-    this.genres = Object.keys(Genre)
+    this.genres = Object.keys(Genre);
   }
 
   public ngOnInit(): void {
@@ -36,7 +36,6 @@ export class EditBookComponent implements OnInit {
     this.dataProviderService.updateBook(this.book).subscribe(() => {
       this.router.navigate(['/home']);
     });
-
   }
 }
 

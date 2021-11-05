@@ -16,21 +16,22 @@ export class BookComponent implements OnInit {
   @Output() editedBook = new EventEmitter<Book>();
 
   constructor(private dataProviderService: DataProvider) {
-
   }
 
-  ngOnInit(){
-    this.dataProviderService.getAuthorById(this.book.authorId).subscribe((result) => {
-      this.author = result;
-    })
+  ngOnInit() {
+    this.dataProviderService.getAuthorById(this.book.authorId)
+      .subscribe((result) => {
+        this.author = result;
+      });
   }
+
   public removeBook(): void {
     this.removedBook.emit(this.book);
   }
+
   public editBook(): void {
     this.editedBook.emit(this.book);
   }
-
 }
 
 
