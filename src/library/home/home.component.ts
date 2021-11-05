@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Book, Genre} from '../model/book';
 import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from '../services/data-provider.service';
 import {Author} from '../model/author';
+import {BookChangeEvent} from "../book/book.component";
 
 @Component({
   selector: 'library-root',
@@ -32,21 +33,10 @@ export class HomeComponent implements OnInit {
       this.authors = result;
       console.log('authors: ', result);
     })
-    this.searchCriteria = new SearchCriteriaBuilder()
-      .withTitle(this.searchText)
-      .withGenre(this.searchGenre)
-      .withYearFrom(this.publishingYearsFrom)
-      .withYearTill(this.publishingYearsTo)
-      .withPagination(this.currentPage, this.booksPerPage)
-      .build();
-
-    this.dataProviderService.findBooks(this.searchCriteria).subscribe(page => {
-      this.books = page.result;
-      this.totalBookAmount = page.total;
-    }, error => console.error(error));
+    this.searchBooks();
   }
 
-  public searchBooks(currentPage: number): void {
+  public searchBooks(): void {
     this.currentPage = 0;
     this.doSearch(this.currentPage);
   }
@@ -67,18 +57,16 @@ export class HomeComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  public removeBook(book: Book): void {
-    this.dataProviderService.removeBook(book).subscribe(() => {
-      this.dataProviderService.findBooks(this.searchCriteria).subscribe(page => {
-        this.books = page.result;
-      })
-    });
-  }
-
-  public editBook(book: Book): void {
-    this.dataProviderService.updateBook(book).subscribe(() => {
-      this.doSearch(this.currentPage);
-    });
+  public bookChanged(event: BookChangeEvent): void {
+    if (event.type === 'remove') {
+      this.dataProviderService.removeBook(event.book).subscribe(() => {
+        this.doSearch(this.currentPage);
+      });
+    } else {
+      this.dataProviderService.updateBook(event.book).subscribe(() => {
+        this.doSearch(this.currentPage);
+      });
+    }
   }
 
   public nextPage(): void {
