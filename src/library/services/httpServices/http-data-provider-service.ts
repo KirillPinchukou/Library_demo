@@ -7,6 +7,7 @@ import {Book} from '../../model/book';
 import {BookResult, DataProvider, SearchCriteria} from '../data-provider.service';
 import {Author} from '../../model/author';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -134,7 +135,12 @@ export class HttpDataProvider extends DataProvider {
     return author;
   }
 }
-
+interface PageResult {
+  result: Array<Book>;
+  page: number;
+  size: number;
+  total: number;
+}
 
 
 
