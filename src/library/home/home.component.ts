@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataProviderService.getAuthors().subscribe((result) => {
+    this.dataProviderService.getAuthors().subscribe(result => {
       this.authors = result;
       console.log('authors: ', result);
     })

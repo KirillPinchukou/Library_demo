@@ -1,5 +1,6 @@
 import {Author} from '../model/author';
-
+import {Book} from '../model/book';
+import {Observable} from 'rxjs';
 
 export interface BookResult {
   result: Array<Book>;
