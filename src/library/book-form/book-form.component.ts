@@ -74,7 +74,7 @@ export class BookFormComponent implements OnInit {
   public setAuthor(author: Author) {
     this.searchAuthor = author.firstName.concat(` ${author.lastName}`)
     this.book.setAuthorId(author.id);
-    let authors = document.getElementsByTagName('a')
+    let authors = Array.from(document.getElementsByClassName('author-name') as HTMLCollectionOf<HTMLElement>);
     for (let i = 0; i < authors.length; i++) {
       authors[i].style.display = 'none';
     }

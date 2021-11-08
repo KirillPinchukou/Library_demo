@@ -1,13 +1,12 @@
 import {Observable} from 'rxjs';
 import {Book} from '../model/book';
 import {Author} from '../model/author';
-import {Observable} from 'rxjs';
-import {Book} from '../model/book';
+
 
 export interface BookResult {
   result: Array<Book>;
-  page: number;
-  size: number;
+  page?: number;
+  size?: number;
   total: number;
 }
 export interface AuthorResult {
@@ -43,16 +42,6 @@ export abstract class DataProvider {
   abstract addAuthor(author: Author): Observable<Author>;
 
   abstract getAuthorById(id: number): Observable<Author>;
-}
-
-export class Pagination {
-  public size: number;
-  public index: number;
-}
-
-export class Sort {
-  public name: string;
-  public order: string;
 }
 
 export class Pagination {

@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   filterOrder: string = 'ASC';
   authorList: Array<Author>;
 
-  constructor(private dataProviderService: DataProvider, private addBookDialog: MatDialog, private updateBook: MatDialog) {
+  constructor(private dataProviderService: DataProvider) {
     this.genres = Object.keys(Genre)
   }
 

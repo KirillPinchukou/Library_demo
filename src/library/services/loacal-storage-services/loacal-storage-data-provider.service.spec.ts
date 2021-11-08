@@ -33,24 +33,24 @@ describe('DataProviderService', () => {
       .withYearTill(20000)
       .build();
 
-    service.findBooks(searchCriteria).subscribe((result) => {
-      for (let i = 0; i < result.length; i++) {
-        let actual = result[i].getTitle();
+    service.findBooks(searchCriteria).subscribe((response) => {
+      for (let i = 0; i < response.result.length; i++) {
+        let actual = response.result[i].getTitle();
         let expected = searchCriteria.title;
         expect(actual).toEqual(expected)
     }});
 
-    service.findBooks(searchCriteria).subscribe((result) =>{
-      for (let i = 0; i < result.length; i++) {
-        let actual = result[i].getGenre();
+    service.findBooks(searchCriteria).subscribe((response) =>{
+      for (let i = 0; i < response.result.length; i++) {
+        let actual = response.result[i].getGenre();
         let expected = searchCriteria.genre.includes(actual);
         expect(expected).toBeTruthy()
       }
     });
 
-    service.findBooks(searchCriteria).subscribe((result) => {
-      for (let i = 0; i < result.length; i++) {
-        let actual = result[i].getPublicationDate().getFullYear();
+    service.findBooks(searchCriteria).subscribe((response) => {
+      for (let i = 0; i < response.result.length; i++) {
+        let actual = response.result[i].getPublicationDate().getFullYear();
         let expected = searchCriteria.publishYearTill
         expect(actual >= expected).toBeTruthy()
       }
@@ -58,22 +58,21 @@ describe('DataProviderService', () => {
 
   });
   it(`"should add book`, () => {
-    book = new Book();
-    book.setId(12);
-    book.setGenre(Genre.FANTASY);
-    book.setPublicationDate(new Date());
-    book.setPublishingHouse('OZ');
-    book.setTitle('Bayazet');
-    book.setAuthorId('Pikul');
+
     let searchCriteria = new SearchCriteriaBuilder()
     .build();
-
+    let book = new Book();
+    book.setAuthorId(1);
+    book.setId(12);
+    book.setTitle('title');
+    book.setGenre(Genre.FANTASY);
+    book.setPublishingHouse('OZ');
     localStorage.clear()
     localStorage.setItem(STORAGE_NAME, JSON.stringify(testData));
 
     service.addBook(book).subscribe((result:Book) => {
-      service.findBooks(searchCriteria).subscribe((result) => {
-        expect(compareBooks(result[result.length - 1], book)).toBeTruthy()
+      service.findBooks(searchCriteria).subscribe((response) => {
+        expect(compareBooks(response.result[response.result.length - 1], book)).toBeTruthy()
       })
     });
   })
