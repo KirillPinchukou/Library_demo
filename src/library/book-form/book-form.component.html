@@ -24,7 +24,7 @@
   <label for="myDropdown">Author</label>
   <div id="myDropdown" class="dropdown-content" >
     <input [(ngModel)]="searchAuthor" type="text" placeholder="Search.." id="myInput" (keyup)="searchAuthors(searchAuthor) " (click)="resetAuthor()">
-    <a class="author-name" *ngFor="let author of authorList" (click)="setAuthor(author)">{{author.firstName}}  {{author.lastName}}</a>
+    <a [ngClass]="{invisible: visibility}" *ngFor="let author of authorList" (click)="setAuthor(author)">{{author.firstName}}  {{author.lastName}}</a>
   </div>
 
   <label for="book-publishing-house">Publishing house</label>
