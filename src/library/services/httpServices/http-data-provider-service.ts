@@ -30,16 +30,17 @@ export class HttpDataProvider extends DataProvider {
   }
 
   getBooks(): Observable<Array<Book>> {
-    return this.httpClient.get<Array<Book>>(`${environment.URL}/books`, this.optionsGet);
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/books`, this.optionsGet)
+      .pipe(
+        map(response => response.map(obj => this.mapBook(obj)))
+      );
   }
 
   getBooksById(id: number): Observable<Book> {
-    return this.httpClient.get<Book>(`${environment.URL}/books/${id}`, this.optionsGet).pipe(
-      map(response => {
-        response = this.mapBook(response);
-        return response;
-      })
-    )
+    return this.httpClient.get<Object>(`${environment.URL}/books/${id}`, this.optionsGet)
+      .pipe(
+        map(response => this.mapBook(response))
+      );
   }
 
   public findBooks(searchCriteria: SearchCriteria): Observable<BookResult> {
@@ -48,67 +49,60 @@ export class HttpDataProvider extends DataProvider {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
-    }
+    };
 
     let body = searchCriteria || {};
     if (searchCriteria) {
       return this.httpClient.post<BookResult>(`${environment.URL}/books/search`, body, optionsPost)
-        .pipe(
-          map(httpResponse => {
-            httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
-            return httpResponse;
-          })
-        )
+        .pipe(map(httpResponse => {
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+          return httpResponse;
+        }));
     } else {
       return this.httpClient.get<BookResult>(`${environment.URL}/books`)
-        .pipe(
-          map(httpResponse => {
-            httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
-            return httpResponse;
-          }))
+        .pipe(map(httpResponse => {
+          httpResponse.result = httpResponse.result.map(obj => this.mapBook(obj));
+          return httpResponse;
+        }));
     }
   }
 
-  public addBook(book: Book): Observable<Book> {
-    return this.httpClient.post<Book>(`${environment.URL}/books`, book, this.optionsPost);
+  public addBook(book: Book): Observable<any> {
+    return this.httpClient.post(`${environment.URL}/books`, book, this.optionsPost);
   }
 
   public removeBook(book: Book): Observable<any> {
-    return this.httpClient.delete(`${environment.URL}/books/${book.getId()}`)
+    return this.httpClient.delete(`${environment.URL}/books/${book.getId()}`);
   }
 
   public updateBook(book: Book): Observable<any> {
-    return this.httpClient.put(`${environment.URL}/books/${book.getId()}`, book, this.optionsPost)
+    return this.httpClient.put(`${environment.URL}/books/${book.getId()}`, book, this.optionsPost);
   }
 
   public getAuthors(): Observable<Array<Author>> {
-    return this.httpClient.get<Array<Object>>(`${environment.URL}/authors`, this.optionsGet).pipe(
-      map(result => {
-        return result.map(obj => this.mapAuthor(obj))
-      })
-    );
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/authors`, this.optionsGet)
+      .pipe(
+        map(result => result.map(obj => this.mapAuthor(obj)))
+      );
   }
 
   public getAuthorById(id: number): Observable<Author> {
-    return this.httpClient.get<Author>(`${environment.URL}/authors/${id}`, this.optionsGet).pipe(
-      map(result => {
-        return this.mapAuthor(result);
-      })
-    )
+    return this.httpClient.get<Object>(`${environment.URL}/authors/${id}`, this.optionsGet)
+      .pipe(
+        map(result => this.mapAuthor(result))
+      );
   }
 
   public findAuthors(searchText: string): Observable<Array<Author>> {
     let url = searchText ? `${environment.URL}/authors?search=${searchText}` : `${environment.URL}/authors`;
     return this.httpClient.get<Array<Object>>(url, this.optionsGet)
       .pipe(
-        map(httpResponse => {
-          return httpResponse.map(obj => this.mapAuthor(obj));
-        })
-      )
+        map(result => result.map(obj => this.mapAuthor(obj)))
+      );
   }
 
-  public addAuthor(author: Author): Observable<Author> {
-    return this.httpClient.post<Author>(`${environment.URL}/authors`, author, this.optionsPost);
+  public addAuthor(author: Author): Observable<any> {
+    return this.httpClient.post(`${environment.URL}/authors`, author, this.optionsPost);
   }
 
   private mapBook(obj: any): Book {
@@ -135,13 +129,3 @@ export class HttpDataProvider extends DataProvider {
     return author;
   }
 }
-interface PageResult {
-  result: Array<Book>;
-  page: number;
-  size: number;
-  total: number;
-}
-
-
-
-

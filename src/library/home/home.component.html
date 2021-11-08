@@ -22,7 +22,7 @@
   <input type="text" class="form-control" id="search-year-to"
          [(ngModel)]="publishingYearsTo" placeholder="Enter text to search"
          autofocus>
-  <button (click)="searchBooks(currentPage)">Search</button>
+  <button (click)="searchBooks()">Search</button>
   <button routerLink="/signUP" (click)="signUp()">Sign up</button>
 
   <label for="book-per-page">Book per page</label>
@@ -32,13 +32,13 @@
     <option [value]="40" label="40"></option>
   </select>
   <div> Current page: {{currentPage + 1}}</div>
-  <button (click)="previosPage()">Previos page</button>
+  <button (click)="previousPage()">Previous page</button>
   <button (click)="nextPage()">Next page</button>
 
 </div>
 <div class="filter">
   <label for="filter">Sort by</label>
-  <select [(ngModel)]="currentFilter" (click)=searchBooks(currentPage) name="filter" id="filter">
+  <select [(ngModel)]="currentFilter" (click)="searchBooks()" name="filter" id="filter">
     <option [value]="" label="title">title</option>
     <option [value]="" label="genre">genre</option>
     <option [value]="" label="publication Date">publicationDate</option>
@@ -54,8 +54,7 @@
   </div>
 </div>
 
-<book *ngFor="let book of bookList " [book]="book" (removedBook)="removeBook($event)" (editedBook)="editBook($event)"
-     ></book>
+<book *ngFor="let book of books" [book]="book" (bookChanged)="bookChanged($event)"></book>
 
 
 

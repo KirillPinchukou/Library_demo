@@ -3,6 +3,11 @@ import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
 
+export interface BookChangeEvent {
+  type: String;
+  book: Book;
+}
+
 @Component({
   selector: 'book',
   templateUrl: './book.component.html',
@@ -12,8 +17,7 @@ export class BookComponent implements OnInit {
   title = '';
   author: Author;
   @Input() book?: Book
-  @Output() removedBook = new EventEmitter<Book>();
-  @Output() editedBook = new EventEmitter<Book>();
+  @Output() bookChanged = new EventEmitter<BookChangeEvent>();
 
   constructor(private dataProviderService: DataProvider) {
   }
@@ -31,13 +35,18 @@ export class BookComponent implements OnInit {
   }
 
   public removeBook(): void {
-    this.removedBook.emit(this.book);
+    this.bookChanged.emit({
+      type: 'remove',
+      book: this.book
+    });
   }
 
   public editBook(): void {
-    this.editedBook.emit(this.book);
+    this.bookChanged.emit({
+      type: 'edit',
+      book: this.book
+    });
   }
-
 }
 
 

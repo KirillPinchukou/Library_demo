@@ -1,5 +1,3 @@
-import {Observable} from 'rxjs';
-import {Book} from '../model/book';
 import {Author} from '../model/author';
 
 
