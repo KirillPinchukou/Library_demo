@@ -39,6 +39,9 @@ module.exports = function (config) {
   }
 },
     reporters: ['progress', 'kjhtml'],
+    mime: {
+      'text/x-typescript': ['ts', 'tsx']
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -1,0 +1,32 @@
+<div name="AddBook" id="add-book">
+  <label for="author-first-name">First name</label>
+  <input
+    label="First-name"
+    type="text"
+    [(ngModel)]="author.firstName"
+    name="first-name"
+    id="author-first-name"
+    placeholder="First name"
+    matTooltip="More than 4 symbols"
+  >
+  <label for="author-last-name">LastName</label>
+  <input
+    label="author-last-name"
+    [(ngModel)]="author.lastName"
+    name="author-last-name"
+    id="author-last-name"
+    placeholder="last name"
+  >
+
+  <label for="date-of-birth">Birth date</label>
+  <input
+    label="Birth date"
+    type="date"
+    [(ngModel)]="author.dateOfBirth"
+    name="publishingHouse"
+    id="date-of-birth"
+    placeholder="birth date"
+  >
+  <button mat-button mat-dialog-close="" (click)="submit()" class="btn-add" >Add</button>
+  <button mat-button mat-dialog-close="" type="reset" class="btn-close">Close</button>
+</div>

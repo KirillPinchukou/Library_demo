@@ -1,4 +1,4 @@
-<form (ngSubmit)="submit()" [formGroup]="form" name="AddBook" id="add-book">
+<div name="AddBook" id="add-book">
   <label for="book-title">Title</label>
   <input
     label="Title"
@@ -8,7 +8,6 @@
     id="book-title"
     placeholder="Title"
     matTooltip="More than 4 symbols"
-    formControlName="title"
   >
   <label for="book-genre">Genre</label>
   <select
@@ -16,35 +15,18 @@
     [(ngModel)]="book.genre"
     name="genre"
     id="book-genre"
-    placeholder="Genre"
-    formControlName="genre"
   >
     <ng-container *ngFor="let genre of genres">
       <option [value]="genre" [label]="genre"></option>
     </ng-container>
   </select>
-  <label for="book-author">Author</label>
-  <input
-    label="Author"
-    type="text"
-    [(ngModel)]="book.author"
-    name="author"
-    id="book-author"
-    placeholder="Author"
-    matTooltip="More than 4 symbols"
-    formControlName="author"
-  >
-  <label for="book-pages">Pages</label>
-  <input
-    label="pages num"
-    type="text"
-    [(ngModel)]="book.pageNum"
-    name="pageNum"
-    id="book-pages"
-    placeholder="Pages"
-    matTooltip="Only numbers"
-    formControlName="pageNum"
-  >
+
+  <label for="myDropdown">Author</label>
+  <div id="myDropdown" class="dropdown-content" >
+    <input [(ngModel)]="searchAuthor" type="text" placeholder="Search.." id="myInput" (keyup)="searchAuthors(searchAuthor) " (click)="resetAuthor()">
+    <a [ngClass]="{invisible: visibility}" *ngFor="let author of authorList" (click)="setAuthor(author)">{{author.firstName}}  {{author.lastName}}</a>
+  </div>
+
   <label for="book-publishing-house">Publishing house</label>
   <input
     label="Publishing house"
@@ -54,7 +36,6 @@
     id="book-publishing-house"
     placeholder="Publishing House"
     matTooltip="More than 4 symbols"
-    formControlName="publishingHouse"
   >
   <label for="book-publication-date">Publication date</label>
   <input
@@ -64,11 +45,10 @@
     name="publishingHouse"
     id="book-publication-date"
     placeholder="Publication date"
-    formControlName="publicationDate"
   >
-  <button mat-button mat-dialog-close="" type="submit" class="btn-add" [disabled]="!form.valid">Add</button>
-  <button mat-button mat-dialog-close="" type="reset" class="btn-close" >Close</button>
-</form>
+  <button mat-button mat-dialog-close="" (click)="submit()" class="btn-add" routerLink="/home" >Add</button>
+  <button mat-button mat-dialog-close="" type="reset" class="btn-close" routerLink="/home">Close</button>
+</div>
 
 
 

@@ -1,17 +1,9 @@
 export class Author {
-  private id: number;
-  private name: string;
-  private birthDay: string;
-  private nationality: string;
-  private biography: string;
-
-  constructor(authorId: number, name: string, bDay: string, nationality: string, biography: string) {
-    this.id = authorId;
-    this.name = name;
-    this.birthDay = bDay;
-    this.nationality = nationality;
-    this.biography = biography;
-  }
+  public id: number;
+  public firstName: string;
+  public lastName: string;
+  public dateOfBirth: Date;
+  public books: Array<number>;
 
   getAuthorId(): number {
     return this.id;
@@ -21,35 +13,34 @@ export class Author {
     this.id = value;
   }
 
-  getName(): string {
-    return this.name;
+  getFirstName(): string {
+    return this.firstName;
   }
 
-  setName(value: string) {
-    this.name = value;
+  setFirstName(value: string) {
+    this.firstName = value;
   }
 
-  getBirthDay(): string {
-    return this.birthDay;
+  getLastName(): string {
+    return this.lastName;
   }
 
-  setBirthDay(value: string) {
-    this.birthDay = value;
+  setLastName(value: string) {
+    this.lastName = value;
   }
 
-  getNationality(): string {
-    return this.nationality;
+  getDateOfBirth(): Date {
+    return this.dateOfBirth;
   }
 
-  setNationality(value: string) {
-    this.nationality = value;
+  setDateOfBirth(value: Date) {
+    this.dateOfBirth = value;
+  }
+  getBooks(): Array<number> {
+    return this.books;
   }
 
-  getBiography(): string {
-    return this.biography;
-  }
-
-  setBiography(value: string) {
-    this.biography = value;
+  setBooks(value: Array<number>) {
+    this.books = value;
   }
 }

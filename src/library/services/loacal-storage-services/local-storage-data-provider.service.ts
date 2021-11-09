@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as R from 'ramda';
-import { Observable } from "rxjs";
-import { Book, STORAGE_NAME } from "../../model/book";
-import { DataProvider, SearchCriteria } from "../data-provider.service";
+import {Observable} from 'rxjs';
+import {Book, STORAGE_NAME} from '../../model/book';
+import {BookResult, DataProvider, SearchCriteria} from '../data-provider.service';
+import {Author} from '../../model/author';
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -12,8 +13,8 @@ type BookPredicate = (book: Book) => boolean;
 export class LocalStorageDataProvider extends DataProvider {
   private books: Array<Book>;
 
-  public findBooks(searchCriteria: SearchCriteria): Observable<Array<Book>> {
-    return new Observable<Array<Book>>(subscriber => {
+  public findBooks(searchCriteria: SearchCriteria): Observable<BookResult> {
+    return new Observable<BookResult>((response) => {
       let books = this.loadBooks();
       if (searchCriteria) {
         const predicates = this.composeFilter(searchCriteria);
@@ -25,9 +26,10 @@ export class LocalStorageDataProvider extends DataProvider {
           }
           return true;
         }, books);
-        subscriber.next(filtered);
+
+        response.next({result: filtered, total: books.length});
       } else {
-        subscriber.next(books);
+        response.next({result: books, total: books.length});
       }
     });
   }
@@ -78,7 +80,7 @@ export class LocalStorageDataProvider extends DataProvider {
     let book = new Book();
     book.setId(parseInt(obj['id']));
     book.setTitle(obj['title']);
-    book.setAuthor(obj['author']);
+    book.setAuthorId(obj['author']);
     book.setGenre(obj['genre']);
     book.setPublishingHouse(obj['publishingHouse']);
     book.setPageNum(parseInt(obj['pageNum']));
@@ -99,6 +101,18 @@ export class LocalStorageDataProvider extends DataProvider {
   private loadBooks(): Array<Book> {
     let tmpClients: Array<any> = JSON.parse(this.getDataFromLocalStorage());
     return tmpClients.map((obj: any) => this.mapBook(obj));
+  }
+  public addAuthor(author: Author): Observable<Author> {
+    return undefined;
+  }
+  public findAuthors(searchText: string): Observable<Array<Author>> {
+    return undefined;
+  }
+  public getAuthorById(id: number): Observable<Author> {
+    return undefined;
+  }
+  public getAuthors(): Observable<Array<Author>> {
+    return undefined;
   }
 }
 

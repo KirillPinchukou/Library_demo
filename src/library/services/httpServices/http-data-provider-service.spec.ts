@@ -1,10 +1,10 @@
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {GenrePipe, PageNumPipe} from '../../book/pipes/book.pipe'
-import {LibraryModule} from '../../library.module';
+import {LibraryModule} from '../../../library.module';
 import {Book, Genre} from '../../model/book';
 import {compareBooks} from '../compare-books';
-import {SearchCriteria, SearchCriteriaBuilder} from '../data-provider.service';
+import {BookResult, SearchCriteria, SearchCriteriaBuilder} from '../data-provider.service';
 import {HttpDataProvider} from './http-data-provider-service';
 
 describe('DataProviderService', () => {
@@ -31,9 +31,9 @@ describe('DataProviderService', () => {
       .withYearTill(20000)
       .build();
 
-    service.findBooks(searchCriteria).subscribe((result: Array<Book>) => {
-      for (let i = 0; i < result.length; i++) {
-        let actual = result[i].getGenre();
+    service.findBooks(searchCriteria).subscribe((response) => {
+      for (let i = 0; i < response.result.length; i++) {
+        let actual = response.result[i].getGenre();
         let expected = searchCriteria.genre;
         expect(actual).toEqual(expected)
       }
@@ -44,9 +44,9 @@ describe('DataProviderService', () => {
       .withYearTill(1955)
       .build();
 
-    service.findBooks(searchCriteria).subscribe((result: Array<Book>) => {
-      for (let i = 0; i < result.length; i++) {
-        let actual = result[i].getPublicationDate().getFullYear();
+    service.findBooks(searchCriteria).subscribe((response) => {
+      for (let i = 0; i < response.result.length; i++) {
+        let actual = response.result[i].getPublicationDate().getFullYear();
         let expected = searchCriteria.publishYearTill
       }})
 
@@ -58,13 +58,13 @@ describe('DataProviderService', () => {
     book.setPublicationDate(new Date());
     book.setPublishingHouse('OZ');
     book.setTitle('ABBA');
-    book.setAuthor('Rara');
+    book.setAuthorId(18);
     let searchCriteria = new SearchCriteria();
 
     service.findBooks(searchCriteria);
     service.addBook(book);
-    service.findBooks(searchCriteria).subscribe((result:Array<Book>) => {
-      expect(compareBooks(result[result.length - 1], book)).toBeTruthy()
+    service.findBooks(searchCriteria).subscribe((response) => {
+      expect(compareBooks(response.result[response.result.length - 1], book)).toBeTruthy()
     })
   })
 });
