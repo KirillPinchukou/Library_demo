@@ -1,65 +1,56 @@
 export class Feedback {
-  private _feedbackId: number;
-  private _clientId: number;
-  private _bookId: number;
-  private _date: Date;
-  private _text: string;
-  private _rate: number;
+  public id: number;
+  public readerId: number;
+  public bookId: number;
+  public date: Date;
+  public text: string;
+  public rate: number;
 
-  constructor(feedbackId: number, clientId: number, bookId: number, date: Date, text: string, rate: number) {
-    this._feedbackId = feedbackId;
-    this._clientId = clientId;
-    this._bookId = bookId;
-    this._date = date;
-    this._text = text
-    this._rate = rate;
+  getId(): number {
+    return this.id;
   }
 
-  getFeedbackid(): number {
-    return this._feedbackId;
-  }
-
-  setFeedbackId(value: number) {
-    this._feedbackId = value;
+  setId(value: number) {
+    this.id = value;
   }
 
   getClientId(): number {
-    return this._clientId;
+    return this.readerId;
   }
 
   setClientId(value: number) {
-    this._clientId = value;
+    this.readerId = value;
   }
 
   getBookId(): number {
-    return this._bookId;
+    return this.bookId;
   }
 
   setBookId(value: number) {
-    this._bookId = value;
+    this.bookId = value;
   }
 
   getDate(): Date {
-    return this._date;
+    return this.date;
   }
 
   setDate(value: Date) {
-    this._date = value;
+    this.date = value;
   }
 
   getText(): string {
-    return this._text;
+    return this.text;
   }
 
   setText(value: string) {
-    this._text = value;
+    this.text = value;
   }
 
   getRate(): number {
-    return this._rate;
+    return this.rate;
   }
 
   setRate(value: number) {
-    this._rate = value;
+    this.rate = value;
   }
 }

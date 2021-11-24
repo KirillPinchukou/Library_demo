@@ -1,10 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
+import {ReaderService} from '../services/reader-service/reader-service';
+import {Reader} from '../model/reader';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationComponent, TYPES} from '../confirmation/confirmation.component';
+import {Router} from '@angular/router';
+
 
 export interface BookChangeEvent {
-  type: String;
+  type: TYPES;
   book: Book;
 }
 
@@ -16,11 +22,16 @@ export interface BookChangeEvent {
 export class BookComponent implements OnInit {
   title = '';
   author: Author;
+  types;
+  isSupervisor: boolean
+  currentReader: Reader;
   @Input() book?: Book
   @Output() bookChanged = new EventEmitter<BookChangeEvent>();
 
-  constructor(private dataProviderService: DataProvider) {
+  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderService, private matDialog: MatDialog, public router: Router,) {
+    this.types = TYPES;
   }
+
 
   ngOnInit() {
     if (this.book?.authorId) {
@@ -32,20 +43,26 @@ export class BookComponent implements OnInit {
         this.author = result;
       })
     }
+    this.readerProvider.getLoggedUser().subscribe((reader) => {
+      this.currentReader = reader;
+      if ((reader.roles.filter(role => role.name === 'supervisor').length > 0)) {
+        this.isSupervisor = true;
+      }
+    })
   }
 
-  public removeBook(): void {
-    this.bookChanged.emit({
-      type: 'remove',
-      book: this.book
-    });
-  }
-
-  public editBook(): void {
-    this.bookChanged.emit({
-      type: 'edit',
-      book: this.book
-    });
+  public onOpenDialogClick(event: TYPES): void {
+    let dialogRef = this.matDialog.open(ConfirmationComponent,);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.bookChanged.emit({
+          type: event,
+          book: this.book
+        })
+      } else {
+        this.router.navigate(['/home']);
+      }
+    })
   }
 }
 

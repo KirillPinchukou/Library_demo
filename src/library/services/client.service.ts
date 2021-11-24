@@ -1,9 +1,22 @@
-import {Client} from "../model/client";
+import {Reader} from "../model/reader";
+import {Observable} from 'rxjs';
 
-export abstract class ClientDataProvider {
-  abstract getClients(searchCriteria: ClientSearchCriteria): Array<Client>;
+export abstract class ReaderProvider {
 
-  abstract addClient(client: Client): void;
+  abstract addReader(reader: any): Observable<any>;
+
+  abstract getAuthorization(): string;
+
+  abstract setAuthorization(authorization: string): void;
+
+  abstract getLoggedUser(): Observable<Reader>;
+
+  abstract logIn(data: any): Observable<string>;
+
+  abstract getReaderById(id: number):Observable<Reader>;
+
+  abstract updateReader(reader: Reader): Observable<any>;
+
 }
 
 export class ClientSearchCriteria {

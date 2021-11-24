@@ -1,6 +1,9 @@
 import {Author} from '../model/author';
 import {Book} from '../model/book';
 import {Observable} from 'rxjs';
+import {Order} from '../model/order';
+import {Reader} from '../model/reader';
+import {Feedback} from '../model/feedback';
 
 export interface BookResult {
   result: Array<Book>;
@@ -41,6 +44,19 @@ export abstract class DataProvider {
   abstract addAuthor(author: Author): Observable<Author>;
 
   abstract getAuthorById(id: number): Observable<Author>;
+
+  abstract getCookie(): string;
+
+  abstract takeBook(book:Book, readerId: number): Observable<any> ;
+
+  abstract getOrders(readerId: number): Observable<Array<Order>>;
+
+  abstract returnBook(order: Order): Observable<any>;
+
+  abstract createFeedback(feedBack: Feedback): Observable<any>;
+
+  abstract getReaderFeedbacks(readerId: number): Observable<Array<Feedback>>;
+
 }
 
 export class Pagination {

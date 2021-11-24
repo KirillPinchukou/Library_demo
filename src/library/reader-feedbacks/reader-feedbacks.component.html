@@ -1,0 +1,13 @@
+<table class="feedback-table">
+  <caption class="table-caption">My feedbacks</caption>
+  <tr>
+    <th>Book</th>
+    <th>Feedback</th>
+    <th>Rate</th>
+  </tr>
+  <tr *ngFor="let feedback of feedbacks">
+    <td>{{feedback.book.title}}</td>
+    <td>{{feedback.text}}</td>
+    <td>{{feedback.rate}}</td>
+  </tr>
+</table>

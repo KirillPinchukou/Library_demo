@@ -4,6 +4,8 @@ import {Observable} from 'rxjs';
 import {Book, STORAGE_NAME} from '../../model/book';
 import {BookResult, DataProvider, SearchCriteria} from '../data-provider.service';
 import {Author} from '../../model/author';
+import {Feedback} from '../../model/feedback';
+import {Order} from '../../model/order';
 
 type BookPredicate = (book: Book) => boolean;
 
@@ -112,6 +114,30 @@ export class LocalStorageDataProvider extends DataProvider {
     return undefined;
   }
   public getAuthors(): Observable<Array<Author>> {
+    return undefined;
+  }
+
+  createFeedback(feedBack: Feedback): Observable<any> {
+    return undefined;
+  }
+
+  getCookie(): string {
+    return '';
+  }
+
+  getOrders(readerId: number): Observable<Array<Order>> {
+    return undefined;
+  }
+
+  getReaderFeedbacks(readerId: number): Observable<Array<Feedback>> {
+    return undefined;
+  }
+
+  returnBook(order: Order): Observable<any> {
+    return undefined;
+  }
+
+  takeBook(book: Book, readerId: number): Observable<any> {
     return undefined;
   }
 }

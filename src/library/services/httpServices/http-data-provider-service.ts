@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -6,7 +6,8 @@ import {environment} from '../../../environments/environment';
 import {Book} from '../../model/book';
 import {BookResult, DataProvider, SearchCriteria} from '../data-provider.service';
 import {Author} from '../../model/author';
-
+import {Order} from '../../model/order';
+import {Feedback} from '../../model/feedback';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,17 @@ export class HttpDataProvider extends DataProvider {
 
   private readonly optionsPost = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
     }
   }
 
   private readonly optionsGet = {
     headers: {
-      'Accept': 'application/json'
-    }
+      'Accept': 'application/json',
+      'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
+    },
+
   }
 
   constructor(private httpClient: HttpClient) {
@@ -47,7 +51,8 @@ export class HttpDataProvider extends DataProvider {
     const optionsPost = {
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
       }
     };
 
@@ -73,6 +78,11 @@ export class HttpDataProvider extends DataProvider {
 
   public removeBook(book: Book): Observable<any> {
     return this.httpClient.delete(`${environment.URL}/books/${book.getId()}`);
+  }
+
+  public takeBook(book: Book, readerId: number): Observable<any> {
+    let body = {bookId: book.id, readerId: readerId, ordered: new Date()};
+    return this.httpClient.post<Observable<any>>(`${environment.URL}/books/take`, body, this.optionsPost);
   }
 
   public updateBook(book: Book): Observable<any> {
@@ -105,6 +115,32 @@ export class HttpDataProvider extends DataProvider {
     return this.httpClient.post(`${environment.URL}/authors`, author, this.optionsPost);
   }
 
+  public getCookie(): string {
+    return document.cookie;
+  }
+
+  public getOrders(readerId: number): Observable<Array<Order>> {
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/readers/${readerId}/orders`, this.optionsGet)
+      .pipe(
+        map(result => result.map(obj => this.mapOrder(obj)))
+      );
+  }
+
+  public returnBook(order: Order): Observable<any> {
+    return this.httpClient.post(`${environment.URL}/books/return`, order, this.optionsPost)
+  }
+
+  public createFeedback(feedBack: Feedback): Observable<any> {
+    return this.httpClient.post(`${environment.URL}/books/feedback`, feedBack, this.optionsPost);
+  }
+
+  public getReaderFeedbacks(readerId: number): Observable<Array<Feedback>> {
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/readers/${readerId}/feedbacks`, this.optionsGet)
+      .pipe(
+        map(response => response.map(obj => this.mapFeedBack(obj)))
+      );
+  }
+
   private mapBook(obj: any): Book {
     let book = new Book();
     book.setId(parseInt(obj['id']));
@@ -127,5 +163,25 @@ export class HttpDataProvider extends DataProvider {
     author.setDateOfBirth(obj['dateOfBirth']);
     author.setBooks(obj['books']);
     return author;
+  }
+
+  private mapOrder(obj: any): Order {
+    let order = new Order();
+    order.setOrderId(parseInt(obj['id']));
+    order.setBooks(obj['bookId']);
+    order.setReaderId(obj['readerId']);
+    order.setReturnDate(obj['returned']);
+    order.setOrderDate(obj['ordered']);
+    return order;
+  }
+
+  private mapFeedBack(obj: any): Feedback {
+    let feedback = new Feedback();
+    feedback.setBookId(parseInt(obj['bookId']));
+    feedback.setClientId(parseInt(obj['readerId']));
+    feedback.setDate(obj['date']);
+    feedback.setText(obj['text']);
+    feedback.setRate(obj['rate']);
+    return feedback;
   }
 }

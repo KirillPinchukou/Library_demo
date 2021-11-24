@@ -1,11 +1,17 @@
 export const USER_STORAGE_NAME = 'users';
 
-export class Client {
+export class Reader {
   public id: number;
-  public name: string;
+  public firstName: string;
+  public lastName: string;
   public mail: string;
   public address: string;
   public phoneNumber: string;
+  public roles: [
+    {
+      name: string
+    }
+  ];
 
   getId(): number {
     return this.id;
@@ -15,13 +21,22 @@ export class Client {
     this.id = value;
   }
 
-  getName(): string {
-    return this.name;
+  getFirstName(): string {
+    return this.firstName;
   }
 
-  setName(value: string) {
-    this.name = value;
+  setFirstName(value: string) {
+    this.firstName = value;
   }
+
+  getLastName(): string {
+    return this.lastName;
+  }
+
+  setLastName(value: string) {
+    this.lastName = value;
+  }
+
 
   getMail(): string {
     return this.mail;
@@ -45,5 +60,13 @@ export class Client {
 
   setPhoneNumber(value: string) {
     this.phoneNumber = value;
+  }
+
+  getRoles(): Array<Object> {
+    return this.roles;
+  }
+
+  setRoles(value: any) {
+    this.roles = value;
   }
 }

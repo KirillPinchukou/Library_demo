@@ -2,7 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Book, Genre} from '../model/book';
 import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from '../services/data-provider.service';
 import {Author} from '../model/author';
-import {BookChangeEvent} from "../book/book.component";
+import {BookChangeEvent} from '../book/book.component';
+import {ActivatedRoute} from '@angular/router';
+import {ReaderService} from '../services/reader-service/reader-service';
+import {TYPES} from '../confirmation/confirmation.component';
 
 @Component({
   selector: 'library-root',
@@ -23,15 +26,19 @@ export class HomeComponent implements OnInit {
   currentFilter: string = 'id';
   filterOrder: string = 'ASC';
   authors: Array<Author>;
+  readerId: number;
 
-  constructor(private dataProviderService: DataProvider) {
+  constructor(private dataProviderService: DataProvider, private activateRoute: ActivatedRoute, private readerService: ReaderService) {
     this.genres = Object.keys(Genre)
   }
 
   ngOnInit() {
+    this.readerService.getLoggedUser().subscribe((reader) => {
+      this.readerId = reader.id;
+      this.readerService.setAuthorization('ee');
+    })
     this.dataProviderService.getAuthors().subscribe(result => {
       this.authors = result;
-      console.log('authors: ', result);
     })
     this.searchBooks();
   }
@@ -58,14 +65,21 @@ export class HomeComponent implements OnInit {
   }
 
   public bookChanged(event: BookChangeEvent): void {
-    if (event.type === 'remove') {
-      this.dataProviderService.removeBook(event.book).subscribe(() => {
-        this.doSearch(this.currentPage);
-      });
-    } else {
-      this.dataProviderService.updateBook(event.book).subscribe(() => {
-        this.doSearch(this.currentPage);
-      });
+    switch (event.type) {
+      case TYPES.DELETE:
+        this.dataProviderService.removeBook(event.book).subscribe(() => {
+          this.doSearch(this.currentPage);
+        });
+        break;
+      case TYPES.EDIT:
+        this.dataProviderService.updateBook(event.book).subscribe(() => {
+          this.doSearch(this.currentPage);
+        });
+        break;
+      case TYPES.TAKE:
+        this.dataProviderService.takeBook(event.book, this.readerId).subscribe(() => {
+        })
+        break;
     }
   }
 
@@ -92,12 +106,5 @@ export class HomeComponent implements OnInit {
       }
       this.doSearch(this.currentPage);
     }
-  }
-
-  public signUp() {
-    // let dialogRef = this.signUpDialog.open(RegistrationComponent);
-    // dialogRef.componentInstance.addedClient.subscribe((addedClient: Client) => {
-    //   this.dataProviderService.addBook(addedClient);
-    // });
   }
 }

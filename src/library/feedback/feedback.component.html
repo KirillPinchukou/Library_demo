@@ -1,0 +1,25 @@
+<div>{{currentBook.title}}</div>
+
+<textarea
+  label="feedback"
+  type="text"
+  [(ngModel)]="feedbackText"
+  name="feedback"
+  id="feedback"
+  placeholder="feedback"
+  matTooltip="More than 4 symbols"
+>
+</textarea>
+<button (click)="addFeedBack()">Save</button>
+<div class="rating-area">
+  <input (click)="setRate(5)" type="radio" id="star-5" name="rating" value="5">
+  <label for="star-5" title="«5»"></label>
+  <input (click)=setRate(4) type="radio" id="star-4" name="rating" value="4">
+  <label for="star-4" title="«4»"></label>
+  <input (click)=setRate(3) type="radio" id="star-3" name="rating" value="3">
+  <label for="star-3" title=" «3»"></label>
+  <input (click)=setRate(2) type="radio" id="star-2" name="rating" value="2">
+  <label for="star-2" title="«2»"></label>
+  <input (click)=setRate(1) type="radio" id="star-1" name="rating" value="1">
+  <label for="star-1" title="«1»"></label>
+</div>

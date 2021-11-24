@@ -1,0 +1,38 @@
+<button class="info-btn" (click)=" showReaderInfo()">show/hide reader info</button>
+<button routerLink="/feedbacks" >My feedbacks</button>
+<div class="switch-toggle switch-3 switch-candy">
+  <input id="on" (click)="changeOrderList()" name="state-d" type="radio" checked=""/>
+  <label for="on">All</label>
+
+  <input id="off" (click)="changeOrderList()" name="state-d" type="radio"/>
+  <label for="off">In rent</label>
+</div>
+<div class="wrapper">
+  <div class="profile" *ngIf="openReaderInfo">
+
+      <div class="profile-data" >
+        <register></register>
+      </div>
+
+  </div>
+  <div class="order-wrapper">
+    <div class="order" *ngFor="let orderCard of orderCards">
+      <ul class="data-list">
+        <li>Order Id:{{orderCard.id}}</li>
+        <li>Book: {{orderCard.book.title}}</li>
+        <li>
+          <div *ngIf="orderCard.returned as value; else elseBlock">returned: {{value | date}}</div>
+          <ng-template #elseBlock>Not returned.</ng-template>
+        </li>
+        <li>Ordered: {{orderCard.ordered | date}}</li>
+      </ul>
+      <div class="return-button" *ngIf="orderCard.returned; else elseTemplate">
+        <button [routerLink]="['/feedback', orderCard.book.id]">Leave feedback</button>
+      </div>
+      <ng-template #elseTemplate>
+        <button (click)="returnBook(orderCard)">return</button>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
