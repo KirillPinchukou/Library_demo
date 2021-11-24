@@ -141,6 +141,3 @@ export class LocalStorageDataProvider extends DataProvider {
     return undefined;
   }
 }
-
-
-
