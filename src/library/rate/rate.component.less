@@ -3,26 +3,26 @@
   width: 300px;
 }
 
-.rating-area {
+.active {
 
   overflow: hidden;
   margin: 0 auto;
 }
 
-.rating {
+.non-active {
   overflow: hidden;
   margin: 0 auto;
 }
 
-.rating-area input {
+.active input {
   display: none;
 }
 
-.rating input {
+.non-active input {
   display: none;
 }
 
-.rating-area > label {
+.active > label {
   float: right;
   width: 32px;
   padding: 0;
@@ -33,7 +33,7 @@
   text-shadow: 1px 1px #bbb;
 }
 
-.rating > label {
+.non-active > label {
   float: right;
   width: 32px;
   padding: 0;
@@ -44,18 +44,18 @@
   text-shadow: 1px 1px #bbb;
 }
 
-.rating-area:not(:checked) > label:after {
+.active:not(:checked) > label:after {
   content: '★';
 }
 
-.rating:not(:checked) > label:after {
+.non-active:not(:checked) > label:after {
   content: '★';
 }
 
-.rate-area > label:active {
+.active > label:active {
   position: relative;
 }
 
-.rate > label:active {
+.non-active > label:active {
   position: relative;
 }
