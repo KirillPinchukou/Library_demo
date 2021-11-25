@@ -1,0 +1,61 @@
+.rate-wrapper {
+  display: flex;
+  width: 300px;
+}
+
+.active {
+
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.non-active {
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.active input {
+  display: none;
+}
+
+.non-active input {
+  display: none;
+}
+
+.active > label {
+  float: right;
+  width: 32px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: gold;
+  text-shadow: 1px 1px #bbb;
+}
+
+.non-active > label {
+  float: right;
+  width: 32px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: lightgrey;
+  text-shadow: 1px 1px #bbb;
+}
+
+.active:not(:checked) > label:after {
+  content: '★';
+}
+
+.non-active:not(:checked) > label:after {
+  content: '★';
+}
+
+.active > label:active {
+  position: relative;
+}
+
+.non-active > label:active {
+  position: relative;
+}

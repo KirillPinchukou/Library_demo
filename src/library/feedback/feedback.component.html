@@ -1,0 +1,14 @@
+<div>{{currentBook.title}}</div>
+
+<textarea
+  label="feedback"
+  type="text"
+  [(ngModel)]="feedbackText"
+  name="feedback"
+  id="feedback"
+  placeholder="feedback"
+  matTooltip="More than 4 symbols"
+>
+</textarea>
+<button (click)="addFeedBack()">Save</button>
+<rate [bookRate]="rate" (rateSet)="setRate($event)"></rate>

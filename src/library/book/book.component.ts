@@ -1,10 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
+import {Reader} from '../model/reader';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationComponent, TYPES} from '../confirmation/confirmation.component';
+import {Router} from '@angular/router';
+import {ReaderProvider} from '../services/client.service';
 
 export interface BookChangeEvent {
-  type: String;
+  type: TYPES;
   book: Book;
 }
 
@@ -16,10 +21,14 @@ export interface BookChangeEvent {
 export class BookComponent implements OnInit {
   title = '';
   author: Author;
+  types;
+  isSupervisor: boolean
+  currentReader: Reader;
   @Input() book?: Book
   @Output() bookChanged = new EventEmitter<BookChangeEvent>();
 
-  constructor(private dataProviderService: DataProvider) {
+  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderProvider, private matDialog: MatDialog, public router: Router,) {
+    this.types = TYPES;
   }
 
   ngOnInit() {
@@ -32,20 +41,25 @@ export class BookComponent implements OnInit {
         this.author = result;
       })
     }
+      this.currentReader = this.readerProvider.getCurrentUser();
+      if ((this.currentReader.roles.filter(role => role.name === 'supervisor').length > 0)) {
+        this.isSupervisor = true;
+      }
+
   }
 
-  public removeBook(): void {
-    this.bookChanged.emit({
-      type: 'remove',
-      book: this.book
-    });
-  }
-
-  public editBook(): void {
-    this.bookChanged.emit({
-      type: 'edit',
-      book: this.book
-    });
+  public onOpenDialogClick(event: TYPES): void {
+    let dialogRef = this.matDialog.open(ConfirmationComponent,);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.bookChanged.emit({
+          type: event,
+          book: this.book
+        })
+      } else {
+        this.router.navigate(['/home']);
+      }
+    })
   }
 }
 

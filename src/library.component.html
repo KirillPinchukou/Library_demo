@@ -1,7 +1,12 @@
 <nav class="navigation">
-    <a  routerLink="/home">Home</a>
-    <button id="add-book-button" routerLink="/addBook">Add book</button>
-    <button  routerLink="/addAuthor">Add author</button>
-</nav>
 
+  <div *ngIf="isLogged; else elseBlock">
+    <a routerLink="/home">Home</a>
+  </div>
+  <ng-template #elseBlock>
+    <a routerLink="/authorization">Sign In</a>
+    <a routerLink="/register">Registration</a>
+    <a routerLink="/home">Home</a>
+  </ng-template>
+</nav>
 <router-outlet></router-outlet>

@@ -9,7 +9,13 @@
     <li> Pub house: {{book?.getPublishingHouse()}}
     <li> Pub date: {{book?.getPublicationDate() | date}}
   </ul>
-  <button (click)="removeBook()">Delete</button>
-  <button [routerLink]="['/editBook', book.id]">Edit</button>
+  <div *ngIf="isSupervisor; else elseBlock">
+    <button (click)="onOpenDialogClick(types.DELETE)">Delete</button>
+    <button [routerLink]="['/editBook', book.id]">Edit</button>
+    <button (click)="onOpenDialogClick(types.TAKE)">Take</button>
+  </div>
+  <ng-template #elseBlock>
+    <button (click)="onOpenDialogClick(types.TAKE)">Take</button>
+  </ng-template>
 </div>
 
