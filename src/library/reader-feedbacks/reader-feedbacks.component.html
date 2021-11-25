@@ -8,6 +8,6 @@
   <tr *ngFor="let feedback of feedbacks">
     <td>{{feedback.book.title}}</td>
     <td>{{feedback.text}}</td>
-    <td>{{feedback.rate}}</td>
+    <td><rate [bookRate]="feedback.rate"></rate></td>
   </tr>
 </table>

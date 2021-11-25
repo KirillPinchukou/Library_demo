@@ -17,16 +17,13 @@ export class HttpDataProvider extends DataProvider {
   private readonly optionsPost = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
     }
   }
 
   private readonly optionsGet = {
     headers: {
       'Accept': 'application/json',
-      'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
     },
-
   }
 
   constructor(private httpClient: HttpClient) {

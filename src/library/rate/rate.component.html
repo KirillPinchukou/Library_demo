@@ -1,0 +1,6 @@
+<div class="rate-wrapper">
+  <div [ngClass]="setClass(rate)" *ngFor="let rate of rates">
+    <input (click)="setRate(rate)" type="radio" id="star-{{rate}}" name="rating" value="{{rate}}">
+    <label for="star-{{rate}}" title="«{{rate}}»"></label>
+  </div>
+</div>

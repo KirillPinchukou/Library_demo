@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
-import {Reader} from '../model/reader';
-import {Order} from '../model/order';
 import {ReaderProvider} from '../services/client.service';
 import {Book} from '../model/book';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Feedback} from '../model/feedback';
-
+import {RateComponent} from '../rate/rate.component';
 
 @Component({
   selector: 'feedback',
@@ -29,12 +27,8 @@ export class FeedbackComponent implements OnInit {
   }
 
   public addFeedBack() {
-    let readerId: number;
-    this.readerProvider.getLoggedUser().subscribe((reader) => {
-      readerId = reader.id;
-    });
     let feedback = new Feedback();
-    feedback.setClientId(readerId);
+    feedback.setClientId(this.readerProvider.getCurrentUser().id);
     feedback.setBookId(this.currentBook.id);
     feedback.setDate(new Date());
     feedback.setText(this.feedbackText);

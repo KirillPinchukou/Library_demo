@@ -21,7 +21,7 @@ import {AuthorFormComponent} from './library/author/author-form/author-form.comp
 import {AuthorizationComponent} from './library/authorization/authorization.component';
 import {AuthGuard} from './app/auth/auth.guard';
 import {RegisterComponent} from './library/register/register.component';
-import {CookieInterceptorService} from './library/interceptor/interceptor.service';
+import {AuthorizationInterceptor} from './library/interceptor/interceptor.service';
 import {ReaderProvider} from './library/services/client.service';
 import {ReaderService} from './library/services/reader-service/reader-service';
 import {ConfirmationComponent} from './library/confirmation/confirmation.component';
@@ -29,6 +29,7 @@ import {ReaderProfileComponent} from './library/reader-profile/reader-profile.co
 import {MatTableModule} from '@angular/material/table';
 import {FeedbackComponent} from './library/feedback/feedback.component';
 import {ReaderFeedbacksComponent} from './library/reader-feedbacks/reader-feedbacks.component';
+import {RateComponent} from './library/rate/rate.component';
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent, canActivate: [AuthGuard]},
@@ -59,7 +60,8 @@ const libraryRoutes: Routes = [
     AuthorFormComponent,
     ConfirmationComponent,
     ReaderProfileComponent,
-    FeedbackComponent,ReaderFeedbacksComponent
+    FeedbackComponent,ReaderFeedbacksComponent,
+    RateComponent
 
   ],
   entryComponents: [],
@@ -78,7 +80,7 @@ const libraryRoutes: Routes = [
     MatTableModule
   ],
   providers: [{provide: DataProvider, useClass: HttpDataProvider},
-    {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true},
     {provide: ReaderProvider, useClass: ReaderService},
     {provide: MatDialogRef, useValue: {hasBackdrop: false}}
   ],

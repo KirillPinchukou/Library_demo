@@ -15,9 +15,8 @@ import {Feedback} from '../../model/feedback';
   providedIn: 'root'
 })
 export class ReaderService extends ReaderProvider{
-
   public authorization: string;
-
+  public currentUser: Reader;
   private readonly optionsPost = {
     headers: {
       'Content-Type': 'application/json'
@@ -26,8 +25,15 @@ export class ReaderService extends ReaderProvider{
   private readonly optionsGet = {
     headers: {
       'Accept': 'application/json',
-      'Authorization': 'Basic bWVAa29sZHlyLmNvbTprb2xkeXI='
     }
+  }
+
+  public getCurrentUser(): Reader {
+    return this.currentUser;
+  }
+
+  public setCurrentUser( reader: Reader) {
+    this.currentUser = reader;
   }
 
   constructor(private httpClient: HttpClient) {
@@ -47,7 +53,6 @@ export class ReaderService extends ReaderProvider{
       {
         headers: {
           'Accept': 'application/json',
-
         }
       });
   }

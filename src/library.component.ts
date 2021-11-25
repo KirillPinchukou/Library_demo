@@ -1,9 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataProvider} from './library/services/data-provider.service';
-import {ActivatedRoute} from '@angular/router';
 import {ReaderService} from './library/services/reader-service/reader-service';
-import {Genre} from './library/model/book';
-
 
 @Component({
   selector: 'app-root',

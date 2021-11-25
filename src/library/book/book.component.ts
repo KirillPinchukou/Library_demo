@@ -2,12 +2,11 @@ import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/c
 import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
-import {ReaderService} from '../services/reader-service/reader-service';
 import {Reader} from '../model/reader';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationComponent, TYPES} from '../confirmation/confirmation.component';
 import {Router} from '@angular/router';
-
+import {ReaderProvider} from '../services/client.service';
 
 export interface BookChangeEvent {
   type: TYPES;
@@ -28,10 +27,9 @@ export class BookComponent implements OnInit {
   @Input() book?: Book
   @Output() bookChanged = new EventEmitter<BookChangeEvent>();
 
-  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderService, private matDialog: MatDialog, public router: Router,) {
+  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderProvider, private matDialog: MatDialog, public router: Router,) {
     this.types = TYPES;
   }
-
 
   ngOnInit() {
     if (this.book?.authorId) {
@@ -43,12 +41,11 @@ export class BookComponent implements OnInit {
         this.author = result;
       })
     }
-    this.readerProvider.getLoggedUser().subscribe((reader) => {
-      this.currentReader = reader;
-      if ((reader.roles.filter(role => role.name === 'supervisor').length > 0)) {
+      this.currentReader = this.readerProvider.getCurrentUser();
+      if ((this.currentReader.roles.filter(role => role.name === 'supervisor').length > 0)) {
         this.isSupervisor = true;
       }
-    })
+
   }
 
   public onOpenDialogClick(event: TYPES): void {

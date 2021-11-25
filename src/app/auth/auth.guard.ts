@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {ReaderService} from '../../library/services/reader-service/reader-service';
+import {ReaderProvider} from '../../library/services/client.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,11 @@ import {ReaderService} from '../../library/services/reader-service/reader-servic
 export class AuthGuard implements CanActivate {
   auth: boolean;
 
-  constructor(private readerService: ReaderService, private router: Router) {
+  constructor(private readerService: ReaderProvider, private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.readerService.getAuthorization()) {
+    if (this.readerService.getCurrentUser()) {
       return true;
     } else {
       this.router.navigate(['/authorization'])

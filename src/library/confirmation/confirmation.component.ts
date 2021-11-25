@@ -14,16 +14,13 @@ export enum TYPES {
   styleUrls: ['confirmation.component.less']
 })
 
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationComponent  {
   @Output() newItemEvent = new EventEmitter();
   eventType:TYPES;
   constructor(public dialog: MatDialogRef<MatDialog> ,@Inject(MAT_DIALOG_DATA) public data: TYPES) {
     this.eventType = data;
   }
 
-  ngOnInit() {
-
-  }
   save () {
     this.dialog.close(true);
   }

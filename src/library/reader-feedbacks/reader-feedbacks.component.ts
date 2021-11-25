@@ -22,19 +22,17 @@ export class ReaderFeedbacksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.readerProvider.getLoggedUser().subscribe((reader)=> {
-      this.currentReader = reader;
-      this.dataProvider.getReaderFeedbacks(reader.id).subscribe((result) => {
-        for (let i = 0; i < result.length; i++) {
-          this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
-            this.feedbacks.push(new FeedbackCard(result[i], book));
-          })
-        }
-      });
-
-    })
+    this.currentReader = this.readerProvider.getCurrentUser();
+    this.dataProvider.getReaderFeedbacks(this.currentReader.id).subscribe((result) => {
+      for (let i = 0; i < result.length; i++) {
+        this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
+          this.feedbacks.push(new FeedbackCard(result[i], book));
+        })
+      }
+    });
   }
 }
+
 class FeedbackCard extends Feedback {
   public book: Book;
 

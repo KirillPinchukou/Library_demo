@@ -17,7 +17,6 @@ export class AuthorizationComponent {
   };
   isSuccessful = false;
   isSignUpFailed = false;
-  userHeader: string = '';
   errorMessage = '';
   @Input() reader?: Reader
   @Output() isLogged:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -30,6 +29,7 @@ export class AuthorizationComponent {
     this.readerService.setAuthorization(btoa(`${this.form.email}:${this.form.password}`));
     this.readerService.logIn(userData).subscribe((result) => {
         this.readerService.getLoggedUser().subscribe((result) => {
+          this.readerService.setCurrentUser(result);
           this.router.navigate(['/home']);
           this.isSuccessful = true;
         })

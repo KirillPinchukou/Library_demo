@@ -1,0 +1,61 @@
+.rate-wrapper {
+  display: flex;
+  width: 300px;
+}
+
+.rating-area {
+
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.rating {
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.rating-area input {
+  display: none;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating-area > label {
+  float: right;
+  width: 32px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: gold;
+  text-shadow: 1px 1px #bbb;
+}
+
+.rating > label {
+  float: right;
+  width: 32px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: lightgrey;
+  text-shadow: 1px 1px #bbb;
+}
+
+.rating-area:not(:checked) > label:after {
+  content: '★';
+}
+
+.rating:not(:checked) > label:after {
+  content: '★';
+}
+
+.rate-area > label:active {
+  position: relative;
+}
+
+.rate > label:active {
+  position: relative;
+}

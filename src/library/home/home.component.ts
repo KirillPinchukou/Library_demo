@@ -6,6 +6,7 @@ import {BookChangeEvent} from '../book/book.component';
 import {ActivatedRoute} from '@angular/router';
 import {ReaderService} from '../services/reader-service/reader-service';
 import {TYPES} from '../confirmation/confirmation.component';
+import {ReaderProvider} from '../services/client.service';
 
 @Component({
   selector: 'library-root',
@@ -28,15 +29,12 @@ export class HomeComponent implements OnInit {
   authors: Array<Author>;
   readerId: number;
 
-  constructor(private dataProviderService: DataProvider, private activateRoute: ActivatedRoute, private readerService: ReaderService) {
+  constructor(private dataProviderService: DataProvider, private activateRoute: ActivatedRoute, private readerService: ReaderProvider) {
     this.genres = Object.keys(Genre)
   }
 
   ngOnInit() {
-    this.readerService.getLoggedUser().subscribe((reader) => {
-      this.readerId = reader.id;
-      this.readerService.setAuthorization('ee');
-    })
+    this.readerId = this.readerService.getCurrentUser().id;
     this.dataProviderService.getAuthors().subscribe(result => {
       this.authors = result;
     })

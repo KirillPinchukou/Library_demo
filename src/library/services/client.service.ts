@@ -7,6 +7,10 @@ export abstract class ReaderProvider {
 
   abstract getAuthorization(): string;
 
+  abstract setCurrentUser(reader: Reader): void;
+
+  abstract getCurrentUser(): Reader;
+
   abstract setAuthorization(authorization: string): void;
 
   abstract getLoggedUser(): Observable<Reader>;

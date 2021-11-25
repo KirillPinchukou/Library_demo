@@ -6,7 +6,7 @@ import {ReaderProvider} from '../services/client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CookieInterceptorService implements HttpInterceptor {
+export class AuthorizationInterceptor implements HttpInterceptor {
 
   constructor(private injector: Injector) {
   }
