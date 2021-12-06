@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
 import {Reader} from '../model/reader';
 import {Order} from '../model/order';
@@ -17,23 +17,27 @@ export class ReaderProfileComponent implements OnInit {
   noReturned: Array<OrderCard> = [];
   returnedOrders: Array<OrderCard> = [];
   openReaderInfo: boolean = false;
-  currentOrdertype: string = 'All orders'
+  currentOrdertype: string = 'All orders';
+  isSupervisor: boolean;
 
   constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider) {
   }
 
   ngOnInit() {
+    if ((this.readerProvider.getCurrentUser().roles.filter(role => role.name === 'supervisor').length > 0)) {
+      this.isSupervisor = true;
+    }
     this.readerProvider.getLoggedUser().subscribe((reader) => {
       this.currentReader = reader;
-      this.dataProvider.getOrders(reader.id).subscribe((result) => {
+      this.dataProvider.getReaderOrders(reader.id).subscribe((result) => {
         for (let i = 0; i < result.length; i++) {
           this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
             if (result[i].returned) {
               this.returnedOrders.push(new OrderCard(book, result[i]));
             } else {
-             this.noReturned.push(new OrderCard(book, result[i]));
+              this.noReturned.push(new OrderCard(book, result[i]));
             }
-            this.orderCards = [...this.returnedOrders,...this.noReturned]
+            this.orderCards = [...this.returnedOrders, ...this.noReturned]
           })
         }
       })

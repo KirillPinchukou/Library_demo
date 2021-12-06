@@ -1,0 +1,29 @@
+<div class="switch-toggle switch-3 switch-candy">
+  <input (click)="changeOrderList(true)" id="on" name="state-d" type="radio" checked=""/>
+  <label for="on">All</label>
+
+  <input (click)="changeOrderList(false)" id="off" name="state-d" type="radio"/>
+  <label for="off">In rent</label>
+</div>
+<input
+  [(ngModel)]="searchText"
+  type="text"
+  placeholder="Search.."
+  id="myInput"
+  (keypress)="searchBook(searchText)"
+>
+<table class="order-table">
+  <caption class="table-caption">Not returned</caption>
+  <tr>
+    <th>Order</th>
+    <th>Title</th>
+    <th>ReaderId</th>
+    <th>Ordered</th>
+  </tr>
+  <tr *ngFor="let order of orders">
+    <td>{{order.id}}</td>
+    <td id="book-title" [routerLink]="['/book-stat', order.bookId]">{{order.book.title}}</td>
+    <td id="reader-id" [routerLink]="['/reader-stat', order.readerId]">{{order.readerId}}</td>
+    <td>{{order.ordered | date}}</td>
+  </tr>
+</table>

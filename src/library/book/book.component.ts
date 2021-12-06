@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
@@ -19,9 +19,9 @@ export interface BookChangeEvent {
   styleUrls: ['./book.component.less']
 })
 export class BookComponent implements OnInit {
-  title = '';
   author: Author;
   types;
+  inStock: boolean = false;
   isSupervisor: boolean
   currentReader: Reader;
   @Input() book?: Book
@@ -32,6 +32,7 @@ export class BookComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.book.count > 0 ? this.inStock = true : this.inStock = false;
     if (this.book?.authorId) {
       this.dataProviderService.getAuthorById(this.book.authorId).subscribe((result) => {
         this.author = result;
@@ -45,11 +46,10 @@ export class BookComponent implements OnInit {
       if ((this.currentReader.roles.filter(role => role.name === 'supervisor').length > 0)) {
         this.isSupervisor = true;
       }
-
   }
 
   public onOpenDialogClick(event: TYPES): void {
-    let dialogRef = this.matDialog.open(ConfirmationComponent,);
+    let dialogRef = this.matDialog.open(ConfirmationComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.bookChanged.emit({
@@ -60,6 +60,10 @@ export class BookComponent implements OnInit {
         this.router.navigate(['/home']);
       }
     })
+  }
+
+  showError(message: string) {
+    alert(message);
   }
 }
 

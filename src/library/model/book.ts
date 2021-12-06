@@ -36,6 +36,7 @@ export class Book {
   public publicationDate: Date;
   public genre: Genre;
   public bookCover: string;
+  public count: number;
 
   getId(): number {
     return this.id;
@@ -100,6 +101,14 @@ export class Book {
 
   setPublicationDate(value: Date) {
     this.publicationDate = value;
+  }
+
+  getCount(): number {
+    return this.count;
+  }
+
+  setCount(value: number) {
+    this.count = value;
   }
 }
 

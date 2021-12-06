@@ -1,4 +1,4 @@
-import {HttpClient, HttpHandler} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -116,8 +116,9 @@ export class HttpDataProvider extends DataProvider {
     return document.cookie;
   }
 
-  public getOrders(readerId: number): Observable<Array<Order>> {
-    return this.httpClient.get<Array<Object>>(`${environment.URL}/readers/${readerId}/orders`, this.optionsGet)
+  public getReaderOrders(readerId: number, returned: boolean): Observable<Array<Order>> {
+    let url = !!returned ? `${environment.URL}/readers/${readerId}/orders?returned=${returned}` : `${environment.URL}/readers/${readerId}/orders`;
+    return this.httpClient.get<Array<Object>>(url, this.optionsGet)
       .pipe(
         map(result => result.map(obj => this.mapOrder(obj)))
       );
@@ -131,10 +132,28 @@ export class HttpDataProvider extends DataProvider {
     return this.httpClient.post(`${environment.URL}/books/feedback`, feedBack, this.optionsPost);
   }
 
+  public deleteFeedback(feedbackId: number): Observable<any> {
+    return this.httpClient.delete(`${environment.URL}/books/feedbacks/${feedbackId}`);
+  }
+
   public getReaderFeedbacks(readerId: number): Observable<Array<Feedback>> {
     return this.httpClient.get<Array<Object>>(`${environment.URL}/readers/${readerId}/feedbacks`, this.optionsGet)
       .pipe(
         map(response => response.map(obj => this.mapFeedBack(obj)))
+      );
+  }
+
+  public getBookFeedbacks(bookId: number): Observable<Array<Feedback>> {
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/books/${bookId}/feedbacks`, this.optionsGet)
+      .pipe(
+        map(response => response.map(obj => this.mapFeedBack(obj)))
+      );
+  }
+
+  public getBookOrders(bookId: number): Observable<Array<Order>> {
+    return this.httpClient.get<Array<Object>>(`${environment.URL}/books/${bookId}/orders`, this.optionsGet)
+      .pipe(
+        map(response => response.map(obj => this.mapOrder(obj)))
       );
   }
 
@@ -147,6 +166,7 @@ export class HttpDataProvider extends DataProvider {
     book.setPublishingHouse(obj['publishingHouse']);
     book.setPageNum(parseInt(obj['pageNum']));
     book.setBookCover(obj['bookCover']);
+    book.setCount(obj['count']);
     let date = new Date(Date.parse(obj['publicationDate']));
     book.setPublicationDate(date);
     return book;
@@ -169,11 +189,13 @@ export class HttpDataProvider extends DataProvider {
     order.setReaderId(obj['readerId']);
     order.setReturnDate(obj['returned']);
     order.setOrderDate(obj['ordered']);
+    order.setBook(obj['book']);
     return order;
   }
 
   private mapFeedBack(obj: any): Feedback {
     let feedback = new Feedback();
+    feedback.setId(parseInt(obj['id']))
     feedback.setBookId(parseInt(obj['bookId']));
     feedback.setClientId(parseInt(obj['readerId']));
     feedback.setDate(obj['date']);

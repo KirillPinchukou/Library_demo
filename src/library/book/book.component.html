@@ -3,7 +3,7 @@
   <img class="book-cover" [src]="book?.getBookCover()">
   <ul class="infoList">
     <li> Title: {{book?.getTitle()}}</li>
-    <li> Genre: {{book?.getGenre().toLocaleLowerCase() }}</li>
+    <li> Genre: {{book?.getGenre() }}</li>
     <li> Author: {{author?.firstName}} {{author?.lastName}} </li>
     <li> Pages: {{book?.getPageNum() | pageNum}}</li>
     <li> Pub house: {{book?.getPublishingHouse()}}
@@ -12,7 +12,14 @@
   <div *ngIf="isSupervisor; else elseBlock">
     <button (click)="onOpenDialogClick(types.DELETE)">Delete</button>
     <button [routerLink]="['/editBook', book.id]">Edit</button>
-    <button (click)="onOpenDialogClick(types.TAKE)">Take</button>
+    <ng-container *ngIf="inStock; else elseTemplate">
+      <button (click)="onOpenDialogClick(types.TAKE)">Take</button>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <button (click)="showError('Out of stock')">Take</button>
+    </ng-template>
+    <button [routerLink]="['/book-stat', book.id]">Info</button>
+
   </div>
   <ng-template #elseBlock>
     <button (click)="onOpenDialogClick(types.TAKE)">Take</button>

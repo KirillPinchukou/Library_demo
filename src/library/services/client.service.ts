@@ -1,4 +1,4 @@
-import {Reader} from "../model/reader";
+import {Reader} from '../model/reader';
 import {Observable} from 'rxjs';
 
 export abstract class ReaderProvider {
@@ -17,9 +17,11 @@ export abstract class ReaderProvider {
 
   abstract logIn(data: any): Observable<string>;
 
-  abstract getReaderById(id: number):Observable<Reader>;
+  abstract getReaderById(id: number): Observable<Reader>;
 
   abstract updateReader(reader: Reader): Observable<any>;
+
+  abstract getReaders(): Observable<Array<Reader>>;
 
 }
 
