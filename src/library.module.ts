@@ -50,6 +50,7 @@ const libraryRoutes: Routes = [
   {path: 'admin-cabinet', component: AdminCabinetComponent, canActivate: [AuthGuard]},
   {path: 'reader-stat/:readerId', component: UserStatisticComponent, canActivate: [AuthGuard]},
   {path: 'book-stat/:bookId', component: BookStatisticComponent, canActivate: [AuthGuard]},
+
 ]
 @NgModule({
   declarations: [

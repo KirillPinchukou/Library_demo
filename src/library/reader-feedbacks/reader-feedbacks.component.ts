@@ -1,5 +1,7 @@
+<<<
 import {Component, Input, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
+
 import {ReaderProvider} from '../services/client.service';
 import {Book} from '../model/book';
 import {ActivatedRoute} from '@angular/router';
