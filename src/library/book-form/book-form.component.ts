@@ -17,6 +17,7 @@ export enum BookFormPath {
 })
 export class BookFormComponent implements OnInit {
   form: FormGroup;
+  obj: any;
   genres: Array<any>;
   authorList: Array<Author>
   searchAuthor: string = '';
@@ -47,12 +48,19 @@ export class BookFormComponent implements OnInit {
         genre: new FormControl(this.book.genre, [Validators.required]),
         author: new FormControl(this.book.authorId, [Validators.minLength(4)]),
         publishingHouse: new FormControl(this.book.publishingHouse, [Validators.minLength(2)]),
-        publicationDate: new FormControl(this.book.publicationDate, Validators.required)
+        publicationDate: new FormControl(this.book.publicationDate, Validators.required),
+        count: new FormControl(this.book.count, Validators.required)
       });
     }
   }
 
   public submit(): void {
+    this.book.setTitle(this.form.controls['title'].value);
+    this.book.setPublishingHouse(this.form.controls['publishingHouse'].value);
+    this.book.setPublicationDate(this.form.controls['publicationDate'].value);
+    this.book.setGenre(this.form.controls['genre'].value);
+    this.book.setCount(this.form.controls['count'].value);
+
     let path = <BookFormPath>this.activateRoute.snapshot.routeConfig.path;
     if (path === BookFormPath.EDIT) {
       this.dataProviderService.updateBook(this.book).subscribe(() => {
@@ -62,6 +70,7 @@ export class BookFormComponent implements OnInit {
     if (path === BookFormPath.CREATE) {
       this.dataProviderService.addBook(this.book).subscribe(() => {
         this.router.navigate(['/home']);
+        console.log(1)
       });
     }
   }

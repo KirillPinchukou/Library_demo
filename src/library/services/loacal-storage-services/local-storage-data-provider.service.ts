@@ -125,7 +125,7 @@ export class LocalStorageDataProvider extends DataProvider {
     return '';
   }
 
-  getOrders(readerId: number): Observable<Array<Order>> {
+  getReaderOrders(readerId: number): Observable<Array<Order>> {
     return undefined;
   }
 

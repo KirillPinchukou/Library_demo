@@ -1,4 +1,4 @@
-import {Book} from "./book";
+import {Book} from './book';
 
 export class Order {
   public id: number;
@@ -6,9 +6,7 @@ export class Order {
   public ordered: Date;
   public returned: Date;
   public bookId: number;
-
-
-
+  public book: Book;
 
   getOrderId(): number {
     return this.id;
@@ -50,5 +48,11 @@ export class Order {
     this.bookId = value;
   }
 
+  getBook(): Book {
+    return this.book;
+  }
 
+  setBook(book: Book) {
+    this.book = book;
+  }
 }

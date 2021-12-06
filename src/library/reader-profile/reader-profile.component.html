@@ -1,5 +1,12 @@
 <button class="info-btn" (click)=" showReaderInfo()">show/hide reader info</button>
-<button routerLink="/feedbacks" >My feedbacks</button>
+
+<button routerLink="/feedbacks">My feedbacks</button>
+<ng-container *ngIf="isSupervisor">
+  <button routerLink="/admin-cabinet">Cabinet</button>
+  <button routerLink="/addBook">Add book</button>
+  <button routerLink="/addAuthor"> Add author</button>
+</ng-container>
+
 <div class="switch-toggle switch-3 switch-candy">
   <input id="on" (click)="changeOrderList()" name="state-d" type="radio" checked=""/>
   <label for="on">All</label>

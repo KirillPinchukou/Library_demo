@@ -3,7 +3,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserModule} from '@angular/platform-browser';
@@ -30,20 +30,27 @@ import {MatTableModule} from '@angular/material/table';
 import {FeedbackComponent} from './library/feedback/feedback.component';
 import {ReaderFeedbacksComponent} from './library/reader-feedbacks/reader-feedbacks.component';
 import {RateComponent} from './library/rate/rate.component';
+import {AdminCabinetComponent} from './library/admin-cabinet/admin-cabinet.component';
+import {UserStatisticComponent} from './library/user-statistics/user-statistic.component';
+import {BookStatisticComponent} from './library/book-statistic/book-statistic.component';
 
 const libraryRoutes: Routes = [
   {path: 'addBook', component: BookFormComponent, canActivate: [AuthGuard]},
-  {path: 'editBook/:id', component: BookFormComponent ,canActivate: [AuthGuard]},
+  {path: 'editBook/:id', component: BookFormComponent, canActivate: [AuthGuard]},
   {path: 'home/:id', component: HomeComponent},
-  {path: 'home', component: HomeComponent },
-  {path: 'editBook', component: EditBookComponent , canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent},
+  {path: 'editBook', component: EditBookComponent, canActivate: [AuthGuard]},
   {path: 'addAuthor', component: AuthorFormComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'authorization', component: AuthorizationComponent},
-  {path: 'profile', component: ReaderProfileComponent,  canActivate: [AuthGuard]},
-  {path: 'feedback/:id',  component: FeedbackComponent, canActivate: [AuthGuard]},
+  {path: 'profile', component: ReaderProfileComponent, canActivate: [AuthGuard]},
+  {path: 'feedback/:id', component: FeedbackComponent, canActivate: [AuthGuard]},
   {path: 'confirm/:type', component: ConfirmationComponent},
-  {path: 'feedbacks', component:ReaderFeedbacksComponent, canActivate: [AuthGuard]},
+  {path: 'feedbacks', component: ReaderFeedbacksComponent, canActivate: [AuthGuard]},
+  {path: 'admin-cabinet', component: AdminCabinetComponent, canActivate: [AuthGuard]},
+  {path: 'reader-stat/:readerId', component: UserStatisticComponent, canActivate: [AuthGuard]},
+  {path: 'book-stat/:bookId', component: BookStatisticComponent, canActivate: [AuthGuard]},
+
 ]
 @NgModule({
   declarations: [
@@ -60,8 +67,11 @@ const libraryRoutes: Routes = [
     AuthorFormComponent,
     ConfirmationComponent,
     ReaderProfileComponent,
-    FeedbackComponent,ReaderFeedbacksComponent,
+    FeedbackComponent, ReaderFeedbacksComponent,
     RateComponent,
+    AdminCabinetComponent,
+    UserStatisticComponent,
+    BookStatisticComponent,
 
   ],
   entryComponents: [],

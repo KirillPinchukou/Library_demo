@@ -1,5 +1,6 @@
 <table class="feedback-table">
-  <caption class="table-caption">My feedbacks</caption>
+
+  <caption class="table-caption">Feedbacks</caption>
   <tr>
     <th>Book</th>
     <th>Feedback</th>
@@ -9,5 +10,8 @@
     <td>{{feedback.book.title}}</td>
     <td>{{feedback.text}}</td>
     <td><rate [bookRate]="feedback.rate"></rate></td>
+    <td>
+      <button (click)="deleteFeedback(feedback.id)">Delete</button>
+    </td>
   </tr>
 </table>

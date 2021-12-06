@@ -3,13 +3,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {Book} from '../../model/book';
 import {Reader} from '../../model/reader';
-import {Author} from '../../model/author';
-import {data} from '../../json';
 import {ReaderProvider} from '../client.service';
-import {Feedback} from '../../model/feedback';
-
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +90,11 @@ export class ReaderService extends ReaderProvider{
   }
 
 
+  public getReaders(): Observable<Array<Reader>> {
+    return this.httpClient.get<Array<Reader>>(`${environment.URL}/readers`, this.optionsGet);
+  }
+
+
   private mapReader(obj: any): Reader {
     let reader = new Reader();
     reader.setId(parseInt(obj['id']));
@@ -108,17 +108,4 @@ export class ReaderService extends ReaderProvider{
   }
 }
 
-export interface ReaderResult {
-  id: number;
-  firstName: string;
-  lastName: string;
-  mail: string;
-  address: string
-  phoneNumber: string;
-  note: string;
-  roles: [
-    {
-      name: string;
-    }
-  ]
-}
+

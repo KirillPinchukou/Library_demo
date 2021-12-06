@@ -4,7 +4,6 @@ import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from '../services/d
 import {Author} from '../model/author';
 import {BookChangeEvent} from '../book/book.component';
 import {ActivatedRoute} from '@angular/router';
-import {ReaderService} from '../services/reader-service/reader-service';
 import {TYPES} from '../confirmation/confirmation.component';
 import {ReaderProvider} from '../services/client.service';
 
@@ -39,6 +38,7 @@ export class HomeComponent implements OnInit {
       this.authors = result;
     })
     this.searchBooks();
+    console.log(1)
   }
 
   public searchBooks(): void {

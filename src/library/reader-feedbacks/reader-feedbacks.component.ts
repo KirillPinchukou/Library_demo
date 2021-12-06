@@ -1,13 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+<<<
+import {Component, Input, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
-import {Reader} from '../model/reader';
-import {Order} from '../model/order';
+
 import {ReaderProvider} from '../services/client.service';
 import {Book} from '../model/book';
 import {ActivatedRoute} from '@angular/router';
 import {Feedback} from '../model/feedback';
-import {compareBooks} from '../services/compare-books';
-
 
 @Component({
   selector: 'reader-feedbacks',
@@ -16,20 +14,32 @@ import {compareBooks} from '../services/compare-books';
 })
 export class ReaderFeedbacksComponent implements OnInit {
   feedbacks: Array<FeedbackCard> = [];
-  currentReader: Reader;
+  @Input() readerId: number;
 
   constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider, private activateRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.currentReader = this.readerProvider.getCurrentUser();
-    this.dataProvider.getReaderFeedbacks(this.currentReader.id).subscribe((result) => {
+    this.loadFeedbacks();
+  }
+
+  loadFeedbacks() {
+    this.feedbacks = [];
+    let readerId: number;
+    this.readerId ? readerId = this.readerId : readerId = this.readerProvider.getCurrentUser().id;
+    this.dataProvider.getReaderFeedbacks(readerId).subscribe((result) => {
       for (let i = 0; i < result.length; i++) {
         this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
           this.feedbacks.push(new FeedbackCard(result[i], book));
         })
       }
     });
+  }
+
+  deleteFeedback(feedbackId: number) {
+    this.dataProvider.deleteFeedback(feedbackId).subscribe(() => {
+      this.loadFeedbacks();
+    })
   }
 }
 

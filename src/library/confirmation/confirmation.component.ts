@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 export enum TYPES {
   EDIT,
@@ -14,14 +13,13 @@ export enum TYPES {
   styleUrls: ['confirmation.component.less']
 })
 
-export class ConfirmationComponent  {
+export class ConfirmationComponent {
   @Output() newItemEvent = new EventEmitter();
-  eventType:TYPES;
-  constructor(public dialog: MatDialogRef<MatDialog> ,@Inject(MAT_DIALOG_DATA) public data: TYPES) {
-    this.eventType = data;
+
+  constructor(public dialog: MatDialogRef<MatDialog>) {
   }
 
-  save () {
+  save() {
     this.dialog.close(true);
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Reader, USER_STORAGE_NAME} from "../../model/reader";
-import {ReaderProvider, ClientSearchCriteria} from "../client.service";
+import {Reader, USER_STORAGE_NAME} from '../../model/reader';
+import {ClientSearchCriteria} from '../client.service';
 import {BookResult, DataProvider, SearchCriteria} from '../data-provider.service';
 import {Observable} from 'rxjs';
 import {Author} from '../../model/author';
@@ -87,7 +87,7 @@ export class LocalStorageUserDataProvider extends DataProvider  {
     return '';
   }
 
-  getOrders(readerId: number): Observable<Array<Order>> {
+  getReaderOrders(readerId: number): Observable<Array<Order>> {
     return undefined;
   }
 
