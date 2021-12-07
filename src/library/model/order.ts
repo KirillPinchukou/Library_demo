@@ -8,9 +8,6 @@ export class Order {
   public bookId: number;
   public book: Book;
 
-
-
-
   getOrderId(): number {
     return this.id;
   }
@@ -58,6 +55,4 @@ export class Order {
   setBook(book: Book) {
     this.book = book;
   }
-
-
 }

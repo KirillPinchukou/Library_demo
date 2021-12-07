@@ -1,10 +1,11 @@
 import {CommonModule} from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS,HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -50,6 +51,7 @@ const libraryRoutes: Routes = [
   {path: 'admin-cabinet', component: AdminCabinetComponent, canActivate: [AuthGuard]},
   {path: 'reader-stat/:readerId', component: UserStatisticComponent, canActivate: [AuthGuard]},
   {path: 'book-stat/:bookId', component: BookStatisticComponent, canActivate: [AuthGuard]},
+
 ]
 @NgModule({
   declarations: [
@@ -78,6 +80,7 @@ const libraryRoutes: Routes = [
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
+    MatTableModule,
     MatDialogModule,
     MatButtonModule,
     FormsModule,
@@ -85,8 +88,7 @@ const libraryRoutes: Routes = [
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
     MatTooltipModule,
-    HttpClientModule,
-    MatTableModule
+    HttpClientModule
   ],
   providers: [{provide: DataProvider, useClass: HttpDataProvider},
     {provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true},

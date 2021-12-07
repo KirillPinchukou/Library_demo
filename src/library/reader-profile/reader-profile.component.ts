@@ -5,7 +5,6 @@ import {Order} from '../model/order';
 import {ReaderProvider} from '../services/client.service';
 import {Book} from '../model/book';
 
-
 @Component({
   selector: 'library-root',
   templateUrl: 'reader-profile.component.html',

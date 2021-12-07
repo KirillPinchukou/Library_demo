@@ -6,7 +6,6 @@ import {environment} from '../../../environments/environment';
 import {Reader} from '../../model/reader';
 import {ReaderProvider} from '../client.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -90,9 +89,11 @@ export class ReaderService extends ReaderProvider{
     return this.httpClient.put(`${environment.URL}/readers/${reader.id}`, reader, this.optionsPost);
   }
 
+
   public getReaders(): Observable<Array<Reader>> {
     return this.httpClient.get<Array<Reader>>(`${environment.URL}/readers`, this.optionsGet);
   }
+
 
   private mapReader(obj: any): Reader {
     let reader = new Reader();
@@ -107,17 +108,4 @@ export class ReaderService extends ReaderProvider{
   }
 }
 
-export interface ReaderResult {
-  id: number;
-  firstName: string;
-  lastName: string;
-  mail: string;
-  address: string
-  phoneNumber: string;
-  note: string;
-  roles: [
-    {
-      name: string;
-    }
-  ]
-}
+

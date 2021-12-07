@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -156,6 +156,7 @@ export class HttpDataProvider extends DataProvider {
         map(response => response.map(obj => this.mapOrder(obj)))
       );
   }
+
 
   private mapBook(obj: any): Book {
     let book = new Book();
