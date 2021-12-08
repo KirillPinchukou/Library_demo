@@ -1,4 +1,3 @@
-<<<
 import {Component, Input, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
 
