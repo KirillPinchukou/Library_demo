@@ -50,9 +50,7 @@ export abstract class DataProvider {
 
   abstract getReaderOrders(readerId: number, returned?: boolean): Observable<Array<Order>>;
 
-  abstract takeBook(book:Book, readerId: number): Observable<any> ;
-
-  abstract returnBook(order: Order): Observable<any>;
+   abstract returnBook(order: Order): Observable<any>;
 
   abstract createFeedback(feedBack: Feedback): Observable<any>;
 
