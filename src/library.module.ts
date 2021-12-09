@@ -1,11 +1,10 @@
 import {CommonModule} from '@angular/common';
-import {HTTP_INTERCEPTORS,HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -27,7 +26,6 @@ import {ReaderProvider} from './library/services/client.service';
 import {ReaderService} from './library/services/reader-service/reader-service';
 import {ConfirmationComponent} from './library/confirmation/confirmation.component';
 import {ReaderProfileComponent} from './library/reader-profile/reader-profile.component';
-import {MatTableModule} from '@angular/material/table';
 import {FeedbackComponent} from './library/feedback/feedback.component';
 import {ReaderFeedbacksComponent} from './library/reader-feedbacks/reader-feedbacks.component';
 import {RateComponent} from './library/rate/rate.component';
@@ -80,7 +78,6 @@ const libraryRoutes: Routes = [
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
-    MatTableModule,
     MatDialogModule,
     MatButtonModule,
     FormsModule,

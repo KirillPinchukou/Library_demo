@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Book, Genre} from '../model/book';
 import {DataProvider, SearchCriteria, SearchCriteriaBuilder} from '../services/data-provider.service';
 import {Author} from '../model/author';
@@ -10,7 +10,8 @@ import {ReaderProvider} from '../services/client.service';
 @Component({
   selector: 'library-root',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less']
+  styleUrls: ['./home.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   searchText: string = '';
@@ -28,7 +29,7 @@ export class HomeComponent implements OnInit {
   authors: Array<Author>;
   readerId: number;
 
-  constructor(private dataProviderService: DataProvider, private activateRoute: ActivatedRoute, private readerService: ReaderProvider) {
+  constructor(private dataProviderService: DataProvider, private activateRoute: ActivatedRoute, private readerService: ReaderProvider, private changeDetector: ChangeDetectorRef) {
     this.genres = Object.keys(Genre)
   }
 
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit {
       this.authors = result;
     })
     this.searchBooks();
+    this.changeDetector.detectChanges();
     console.log(1)
   }
 
@@ -58,7 +60,8 @@ export class HomeComponent implements OnInit {
 
     this.dataProviderService.findBooks(this.searchCriteria).subscribe(page => {
       this.books = page.result;
-      this.totalBookAmount = page.total
+      this.totalBookAmount = page.total;
+      this.changeDetector.detectChanges();
     }, error => console.error(error));
   }
 
@@ -85,6 +88,7 @@ export class HomeComponent implements OnInit {
     if (this.totalBookAmount > (this.currentPage + 1) * this.booksPerPage && this.books.length >= (this.currentPage + 1) * this.booksPerPage) {
       this.currentPage++;
       this.doSearch(this.currentPage);
+      this.changeDetector.detectChanges();
     }
   }
 
@@ -92,6 +96,7 @@ export class HomeComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.doSearch(this.currentPage);
+      this.changeDetector.detectChanges();
     }
   }
 

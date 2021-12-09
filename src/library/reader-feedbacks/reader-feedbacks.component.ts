@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
 
 import {ReaderProvider} from '../services/client.service';
@@ -9,13 +9,14 @@ import {Feedback} from '../model/feedback';
 @Component({
   selector: 'reader-feedbacks',
   templateUrl: 'reader-feedbacks.component.html',
-  styleUrls: ['reader-feedbacks.component.less']
+  styleUrls: ['reader-feedbacks.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReaderFeedbacksComponent implements OnInit {
   feedbacks: Array<FeedbackCard> = [];
   @Input() readerId: number;
 
-  constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider, private activateRoute: ActivatedRoute) {
+  constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider, private activateRoute: ActivatedRoute, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -30,8 +31,10 @@ export class ReaderFeedbacksComponent implements OnInit {
       for (let i = 0; i < result.length; i++) {
         this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
           this.feedbacks.push(new FeedbackCard(result[i], book));
+          this.changeDetector.detectChanges();
         })
       }
+
     });
   }
 

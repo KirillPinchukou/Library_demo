@@ -31,11 +31,12 @@
     <option [value]="30" label="30"></option>
     <option [value]="40" label="40"></option>
   </select>
-  <div> Current page: {{currentPage + 1}}</div>
-  <button (click)="previousPage()">Previous </button>
-  <button (click)="nextPage()">Next </button>
 
-  <div class="logIn" >
+  <label for="prev-btn"> Current page: {{currentPage + 1}}</label>
+  <button (click)="previousPage()" id="prev-btn">Previous</button>
+  <button (click)="nextPage()">Next</button>
+
+  <div class="logIn">
     <a routerLink="/profile">Profile </a>
     <a>||</a>
     <a routerLink="/authorization"> Sign In</a>
