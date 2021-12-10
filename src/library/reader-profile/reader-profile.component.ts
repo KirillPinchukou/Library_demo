@@ -13,8 +13,8 @@ import {Book} from '../model/book';
 })
 export class ReaderProfileComponent implements OnInit {
   currentReader: Reader;
-  orderCards: Array<OrderCard> = [];
-  noReturned: Array<OrderCard> = [];
+  orderCards: Array<Order> = [];
+  noReturned: Array<Order> = [];
   returnedOrders: Array<OrderCard> = [];
   openReaderInfo: boolean = false;
   currentOrdertype: string = 'All orders';
@@ -24,26 +24,21 @@ export class ReaderProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    if ((this.readerProvider.getCurrentUser().roles.filter(role => role.name === 'supervisor').length > 0)) {
+    this.currentReader = this.readerProvider.getCurrentUser();
+    if ((this.currentReader.roles.filter(role => role.name === 'supervisor').length > 0)) {
       this.isSupervisor = true;
     }
-    this.readerProvider.getLoggedUser().subscribe((reader) => {
-      this.currentReader = reader;
-      this.changeDetector.detectChanges();
-      this.dataProvider.getReaderOrders(reader.id).subscribe((result) => {
-        for (let i = 0; i < result.length; i++) {
-          this.dataProvider.getBooksById(result[i].bookId).subscribe((book) => {
-            if (result[i].returned) {
-              this.returnedOrders.push(new OrderCard(book, result[i]));
-            } else {
-              this.noReturned.push(new OrderCard(book, result[i]));
-            }
-            this.orderCards = [...this.returnedOrders, ...this.noReturned];
-            this.changeDetector.detectChanges();
-          })
+    this.changeDetector.detectChanges();
+    this.dataProvider.getReaderOrders(this.currentReader.id).subscribe((orders) => {
+      for (let order of orders) {
+        if (order.returned) {
+          this.returnedOrders.push(order)
+        } else {
+          this.noReturned.push(order)
         }
-
-      })
+      }
+      this.orderCards = [...this.returnedOrders, ...this.noReturned]
+      this.changeDetector.detectChanges();
     })
   }
 
