@@ -26,7 +26,6 @@ import {ReaderProvider} from './library/services/client.service';
 import {ReaderService} from './library/services/reader-service/reader-service';
 import {ConfirmationComponent} from './library/confirmation/confirmation.component';
 import {ReaderProfileComponent} from './library/reader-profile/reader-profile.component';
-import {MatTableModule} from '@angular/material/table';
 import {FeedbackComponent} from './library/feedback/feedback.component';
 import {ReaderFeedbacksComponent} from './library/reader-feedbacks/reader-feedbacks.component';
 import {RateComponent} from './library/rate/rate.component';
@@ -86,8 +85,7 @@ const libraryRoutes: Routes = [
     RouterModule.forRoot(libraryRoutes),
     MatInputModule,
     MatTooltipModule,
-    HttpClientModule,
-    MatTableModule
+    HttpClientModule
   ],
   providers: [{provide: DataProvider, useClass: HttpDataProvider},
     {provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true},

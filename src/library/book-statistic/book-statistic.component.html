@@ -1,16 +1,17 @@
+<table>
+  <caption>{{book.title}}</caption>
+  <tr>
+    <th>Available</th>
+    <th>{{book.count}}</th>
+  </tr>
+  <tr>
+    <th>In rent</th>
+    <th>{{booksInRent.length}}</th>
+  </tr>
+</table>
 <div class="user-stat-wrapper">
-  <table>
-    <caption>{{book.title}}</caption>
-    <tr>
-      <th>Available</th>
-      <th>{{book.count}}</th>
-    </tr>
-    <tr>
-      <th>In rent</th>
-      <th>{{booksInRent.length}}</th>
-    </tr>
-  </table>
-  <table class="order-table">
+  <reader-feedbacks [readerId]="bookId"></reader-feedbacks>
+  <table class="table">
     <caption class="table-caption">Orders</caption>
     <tr>
       <th>Order</th>
@@ -27,5 +28,6 @@
       <td>{{order.returned | date}}</td>
     </tr>
   </table>
-  <reader-feedbacks [readerId]="bookId"></reader-feedbacks>
+
+
 </div>

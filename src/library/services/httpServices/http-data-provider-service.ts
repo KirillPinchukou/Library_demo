@@ -131,7 +131,7 @@ export class HttpDataProvider extends DataProvider {
   public createFeedback(feedBack: Feedback): Observable<any> {
     return this.httpClient.post(`${environment.URL}/books/feedback`, feedBack, this.optionsPost);
   }
-  
+
   public deleteFeedback(feedbackId: number): Observable<any> {
     return this.httpClient.delete(`${environment.URL}/books/feedbacks/${feedbackId}`);
   }

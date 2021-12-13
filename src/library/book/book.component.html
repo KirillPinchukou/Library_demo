@@ -19,6 +19,7 @@
       <button (click)="showError('Out of stock')">Take</button>
     </ng-template>
     <button [routerLink]="['/book-stat', book.id]">Info</button>
+
   </div>
   <ng-template #elseBlock>
     <button (click)="onOpenDialogClick(types.TAKE)">Take</button>

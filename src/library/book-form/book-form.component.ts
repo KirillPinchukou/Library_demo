@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Book, Genre} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -24,13 +24,14 @@ export class BookFormComponent implements OnInit {
   visibility: boolean = false;
   @Input() book?: Book = new Book();
 
-  constructor(private dataProviderService: DataProvider, private router: Router, private activateRoute: ActivatedRoute) {
+  constructor(private dataProviderService: DataProvider, private router: Router, private activateRoute: ActivatedRoute, private changeDetector: ChangeDetectorRef) {
     this.genres = Object.keys(Genre);
   }
 
   public ngOnInit(): void {
     this.dataProviderService.findAuthors('<>').subscribe((result) => {
-      this.authorList = result
+      this.authorList = result;
+      this.changeDetector.detectChanges();
     })
     if (this.activateRoute.snapshot && this.activateRoute.snapshot.routeConfig) {
       let path = <BookFormPath>this.activateRoute.snapshot.routeConfig.path;
@@ -40,6 +41,7 @@ export class BookFormComponent implements OnInit {
           this.book = book;
           this.dataProviderService.getAuthorById(this.book.authorId).subscribe(result => {
             this.searchAuthor = result.firstName.concat(` ${result.lastName}`);
+            this.changeDetector.detectChanges();
           })
         });
       }
@@ -78,17 +80,20 @@ export class BookFormComponent implements OnInit {
   public searchAuthors(searchText: string): void {
     this.dataProviderService.findAuthors(searchText).subscribe((result) => {
       this.authorList = result;
+      this.changeDetector.detectChanges();
     })
   }
 
   public setAuthor(author: Author) {
     this.searchAuthor = author.firstName.concat(` ${author.lastName}`)
     this.book.setAuthorId(author.id);
-    this.visibility = !this.visibility
+    this.visibility = !this.visibility;
+    this.changeDetector.detectChanges();
   }
 
   public resetAuthor(): void {
     this.searchAuthor = '';
+    this.changeDetector.detectChanges();
   }
 }
 

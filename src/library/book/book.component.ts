@@ -1,4 +1,12 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Book} from '../model/book';
 import {DataProvider} from '../services/data-provider.service';
 import {Author} from '../model/author';
@@ -16,7 +24,8 @@ export interface BookChangeEvent {
 @Component({
   selector: 'book',
   templateUrl: './book.component.html',
-  styleUrls: ['./book.component.less']
+  styleUrls: ['./book.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookComponent implements OnInit {
   author: Author;
@@ -27,7 +36,7 @@ export class BookComponent implements OnInit {
   @Input() book?: Book
   @Output() bookChanged = new EventEmitter<BookChangeEvent>();
 
-  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderProvider, private matDialog: MatDialog, public router: Router,) {
+  constructor(private dataProviderService: DataProvider, private readerProvider: ReaderProvider, private matDialog: MatDialog, public router: Router, private changeDetector: ChangeDetectorRef) {
     this.types = TYPES;
   }
 
@@ -36,15 +45,18 @@ export class BookComponent implements OnInit {
     if (this.book?.authorId) {
       this.dataProviderService.getAuthorById(this.book.authorId).subscribe((result) => {
         this.author = result;
+        this.changeDetector.detectChanges();
       })
     } else {
       this.dataProviderService.getAuthorById(0).subscribe((result) => {
         this.author = result;
+        this.changeDetector.detectChanges();
       })
     }
       this.currentReader = this.readerProvider.getCurrentUser();
       if ((this.currentReader.roles.filter(role => role.name === 'supervisor').length > 0)) {
         this.isSupervisor = true;
+        this.changeDetector.detectChanges();
       }
   }
 

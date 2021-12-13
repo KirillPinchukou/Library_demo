@@ -1,28 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DataProvider} from '../services/data-provider.service';
 import {ReaderProvider} from '../services/client.service';
 import {Book} from '../model/book';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Feedback} from '../model/feedback';
-import {RateComponent} from '../rate/rate.component';
 
 @Component({
   selector: 'feedback',
   templateUrl: 'feedback.component.html',
-  styleUrls: ['feedback.component.less']
+  styleUrls: ['feedback.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeedbackComponent implements OnInit {
   currentBook: Book;
   feedbackText: string;
   rate: number;
 
-  constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider, private activateRoute: ActivatedRoute, private router: Router) {
+  constructor(private dataProvider: DataProvider, private readerProvider: ReaderProvider, private activateRoute: ActivatedRoute, private router: Router, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     let bookId = Number(this.activateRoute.snapshot.params.id);
     this.dataProvider.getBooksById(bookId).subscribe((book) => {
       this.currentBook = book;
+      this.changeDetector.detectChanges();
     });
   }
 
@@ -40,5 +41,6 @@ export class FeedbackComponent implements OnInit {
 
   public setRate(rate: number) {
     this.rate = rate;
+    this.changeDetector.detectChanges();
   }
 }

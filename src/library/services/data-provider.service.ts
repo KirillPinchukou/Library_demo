@@ -46,8 +46,6 @@ export abstract class DataProvider {
 
   abstract getCookie(): string;
 
-  abstract takeBook(book: Book, readerId: number): Observable<any> ;
-
   abstract getReaderOrders(readerId: number, returned?: boolean): Observable<Array<Order>>;
 
    abstract returnBook(order: Order): Observable<any>;
